@@ -1,22 +1,44 @@
+import 'package:education_app/src/core/constants/app_sizes.dart';
+import 'package:education_app/src/core/routing/app_router.dart';
+import 'package:education_app/src/core/theme.dart';
+import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/core/utils/init_easy_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final providerContainer = ProviderContainer();
+  providerContainer.read(asyncInitProvider);
+  runApp(
+    UncontrolledProviderScope(
+      container: providerContainer,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AppSizes().init(context);
+    initEasyLoading();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Education',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      theme: themeData,
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: child!,
+          );
+        },
       ),
-      home: const Scaffold(),
+      routes: routes,
     );
   }
 }

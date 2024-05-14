@@ -1,0 +1,49 @@
+import 'package:education_app/src/common_widgets/teacher_academy_main_card.dart';
+import 'package:education_app/src/model/teacher_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import '../../../../core/constants/app_sizes.dart';
+import '../../../teacher_details_screen.dart';
+
+class TeachersHorizontalList extends StatelessWidget {
+  const TeachersHorizontalList({super.key, required this.teachers});
+
+  final List<TeacherModel> teachers;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: AppSizes.length180,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) => TeacherCard(teacher: teachers[index]),
+        separatorBuilder: (_, __) => gapH8,
+        itemCount: teachers.length,
+      ),
+    );
+  }
+}
+
+class TeacherCard extends StatelessWidget {
+  const TeacherCard({super.key, required this.teacher});
+
+  final TeacherModel teacher;
+
+  @override
+  Widget build(BuildContext context) {
+    return TeacherAcademyMainCard(
+      press: () => Navigator.pushNamed(
+        context,
+        TeacherDetailsScreen.routeName,
+        arguments: teacher.id,
+      ),
+      imageUrl: teacher.imageUrl,
+      title: teacher.name,
+      city: teacher.city,
+      region: teacher.region,
+      description: teacher.description,
+    );
+  }
+}
