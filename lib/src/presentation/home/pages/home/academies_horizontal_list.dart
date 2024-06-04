@@ -41,9 +41,10 @@ class AcademyCard extends StatelessWidget {
       ),
       imageUrl: academy.imageUrl,
       title: academy.title,
-      city: academy.city,
-      region: academy.region,
+      city: academy.province?.name ?? '',
+      region: academy.area?.name ?? '',
       description: academy.description,
+      visitorsNum: academy.visitorsNumber,
     );
   }
 }

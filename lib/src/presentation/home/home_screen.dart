@@ -1,7 +1,9 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/account.dart';
+import 'package:education_app/src/presentation/home/pages/contact_us.dart';
 import 'package:education_app/src/presentation/home/pages/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
-import '../authentication/sign_in_signup_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _pageViewPages = [
     const Home(),
-    const Center(child: Text('CALLS')),
+    const ContactUs(),
     const Account(),
   ];
 
@@ -42,6 +43,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(logoutProvider, (_, next) {
+      // if next true it mean user logout otherwise is logged in
+      _changeNavBarIndex(index: next ? 0 : 2, ref: ref);
+    });
+
     return Scaffold(
       body: SafeArea(
         child: PageView(
@@ -99,9 +105,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 2),
             Text(
               text,
-              style: AppTextStyles.textSemiBoldSlateStyle12.copyWith(
+              style: AppTextStyles.textSemiBoldStyle12.copyWith(
                 color: index == currentNavBarIndex
-                    ? AppColors.primaryColor
+                    ? AppColors.primaryColor400
                     : AppColors.gray500,
               ),
             ),
@@ -128,7 +134,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     debugPrint(userInfo?.accountType);
     debugPrint(userInfo?.id);
     if (index == 2 && userInfo == null) {
-      Navigator.pushNamed(context, SignInSignupScreen.routeName);
+      // Navigator.pushNamed(context, SignInSignupScreen.routeName);
+      return;
     }
 
     setState(() {

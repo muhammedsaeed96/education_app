@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../common_widgets/custom_inkwell.dart';
@@ -48,13 +49,14 @@ class AccountCard extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: redColor ? AppColors.red500 : AppColors.gray700),
+            style: AppTextStyles.textMediumStyle14.copyWith(
+                  color: redColor ? AppColors.red500 : AppColors.gray600,
+                ),
           ),
           trailing: Icon(
             Icons.arrow_forward_ios,
             color: AppColors.gray600,
-            size: AppSizes.length16,
+            size: AppSizes.length12,
           ),
         ),
       ),

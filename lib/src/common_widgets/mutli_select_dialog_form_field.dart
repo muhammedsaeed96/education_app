@@ -6,6 +6,7 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
+import '../core/constants/app_text_styles.dart';
 
 class MultiSelectDialogFormField extends StatelessWidget {
   const MultiSelectDialogFormField({
@@ -13,11 +14,15 @@ class MultiSelectDialogFormField extends StatelessWidget {
     required this.title,
     required this.items,
     required this.confirm,
+    this.initialValue = const [],
+    required this.btnText,
   });
 
   final String title;
   final List<String> items;
-  final void Function(List<dynamic>?) confirm;
+  final void Function(List) confirm;
+  final List initialValue;
+  final String btnText;
 
   @override
   Widget build(BuildContext context) {
@@ -27,55 +32,67 @@ class MultiSelectDialogFormField extends StatelessWidget {
         Text.rich(
           TextSpan(
             text: title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
+            style: AppTextStyles.textRegularStyle14
                 .copyWith(color: AppColors.black87),
             children: <InlineSpan>[
               TextSpan(
-                text: '*',
+                text: ' *',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyMedium!
+                    .bodySmall!
                     .copyWith(color: AppColors.red500),
               ),
             ],
           ),
         ),
         gap6,
-        MultiSelectDialogField(
-          title: const SizedBox.shrink(),
-          items: items.map((val) => MultiSelectItem(val, val)).toList(),
-          listType: MultiSelectListType.LIST,
-          chipDisplay: MultiSelectChipDisplay.none(),
-          dialogHeight: items.length > 3
-              ? AppSizes.screenHeight * 0.5
-              : AppSizes.length200,
-          buttonIcon: Icon(Icons.keyboard_arrow_down, size: AppSizes.length20),
-          itemsTextStyle: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(color: AppColors.black87),
-          selectedItemsTextStyle: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(color: AppColors.black87),
-          selectedColor: AppColors.primaryColor,
-          checkColor: Colors.white,
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.gray400),
           ),
-          cancelText: const Text(AppStrings.cancelStr),
-          confirmText: const Text(AppStrings.saveStr),
-          onConfirm: confirm,
-          validator: (items) {
-            if (items != null && items.isNotEmpty) {
-              return null;
-            } else {
-              return AppStrings.requiredStr;
-            }
-          },
+          child: MultiSelectDialogField(
+            title: const SizedBox.shrink(),
+            initialValue: initialValue,
+            items: items.map((val) => MultiSelectItem(val, val)).toList(),
+            listType: MultiSelectListType.LIST,
+            chipDisplay: MultiSelectChipDisplay.none(),
+/*            chipDisplay: MultiSelectChipDisplay(
+              chipColor: AppColors.gray100,
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+            ),*/
+            buttonText: Text(
+              btnText,
+              style: AppTextStyles.textMediumStyle14.copyWith(
+                color: items.isEmpty ? AppColors.gray400 : Colors.black,
+              ),
+            ),
+            dialogHeight: items.length > 3
+                ? AppSizes.screenHeight * 0.5
+                : AppSizes.length200,
+            buttonIcon: Icon(
+              Icons.keyboard_arrow_down,
+              size: AppSizes.length20,
+            ),
+            itemsTextStyle:
+                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+            selectedItemsTextStyle:
+                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+            selectedColor: AppColors.primaryColor400,
+            checkColor: Colors.white,
+            decoration: const BoxDecoration(),
+            cancelText: const Text(AppStrings.cancelStr),
+            confirmText: const Text(AppStrings.saveStr),
+            onConfirm: confirm,
+            validator: (items) {
+              if (items != null && items.isNotEmpty) {
+                return null;
+              } else {
+                return AppStrings.requiredStr;
+              }
+            },
+          ),
         ),
       ],
     );

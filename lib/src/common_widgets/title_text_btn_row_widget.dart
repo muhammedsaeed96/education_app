@@ -32,7 +32,7 @@ class TitleTextBtnRowWidget extends StatelessWidget {
           child: Text(
             btnText,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.green500,
+                  color: AppColors.primaryColor400,
                   // decoration: TextDecoration.underline,
                 ),
           ),

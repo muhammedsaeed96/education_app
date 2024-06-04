@@ -20,8 +20,8 @@ class TitleBtnWidget extends StatelessWidget {
           onPressed: onPress,
           child: Text(
             AppStrings.viewMoreStr,
-            style: AppTextStyles.textSemiBoldSlateStyle12.copyWith(
-              color: AppColors.green400,
+            style: AppTextStyles.textSemiBoldStyle12.copyWith(
+              color: AppColors.primaryColor400,
             ),
           ),
         ),

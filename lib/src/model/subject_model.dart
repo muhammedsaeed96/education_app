@@ -6,12 +6,13 @@ part 'subject_model.g.dart';
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class SubjectModel {
   final String id;
-  final String title;
+  final String name;
+  @JsonKey(name: 'imageUrl')
   final String? iconUrl;
 
   SubjectModel({
     required this.id,
-    required this.title,
+    required this.name,
     this.iconUrl,
   });
 
@@ -22,9 +23,9 @@ class SubjectModel {
 }
 
 final dummySubjects = [
-  SubjectModel(id: 'abcd', title: 'الرياضيات', iconUrl: Assets.icMath),
-  SubjectModel(id: 'bcde', title: 'الكيمياء', iconUrl: Assets.icChemistry),
-  SubjectModel(id: 'fegr', title: 'الفيزياء', iconUrl: Assets.icPhysics),
-  SubjectModel(id: 'ddfe', title: 'العربي', iconUrl: Assets.icArabic),
-  SubjectModel(id: 'rtyu', title: 'الانكليزي', iconUrl: Assets.icEnglish),
+  SubjectModel(id: 'abcd', name: 'الرياضيات', iconUrl: Assets.icMath),
+  SubjectModel(id: 'bcde', name: 'الكيمياء', iconUrl: Assets.icChemistry),
+  SubjectModel(id: 'fegr', name: 'الفيزياء', iconUrl: Assets.icPhysics),
+  SubjectModel(id: 'ddfe', name: 'العربي', iconUrl: Assets.icArabic),
+  SubjectModel(id: 'rtyu', name: 'الانكليزي', iconUrl: Assets.icEnglish),
 ];

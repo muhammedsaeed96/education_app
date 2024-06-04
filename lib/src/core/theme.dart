@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 import 'constants/app_colors.dart';
@@ -9,7 +10,7 @@ final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
 );
 
 final themeData = ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor400),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.white,
   fontFamily: 'NotoKufiArabic',
@@ -21,9 +22,9 @@ final themeData = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.primaryColor400,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       elevation: 1.0,
     ),
@@ -32,35 +33,37 @@ final themeData = ThemeData(
     style: ElevatedButton.styleFrom(
       foregroundColor: AppColors.gray500,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
       ),
       elevation: 1.0,
     ),
   ),
   appBarTheme: AppBarTheme(
+    toolbarHeight: AppSizes.length64,
     color: Colors.white,
-    titleTextStyle: AppTextStyles.textSemiBoldSlateStyle18,
+    titleTextStyle: AppTextStyles.textSemiBoldStyle18,
     centerTitle: true,
-    elevation: 0,
     // to disable changing app bar color when scrolling a list
     scrolledUnderElevation: 0.0,
   ),
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: AppTextStyles.textMediumSlateStyle14.copyWith(
+    hintStyle: AppTextStyles.textMediumStyle12.copyWith(
       color: AppColors.gray400,
     ),
     isDense: false,
     enabledBorder: outlineInputBorder,
     border: outlineInputBorder,
     focusedBorder: outlineInputBorder.copyWith(
-      borderSide: const BorderSide(color: AppColors.green600, width: 1),
+      borderSide: const BorderSide(color: AppColors.primaryColor500, width: 1),
     ),
     contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
     errorBorder: outlineInputBorder,
     focusedErrorBorder: outlineInputBorder,
-/*    errorStyle: AppTextStyles.textMediumSlateStyle12.copyWith(
+/*    errorStyle: AppTextStyles.textMediumStyle12.copyWith(
       color: AppColors.red500,
     ),*/
-
+  ),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AppColors.primaryColor400,
   ),
 );

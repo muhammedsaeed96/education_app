@@ -1,13 +1,42 @@
+import 'package:education_app/src/common_widgets/primary_elevated_btn.dart';
+import 'package:education_app/src/core/constants/app_sizes.dart';
+import 'package:education_app/src/core/constants/app_strings.dart';
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
-  const ErrorMessageWidget(this.errorMessage, {super.key});
+  const ErrorMessageWidget({
+    super.key,
+    required this.errorMessage,
+    required this.retry,
+  });
+
   final String errorMessage;
+  final VoidCallback retry;
+
   @override
   Widget build(BuildContext context) {
-    return Text(
-      errorMessage,
-      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            errorMessage,
+            style: AppTextStyles.textMediumStyle16,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: getProportionateScreenHeight(12)),
+          Center(
+            child: PrimaryElevatedBtn(
+              text: AppStrings.retryStr,
+              width: getProportionateScreenWidth(200),
+              press: retry,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

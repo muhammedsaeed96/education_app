@@ -1,7 +1,8 @@
-import 'dart:io';
+import 'package:education_app/src/common_widgets/primary_elevated_btn.dart';
+import 'package:education_app/src/core/constants/app_colors.dart';
+import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
@@ -11,47 +12,71 @@ Future<bool?> showAlertDialog({
   String? content,
   String? cancelActionText,
   String defaultActionText = AppStrings.okStr,
+  Color defaultActionBg = AppColors.primaryColor400,
 }) async {
+  final btnWidth =
+      (AppSizes.screenWidth / 2) - AppSizes.w26 - AppSizes.w20 - 24;
+
   return showDialog(
     context: context,
     // * Only make the dialog dismissible if there is a cancel button
     barrierDismissible: cancelActionText != null,
-    // * AlertDialog.adaptive was added in Flutter 3.13
-    builder: (context) => AlertDialog.adaptive(
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 1,
+      insetPadding: EdgeInsets.all(AppSizes.w26),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
-      title: Text(title),
-      content: content != null ? Text(content) : null,
-      // * Use [TextButton] or [CupertinoDialogAction] depending on the platform
-      actions: kIsWeb || !Platform.isIOS
-          ? <Widget>[
-              TextButton(
-                child: Text(defaultActionText),
-                onPressed: () => Navigator.pop(context, true),
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.textBoldStyle16.copyWith(
+          color: AppColors.gray600,
+        ),
+      ),
+      content: content != null
+          ? Text(
+              textAlign: TextAlign.center,
+              content,
+              style: AppTextStyles.textMediumStyle14.copyWith(
+                color: AppColors.gray500,
               ),
-              if (cancelActionText != null)
-                TextButton(
-                  child: Text(cancelActionText),
-                  onPressed: () => Navigator.pop(context, false),
-                ),
-            ]
-          : <Widget>[
-              CupertinoDialogAction(
-                child: Text(defaultActionText),
-                onPressed: () => Navigator.pop(context, true),
+            )
+          : null,
+      actions: <Widget>[
+        cancelActionText == null
+            ? PrimaryElevatedBtn(
+                background: defaultActionBg,
+                text: defaultActionText,
+                press: () => Navigator.pop(context, true),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  PrimaryElevatedBtn(
+                    height: AppSizes.length50,
+                    background: defaultActionBg,
+                    width: btnWidth,
+                    text: defaultActionText,
+                    press: () => Navigator.pop(context, true),
+                  ),
+                  gapH24,
+                  PrimaryElevatedBtn(
+                    height: AppSizes.length50,
+                    background: AppColors.gray50,
+                    textColor: AppColors.gray600,
+                    width: btnWidth,
+                    text: cancelActionText,
+                    press: () => Navigator.pop(context, false),
+                  ),
+                ],
               ),
-              if (cancelActionText != null)
-                CupertinoDialogAction(
-                  child: Text(cancelActionText),
-                  onPressed: () => Navigator.pop(context, false),
-                ),
-            ],
+      ],
     ),
   );
 }
 
-/// Generic function to show a platform-aware Material or Cupertino error dialog
 Future<void> showExceptionAlertDialog({
   required BuildContext context,
   required String title,
@@ -63,11 +88,3 @@ Future<void> showExceptionAlertDialog({
       content: exception.toString(),
       defaultActionText: AppStrings.okStr,
     );
-
-/*
-Future<void> showNotImplementedAlertDialog({required BuildContext context}) =>
-    showAlertDialog(
-      context: context,
-      title: 'Not implemented',
-    );
-*/

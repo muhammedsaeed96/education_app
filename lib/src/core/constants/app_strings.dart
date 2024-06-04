@@ -18,8 +18,8 @@ class AppStrings {
   static const contactWithAcademy = 'تواصل مع المعهد';
   static const searchOnTeacherStr = 'ابحث عن استاذ';
   static const searchOnAcademyStr = 'ابحث عن المعهد';
-  static const cityStr = 'المحافظة';
-  static const countryStr = 'المدينة';
+  static const provinceStr = 'المحافظة';
+  static const areaStr = 'المدينة';
   static const subjectStr = 'المادة';
   static const stageStr = 'المرحلة';
   static const stageExStr = 'متوسطة';
@@ -42,6 +42,7 @@ class AppStrings {
   static const haveAccountStr = 'لديك حساب؟ ';
   static const createAccountStr = 'انشاء حساب';
   static const nextStr = 'التالي';
+  static const editStr = 'تحديث';
   static const phoneStr = 'رقم الهاتف ';
   static const accountTypeStr = 'نوع الحساب ';
 
@@ -52,12 +53,11 @@ class AppStrings {
   static const saveStr = 'حفظ';
 
   static const accountTypes = ['طالب', 'استاذ', 'معهد'];
-  static const studyStagesListStr = ['ابتدائية', 'متوسطة', 'اعدادية'];
-  static const subjectsListStr = ['الاسلامية','الاحياء','العربي','الكيمياء','الفيزياء','الرياضيات','الانكليزي'];
 
   static const phoneNotValidStr = 'رقم الهاتف يجب ان يتكون من 11 رقم';
   static const requiredStr = 'هذا الحقل مطلوب';
-  static const tooShortDescriptionStr = 'هذا الحقل يجب ان يتكون من 10 حروف على الاقل';
+  static const tooShortDescriptionStr =
+      'هذا الحقل يجب ان يتكون من 10 حروف على الاقل';
 
   static const sendOnWhatsAppStr = 'ارسل الرمز عبر الواتساب';
   static const confirmMobileNumStr = "التحقق من رقم الهاتف";
@@ -77,8 +77,28 @@ class AppStrings {
   static const deleteAccountStr = 'حذف الحساب';
   static const logoutStr = 'تسجيل الخروج';
 
+  static const nameStr = 'الاسم';
+  static const academyNameStr = 'اسم المعهد';
+  static const nameExStr = 'محمد سعيد';
+  static const changeImageStr = 'تغيير الصورة';
 
+  static const selectStagesStr = 'اختر المراحل';
+  static const selectSubjectsStr = 'اختر المواد';
+  static const selectDoneStr = 'تم الاختيار';
 
+  static const logoutDescStr = 'هل انت متاكد من انك تريد تسجيل الخروج؟';
+  static const deleteAccountInDialogStr = 'حذف الحساب؟';
+  static const areYouSureToDeleteYourAccount =
+      'هل انت متأكد من حذف حسابك؟, ستفقد جميع معلوماتك عند حذف الحساب ولايمكنك استرجاعها!';
 
+  static const somethingWentWrongStr = 'حدث خطأ معين يرجى اعادة المحاولة';
+  static const unexpectedErrorStr = 'حدث خطأ معين يرجى اعادة المحاولة';
+  static const noInternetStr = 'لايتوفر اتصال بالانترنت يرجى اعادة المحاولة';
+  static const noDataStr = 'لاتوجد بيانات';
+  static const retryStr = 'اعادة المحاولة';
+
+  static const visitNumbersStr = 'الزيارات';
+  static const retryWithErrorStr = 'حدث خطأ يرجى اعادة المحاولة';
+  static const socialsStr = 'مواقع التواصل';
 
 }

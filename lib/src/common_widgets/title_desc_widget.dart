@@ -20,7 +20,7 @@ class TitleDescWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppTextStyles.textSemiBoldSlateStyle12,
+          style: AppTextStyles.textSemiBoldStyle12,
         ),
         gap4,
         Container(
@@ -32,7 +32,7 @@ class TitleDescWidget extends StatelessWidget {
           ),
           child: Text(
             description,
-            style: AppTextStyles.textRegularSlateStyle12
+            style: AppTextStyles.textRegularStyle12
                 .copyWith(color: AppColors.gray700),
           ),
         ),

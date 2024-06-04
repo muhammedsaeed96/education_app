@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../core/constants/app_colors.dart';
@@ -31,16 +32,14 @@ class TitleFormFiledWidget extends StatelessWidget {
             ? Text.rich(
                 TextSpan(
                   text: title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
+                  style: AppTextStyles.textRegularStyle14
                       .copyWith(color: AppColors.black87),
                   children: <InlineSpan>[
                     TextSpan(
-                      text: '*',
+                      text: ' *',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium!
+                          .bodySmall!
                           .copyWith(color: AppColors.red500),
                     ),
                   ],
@@ -53,6 +52,7 @@ class TitleFormFiledWidget extends StatelessWidget {
           controller: controller,
           textDirection: isPhone ? TextDirection.ltr : null,
           textAlign: isPhone ? TextAlign.left : TextAlign.right,
+          style: AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
           decoration: InputDecoration(hintText: hintText),
           // maxLength: isPhone ? 11 : null,
           onTapOutside: (_) => FocusManager.instance.primaryFocus!.unfocus(),

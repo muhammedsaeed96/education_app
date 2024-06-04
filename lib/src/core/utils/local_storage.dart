@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constants/keys.dart';
 
 class LocalStorage {
   final SharedPreferences sharedPreferences;
@@ -10,13 +9,13 @@ class LocalStorage {
 
   Future<void> storeUserInfo(UserInfoModel userInfo) async {
     await sharedPreferences.setString(
-      userInfoKey,
+      "userInfoKey",
       json.encode(userInfo.toJson()),
     );
   }
 
   UserInfoModel? getUserInfo() {
-    final val = sharedPreferences.getString(userInfoKey);
+    final val = sharedPreferences.getString("userInfoKey");
     if (val != null) {
       return UserInfoModel.fromJson(json.decode(val));
     }
@@ -24,5 +23,5 @@ class LocalStorage {
   }
 
   Future<void> removeUserInfo() async =>
-      await sharedPreferences.remove(userInfoKey);
+      await sharedPreferences.remove("userInfoKey");
 }

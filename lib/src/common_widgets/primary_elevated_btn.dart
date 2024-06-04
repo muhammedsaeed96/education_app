@@ -11,6 +11,9 @@ class PrimaryElevatedBtn extends StatelessWidget {
     this.height = 50,
     this.width = double.infinity,
     this.disable = false,
+    this.background = AppColors.primaryColor400,
+    this.textColor = Colors.white,
+    this.radius,
   });
 
   final String text;
@@ -18,6 +21,9 @@ class PrimaryElevatedBtn extends StatelessWidget {
   final double height;
   final double width;
   final bool disable;
+  final Color background;
+  final Color textColor;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +32,22 @@ class PrimaryElevatedBtn extends StatelessWidget {
       width: width,
       child: ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-              backgroundColor: disable
-                  ? const MaterialStatePropertyAll(
-                      AppColors.gray400,
+              backgroundColor: MaterialStatePropertyAll(
+                disable ? AppColors.gray400 : background,
+              ),
+              shape: radius != null
+                  ? MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(radius!),
+                      ),
                     )
                   : null,
             ),
         onPressed: press,
         child: Text(
           text,
-          style: AppTextStyles.textSemiBoldSlateStyle14.copyWith(
-            color: Colors.white,
+          style: AppTextStyles.textSemiBoldStyle14.copyWith(
+            color: textColor,
           ),
         ),
       ),

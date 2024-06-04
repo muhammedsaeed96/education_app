@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
+import '../core/constants/app_text_styles.dart';
 
 class DropDownFormFieldWidget extends StatelessWidget {
   const DropDownFormFieldWidget({
@@ -11,12 +12,14 @@ class DropDownFormFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.onChange,
     required this.items,
+    this.selectedItem,
   });
 
   final String title;
   final String hintText;
   final void Function(String?) onChange;
   final List<String> items;
+  final String? selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +29,14 @@ class DropDownFormFieldWidget extends StatelessWidget {
         Text.rich(
           TextSpan(
             text: title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
+            style: AppTextStyles.textRegularStyle14
                 .copyWith(color: AppColors.black87),
             children: <InlineSpan>[
               TextSpan(
-                text: '*',
+                text: ' *',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyMedium!
+                    .bodySmall!
                     .copyWith(color: AppColors.red500),
               ),
             ],
@@ -45,10 +46,21 @@ class DropDownFormFieldWidget extends StatelessWidget {
         DropdownButtonFormField(
           menuMaxHeight: AppSizes.length204,
           elevation: 2,
-          decoration:  InputDecoration(hintText: hintText),
-          validator: (val)=> val.isValidText,
-          items:
-              items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+          decoration: InputDecoration(hintText: hintText),
+          value: selectedItem,
+          validator: (val) => val.isValidText,
+          items: items
+              .map(
+                (e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(
+                    e,
+                    style: AppTextStyles.textRegularStyle16
+                        .copyWith(color: Colors.black),
+                  ),
+                ),
+              )
+              .toList(),
           onChanged: onChange,
           icon: Icon(Icons.keyboard_arrow_down, size: AppSizes.length20),
         ),

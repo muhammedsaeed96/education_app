@@ -280,5 +280,7 @@ const gapH6 = SizedBox(width: 6);
 const gapH8 = SizedBox(width: 8);
 const gapH10 = SizedBox(width: 10);
 const gapH12 = SizedBox(width: 12);
+const gapH20 = SizedBox(width: 20);
+const gapH24 = SizedBox(width: 24);
 
 const paddingH24 = EdgeInsets.symmetric(horizontal: 24);

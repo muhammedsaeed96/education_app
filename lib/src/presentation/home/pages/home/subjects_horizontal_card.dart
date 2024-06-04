@@ -1,7 +1,12 @@
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
+import 'package:education_app/src/common_widgets/custom_network_image.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/subject_model.dart';
+import 'package:education_app/src/presentation/controllers/filter_controller.dart';
+import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../common_widgets/custom_inkwell.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -28,17 +33,21 @@ class SubjectsHorizontalList extends StatelessWidget {
   }
 }
 
-class SubjectCard extends StatelessWidget {
+class SubjectCard extends ConsumerWidget {
   const SubjectCard({super.key, required this.subject});
 
   final SubjectModel subject;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CustomInkwell(
       radius: 24,
       tap: () {
-        //TODO implement on tap
+        ref.read(filtersControllerProvider.notifier).clearFilters();
+        ref
+            .read(filtersControllerProvider.notifier)
+            .updateSelectedSubject(subject.id);
+        Navigator.pushNamed(context, TeachersScreen.routeName);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -50,19 +59,21 @@ class SubjectCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  height: AppSizes.length48,
-                  width: AppSizes.length48,
-                  subject.iconUrl!,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.gray100,
-                    BlendMode.srcIn,
-                  ),
-                ),
+                subject.iconUrl != null && subject.iconUrl!.endsWith('.svg')
+                    ? SvgPicture.network(
+                        height: AppSizes.length48,
+                        width: AppSizes.length48,
+                        subject.iconUrl.getFullUrl!,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.gray100,
+                          BlendMode.srcIn,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 gap12,
                 Text(
-                  subject.title,
-                  style: AppTextStyles.textSemiBoldSlateStyle18.copyWith(
+                  subject.name,
+                  style: AppTextStyles.textMediumStyle16.copyWith(
                     color: AppColors.gray100,
                   ),
                 ),

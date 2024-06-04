@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../common_widgets/custom_network_image.dart';
-import '../../../../core/constants/app_colors.dart';
+import '../core/constants/assets.dart';
+import 'custom_network_image.dart';
 
 class ProfileImage extends StatelessWidget {
   const ProfileImage({super.key, this.imageUrl, this.imageFile});
@@ -14,15 +13,8 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: AppColors.gray100,
-      radius: AppSizes.length42,
-      child: ClipOval(
-        child: CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: AppSizes.length42,
-          child: _renderImage(),
-        ),
-      ),
+      radius: AppSizes.length80 / 2,
+      backgroundImage: AssetImage(Assets.icProfile),
     );
   }
 
@@ -33,7 +25,7 @@ class ProfileImage extends StatelessWidget {
 
     return CustomNetworkImage(
       imageUrl: imageUrl,
-      // localIcon: Assets.icUserRounded,
+      fit: BoxFit.cover,
       radius: AppSizes.length80 / 2,
       width: AppSizes.length80,
       height: AppSizes.length80,

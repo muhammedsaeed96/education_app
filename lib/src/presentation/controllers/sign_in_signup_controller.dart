@@ -31,14 +31,15 @@ class SignInSignupController extends Notifier<SignInSignupState> {
   }
 
   Future<bool> requestOtp({
+     String? name,
     required String phone,
     required String accountType,
     final String? stage,
     String? description,
     String? province,
     String? area,
-    List<String> subjects = const [],
-    List<String> stages = const [],
+    List subjects = const [],
+    List stages = const [],
     String? locationDescription,
   }) async {
     state = state.copyWith(

@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common_widgets/auth_title_desc_widget.dart';
 import '../../../common_widgets/primary_elevated_btn.dart';
 import '../../../core/constants/app_sizes.dart';
-import '../../controllers/otp_controller.dart';
+import '../../controllers/sample_state_controller.dart';
 
 class OtpScreen extends ConsumerWidget {
   const OtpScreen({super.key});
@@ -31,6 +31,8 @@ class OtpScreen extends ConsumerWidget {
         next.showErrorDialog(context);
       } else {
         EasyLoading.dismiss();
+        // make logout to false it mean user logged in right now
+        ref.read(logoutProvider.notifier).state = false;
         Navigator.popUntil(context, (route) => route.settings.name == '/');
       }
     });

@@ -4,58 +4,66 @@ import 'app_colors.dart';
 
 abstract class AppTextStyles {
  
-  static TextStyle textBoldSlateStyle16 = TextStyle(
+  static TextStyle textBoldStyle16 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length16,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle textBoldSlateStyle18 = TextStyle(
+  static TextStyle textBoldStyle18 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length18,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle textBoldSlateStyle20 = TextStyle(
+/*  static TextStyle textBoldStyle20 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length20,
     fontWeight: FontWeight.w700,
 
-  );
+  );*/
 
-  static TextStyle textBoldSlateStyle22 = TextStyle(
+/*  static TextStyle textBoldStyle22 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length22,
     fontWeight: FontWeight.w700,
-  );
+  );*/
 
-  static TextStyle textBoldSlateStyle24 = TextStyle(
+/*
+  static TextStyle textBoldStyle24 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length24,
     fontWeight: FontWeight.w700,
   );
+*/
 
   // Text semi bold styles
 
-  static TextStyle textSemiBoldSlateStyle12 = TextStyle(
+  static TextStyle textSemiBoldStyle10 = TextStyle(
+    color: AppColors.black87,
+    fontSize: AppSizes.length10,
+    fontWeight: FontWeight.w600,
+  );
+
+  static TextStyle textSemiBoldStyle12 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length12,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle textSemiBoldSlateStyle14 = TextStyle(
+  static TextStyle textSemiBoldStyle14 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length14,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle textSemiBoldSlateStyle16 = TextStyle(
+  static TextStyle textSemiBoldStyle16 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length16,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle textSemiBoldSlateStyle18 = TextStyle(
+  static TextStyle textSemiBoldStyle18 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length18,
     fontWeight: FontWeight.w600,
@@ -63,19 +71,25 @@ abstract class AppTextStyles {
 
   // Text medium styles
 
-  static TextStyle textMediumSlateStyle12 = TextStyle(
+  static TextStyle textMediumStyle10 = TextStyle(
+    color: AppColors.black87,
+    fontSize: AppSizes.length10,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle textMediumStyle12 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length12,
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle textMediumSlateStyle14 = TextStyle(
+  static TextStyle textMediumStyle14 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length14,
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle textMediumSlateStyle16 = TextStyle(
+  static TextStyle textMediumStyle16 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length16,
     fontWeight: FontWeight.w500,
@@ -83,31 +97,31 @@ abstract class AppTextStyles {
 
   // Text regular styles
 
-  static TextStyle textRegularSlateStyle10 = TextStyle(
+  static TextStyle textRegularStyle10 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length10,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle textRegularSlateStyle12 = TextStyle(
+  static TextStyle textRegularStyle12 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length12,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle textRegularSlateStyle14 = TextStyle(
+  static TextStyle textRegularStyle14 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length14,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle textRegularSlateStyle16 = TextStyle(
+  static TextStyle textRegularStyle16 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length16,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle textRegularSlateStyle18 = TextStyle(
+  static TextStyle textRegularStyle18 = TextStyle(
     color: AppColors.black87,
     fontSize: AppSizes.length18,
     fontWeight: FontWeight.w400,

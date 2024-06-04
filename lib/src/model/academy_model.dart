@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'package:education_app/src/model/area_model.dart';
+import 'package:education_app/src/model/custom_file_converter.dart';
+import 'package:education_app/src/model/province_model.dart';
+import 'package:education_app/src/model/social_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,54 +13,59 @@ typedef AcademyID = String;
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class AcademyModel {
   final String id;
+  @JsonKey(name: 'name')
+
   final String title;
   final String phone;
   final String? imageUrl;
+  @CustomFileConverter()
+  final File? image;
   final String description;
-  final String city;
-  final String region;
+  @JsonKey(name: 'Province')
+  final ProvinceModel? province;
+  @JsonKey(name: 'Area')
+  final AreaModel? area;
   final String locationDescription;
+  @JsonKey(name: 'Stages')
   final List<StageModel> stages;
+  @JsonKey(name: 'vistorsNumber')
+  final int visitorsNumber;
+  final List<SocialModel> socials;
 
   AcademyModel({
     required this.id,
     required this.title,
     required this.phone,
     this.imageUrl,
+    this.image,
     required this.description,
-    required this.city,
-    required this.region,
+     this.province,
+     this.area,
     required this.locationDescription,
     this.stages = const [],
+    required this.visitorsNumber,
+    this.socials = const [],
   });
+
+  @override
+  int get hashCode => Object.hash(
+        title.hashCode,
+        province.hashCode,
+        area.hashCode,
+        description.hashCode,
+        locationDescription.hashCode,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is AcademyModel &&
+            runtimeType == other.runtimeType &&
+            hashCode == other.hashCode;
+  }
 
   factory AcademyModel.fromJson(Map<String, dynamic> data) =>
       _$AcademyModelFromJson(data);
 
   Map<String, dynamic> toJson() => _$AcademyModelToJson(this);
 }
-
-final dummyAcademies = [
-  AcademyModel(
-      id: '1234',
-      title: 'معهد الامل',
-      phone: '9647717635164',
-      imageUrl:
-          'https://pbs.twimg.com/profile_images/1659200757902770178/tSmJnBSk.jpg',
-      description: 'هناك حقيقة مثبتة',
-      city: 'بغداد',
-      region: 'الغزالية',
-      locationDescription: 'locationDescription',
-      stages: [StageModel(id: '123', title: 'متوسطة')]),
-  AcademyModel(
-      id: '123412',
-      title: 'معهد النجاج',
-      phone: '9647717635164',
-      imageUrl:
-          'https://pbs.twimg.com/profile_images/1535318998035857408/N1U4pwpJ_400x400.jpg',
-      description: 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها.',
-      city: 'بغداد',
-      region: 'المنصور',
-      locationDescription: 'locationDescription',
-      stages: [StageModel(id: '123', title: 'متوسطة')]),
-];

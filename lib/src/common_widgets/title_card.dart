@@ -20,7 +20,7 @@ class TitleCard extends StatelessWidget {
       child: Center(
         child: Text(
           title,
-          style: AppTextStyles.textRegularSlateStyle12
+          style: AppTextStyles.textRegularStyle12
               .copyWith(color: AppColors.gray700),
         ),
       ),

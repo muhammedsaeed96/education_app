@@ -1,27 +1,34 @@
 class CurrentFiltersModel {
-  final String? city;
-  final String? country;
-  final String? level;
-  final String? subject;
+  final String? provinceId;
+  final String? areaId;
+  final String? stageId;
+  final String? subjectId;
 
   CurrentFiltersModel({
-    this.city,
-    this.country,
-    this.level,
-    this.subject,
+    this.provinceId,
+    this.areaId,
+    this.stageId,
+    this.subjectId,
   });
 
   CurrentFiltersModel copyWith({
-    String? city,
-    String? country,
-    String? level,
-    String? subject,
+    String? provinceId,
+    String? areaId,
+    String? stageId,
+    String? subjectId,
   }) {
     return CurrentFiltersModel(
-      city: city ?? this.city,
-      country: country ?? this.country,
-      level: level ?? this.level,
-      subject: subject ?? this.subject,
+      provinceId: provinceId ?? this.provinceId,
+      areaId: areaId ?? this.areaId,
+      stageId: stageId ?? this.stageId,
+      subjectId: subjectId ?? this.subjectId,
     );
+  }
+
+  bool get hasValue {
+    return provinceId != null ||
+        areaId != null ||
+        stageId != null ||
+        subjectId != null;
   }
 }

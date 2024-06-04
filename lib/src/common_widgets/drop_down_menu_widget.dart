@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
@@ -14,18 +15,34 @@ class DropDownMenuWidget extends StatelessWidget {
 
   final String? currentVal;
   final String hintText;
-  final List<String> items;
+  final List<dynamic> items;
   final void Function(String val) onItemSelected;
   final double? width;
 
   @override
   Widget build(BuildContext context) {
+
+    final entry = items.map<DropdownMenuEntry>(
+      (value) {
+        return DropdownMenuEntry<String>(
+          value: value.id,
+          label: value.name,
+          style: MenuItemButton.styleFrom(
+            textStyle:
+                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+          ),
+        );
+      },
+    ).toList();
+
     return DropdownMenu(
       initialSelection: currentVal,
       menuHeight: AppSizes.length204,
       width: width,
       hintText: hintText,
-      textStyle: AppTextStyles.textMediumSlateStyle14,
+      textStyle: AppTextStyles.textMediumStyle14,
       selectedTrailingIcon: Icon(
         Icons.keyboard_arrow_down,
         size: AppSizes.length20,
@@ -44,19 +61,7 @@ class DropDownMenuWidget extends StatelessWidget {
         ),
       ),
       onSelected: (val) => onItemSelected(val),
-      dropdownMenuEntries: items.map<DropdownMenuEntry>(
-        (String color) {
-          return DropdownMenuEntry<String>(
-            value: color,
-            label: color,
-            style: MenuItemButton.styleFrom(
-              textStyle: AppTextStyles.textMediumSlateStyle14,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-            ),
-          );
-        },
-      ).toList(),
+      dropdownMenuEntries: entry,
     );
   }
 }

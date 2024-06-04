@@ -1,3 +1,4 @@
+import 'package:education_app/src/common_widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,8 +12,16 @@ class AsyncWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      error: (err, _) =>  Text(err as String),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, _) => ErrorMessageWidget(
+        errorMessage: err as String,
+        retry: () {},
+      ),
+      loading: () => const SizedBox(
+        height: 100,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }
@@ -27,11 +36,13 @@ class AsyncSliverWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      error: (err, _) =>  SliverToBoxAdapter(
+      error: (err, _) => SliverToBoxAdapter(
         child: Text(err as String),
       ),
       loading: () => const SliverToBoxAdapter(
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(
+          child: SizedBox(height: 100, child: CircularProgressIndicator()),
+        ),
       ),
     );
   }

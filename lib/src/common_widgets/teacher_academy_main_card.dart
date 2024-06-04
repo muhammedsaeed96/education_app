@@ -1,5 +1,7 @@
+import 'package:education_app/src/core/constants/app_strings.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
@@ -16,6 +18,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
     required this.city,
     required this.region,
     required this.description,
+    required this.visitorsNum,
   });
 
   final VoidCallback press;
@@ -24,6 +27,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
   final String city;
   final String region;
   final String description;
+  final int visitorsNum;
 
   @override
   Widget build(BuildContext context) {
@@ -31,38 +35,56 @@ class TeacherAcademyMainCard extends StatelessWidget {
       tap: press,
       radius: 12,
       child: Container(
-        padding: const EdgeInsets.all(12),
+        constraints: BoxConstraints(
+          minWidth: AppSizes.length120,
+          maxWidth: AppSizes.screenWidth * 0.5,
+        ),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.gray200),
+          border: Border.all(color: AppColors.gray300),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomNetworkImage(
-              imageUrl: imageUrl,
-              height: AppSizes.length64,
-              width: AppSizes.length64,
-              radius: AppSizes.length64 / 2,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomNetworkImage(
+                  imageUrl: imageUrl.getFullUrl,
+                  height: AppSizes.length64,
+                  width: AppSizes.length64,
+                  radius: AppSizes.length64 / 2,
+                ),
+            visitorsNum > 0 ?    Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.gray50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppColors.gray300,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: Text(
+                    '${AppStrings.visitNumbersStr} $visitorsNum',
+                    style: AppTextStyles.textRegularStyle10,
+                  ),
+                ) : const SizedBox.shrink(),
+              ],
             ),
-            gap8,
+            gap12,
             Text(
               title,
-              style: AppTextStyles.textSemiBoldSlateStyle12,
+              style: AppTextStyles.textSemiBoldStyle12,
             ),
-            gap4,
-            // TODO : EXTRACT IT IN WIDGET
-            // to display teacher or academy city and region
+            gap6,
             AddressWidget(city: city, region: region),
-            gap8,
-            Container(
-              constraints: BoxConstraints(
-                minWidth: AppSizes.length120,
-                maxWidth: AppSizes.screenWidth * 0.5,
-              ),
+            gap4,
+            Expanded(
               child: Text(
                 description,
-                style: AppTextStyles.textMediumSlateStyle12.copyWith(
+                style: AppTextStyles.textRegularStyle12.copyWith(
                   color: AppColors.gray500,
                 ),
                 maxLines: 2,

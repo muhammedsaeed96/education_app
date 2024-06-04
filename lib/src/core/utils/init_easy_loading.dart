@@ -9,8 +9,8 @@ void initEasyLoading(){
     ..loadingStyle = EasyLoadingStyle.custom
   // ..indicatorSize = 40.0
     ..radius = 10.0
-    ..backgroundColor = AppColors.green50
-    ..indicatorColor = AppColors.primaryColor
+    ..backgroundColor = AppColors.gray100
+    ..indicatorColor = AppColors.primaryColor400
     ..indicatorWidget = const SizedBox(
       height: 100,
       width: 100,

@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
@@ -15,10 +16,8 @@ class AuthTitleDescWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.copyWith(color: Colors.black87),
+          style: AppTextStyles.textBoldStyle18
+              .copyWith(color: Colors.black87),
         ),
         gap4,
         Text(

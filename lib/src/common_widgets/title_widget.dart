@@ -11,7 +11,7 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: AppTextStyles.textBoldSlateStyle16);
+    return Text(title, style: AppTextStyles.textBoldStyle16);
   }
 }
 

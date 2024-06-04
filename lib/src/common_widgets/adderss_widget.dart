@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,18 +16,21 @@ class AddressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
           Assets.icMapFill,
-          height: AppSizes.length18,
-          width: AppSizes.length18,
+          height: AppSizes.length16,
+          width: AppSizes.length16,
         ),
         gapH6,
-        Text(
-          '$city / $region',
-          style: AppTextStyles.textMediumSlateStyle12.copyWith(
-            color: AppColors.gray500,
+        Expanded(
+          child: Text(
+            '$city / $region',
+            style: AppTextStyles.textMediumStyle12.copyWith(
+              color: AppColors.gray500,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

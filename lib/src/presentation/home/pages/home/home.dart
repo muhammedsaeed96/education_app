@@ -1,4 +1,3 @@
-import 'package:education_app/src/application/home_service.dart';
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/title_btn_widget.dart';
 import 'package:education_app/src/common_widgets/title_widget.dart';
@@ -11,6 +10,8 @@ import 'package:education_app/src/presentation/home/pages/home/teachers_horizont
 import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../data/home_repository.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});

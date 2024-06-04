@@ -5,6 +5,7 @@ part 'authentication_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class AuthenticationModel {
+  final String? name;
   final AccountType accountType;
   final String phone;
   final String? otp;
@@ -12,11 +13,12 @@ class AuthenticationModel {
   final String? stage;
   final String? province;
   final String? area;
-  final List<String> subjects;
-  final List<String> stages;
+  final List subjects;
+  final List stages;
   final String? locationDescription;
 
   AuthenticationModel({
+    this.name,
     required this.accountType,
     required this.phone,
     this.otp,

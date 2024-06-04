@@ -6,10 +6,10 @@ part 'stage_model.g.dart';
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class StageModel{
   final String id;
-  final String title;
+  final String name;
 
 
-  StageModel({required this.id , required this.title});
+  StageModel({required this.id , required this.name});
 
   factory StageModel.fromJson(Map<String, dynamic> data) =>
       _$StageModelFromJson(data);

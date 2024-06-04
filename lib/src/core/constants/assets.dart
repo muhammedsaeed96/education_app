@@ -46,4 +46,10 @@ class Assets {
   static const String icShare = "assets/icons/ic_share.svg";
 
   static const String icStar = "assets/icons/ic_star.svg";
+
+  static const String icWhatsapp = "assets/icons/ic_whatsapp.svg";
+  static const String icFacebook = "assets/icons/ic_facebook.svg";
+  static const String icYoutube = "assets/icons/ic_youtube.svg";
+
+  static const String callUs = "assets/icons/call_us.jpg";
 }

@@ -7,8 +7,10 @@ class AuthenticationService {
 
   final AuthenticationRepository authenticationRepository;
 
-  Future<void> requestOtpForSignIn(
-      {required String phone, required String accountType}) async {
+  Future<void> requestOtpForSignIn({
+    required String phone,
+    required String accountType,
+  }) async {
     await authenticationRepository.requestOtpForSignIn(
       phone: phone,
       accountType: accountType,

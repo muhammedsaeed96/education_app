@@ -41,9 +41,10 @@ class TeacherCard extends StatelessWidget {
       ),
       imageUrl: teacher.imageUrl,
       title: teacher.name,
-      city: teacher.city,
-      region: teacher.region,
+      city: teacher.province!.name,
+      region: teacher.area!.name,
       description: teacher.description,
+      visitorsNum: teacher.visitorsNumber,
     );
   }
 }
