@@ -25,8 +25,10 @@ class Account extends ConsumerWidget {
         AccountCard(
           title: AppStrings.accountInfoStr,
           icon: Assets.icUser,
-          press: () =>
-              Navigator.pushNamed(context, PersonalProfileScreen.routeName),
+          press: () => Navigator.pushNamed(
+            context,
+            PersonalProfileScreen.routeName,
+          ),
         ),
         gap12,
         AccountCard(

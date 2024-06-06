@@ -1,61 +1,119 @@
+import 'package:dio/dio.dart';
+import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/core/utils/local_storage.dart';
 import 'package:education_app/src/model/authentication_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../core/constants/api_keys.dart';
+import '../core/constants/api_urls.dart';
+import '../core/errors/failures.dart';
 
 class AuthenticationRepository {
-  final LocalStorage localStorage;
+  final Ref ref;
 
-  AuthenticationRepository(this.localStorage);
+  AuthenticationRepository(this.ref);
 
-  Future<void> requestOtpForSignIn(
-      {required String phone, required String accountType}) async {
-    await Future.delayed(const Duration(seconds: 1));
-    debugPrint(phone);
-    // throw ('An Error occur');
+  Future<void> requestOtpForSignIn({
+    required String phone,
+    required String accountType,
+  }) async {
+    try {
+      final res = await ref.read(asyncInitProvider).apiService.post(
+        url: ApiUrls.requestOtpForSignInUrl,
+        body: {
+          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.accountTypeKey: accountType,
+        },
+      );
+      if (res.statusCode != 200 && res.statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
-  Future<void> requestOtpForSignup(
-      {required String phone, required String accountType}) async {
-    await Future.delayed(const Duration(seconds: 1));
-    debugPrint(phone);
-    // throw ('An Error occur');
+  Future<void> requestOtpForSignup({
+    required String phone,
+    required String accountType,
+  }) async {
+    try {
+      final res = await ref.read(asyncInitProvider).apiService.post(
+        url: ApiUrls.requestOtpForSignupUrl,
+        body: {
+          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.accountTypeKey: accountType,
+        },
+      );
+      if (res.statusCode != 200 && res.statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
-  Future<void> verifyOtp({
+  Future<UserInfoModel> verifyOtp({
     required String phone,
     required String otp,
     required String accountType,
   }) async {
-    await Future.delayed(const Duration(seconds: 1));
-    await localStorage.storeUserInfo(
-      UserInfoModel(
-        id: DateTime.now().toIso8601String(),
-        accountType: accountType,
-        token: DateTime.now().toIso8601String(),
-      ),
-    );
-    // throw ('An Error occur');
+    try {
+      final res = await ref.read(asyncInitProvider).apiService.post(
+        url: ApiUrls.verifyOtpUrl,
+        body: {
+          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.accountTypeKey: accountType,
+          ApiKeys.codeKey: otp,
+        },
+      );
+      if (res.statusCode != 200 && res.statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+
+      return UserInfoModel.fromJson(res.data['data']);
+
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
-  Future<void> createUserAccount(AuthenticationModel authentication) async {
-    await Future.delayed(const Duration(seconds: 1));
-    await localStorage.storeUserInfo(
-      UserInfoModel(
-        id: DateTime.now().toIso8601String(),
-        accountType: authentication.accountType.name,
-        token: DateTime.now().toIso8601String(),
-      ),
-    );
-    // throw ('An Error occur');
+  Future<UserInfoModel> createUserAccount({
+    required AuthenticationModel authentication,
+    required requestUrl,
+  }) async {
+    try {
+      final res = await ref.read(asyncInitProvider).apiService.post(
+            url: requestUrl,
+            body: authentication.toJson(),
+          );
+      if (res.statusCode != 200 && res.statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+      return UserInfoModel.fromJson(res.data['data']);
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 }
 
 final authenticationRepositoryProvider =
     Provider.autoDispose<AuthenticationRepository>(
-  (ref) => AuthenticationRepository(
-    ref.read(asyncInitProvider).localStorage,
-  ),
+  (ref) => AuthenticationRepository(ref),
 );

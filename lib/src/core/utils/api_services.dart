@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../constants/api_urls.dart';
 import 'local_storage.dart';
-class ApiService {
 
+class ApiService {
   static const _authorizationKey = 'Authorization';
 
   static late final Dio _dio;
@@ -11,9 +11,7 @@ class ApiService {
   // to give me access to the all providers
   // final Ref ref;
 
-  // final LocalStorage localStorage;
-
-  // ApiService({/*required this.ref*/});
+  static LocalStorage? localStorage;
 
   void initializeDio() {
     _dio = _init();
@@ -34,12 +32,13 @@ class ApiService {
           RequestOptions options,
           RequestInterceptorHandler handler,
         ) async {
-          // final user = await localStorage.getUserInfo();
+          await Future.delayed(const Duration(milliseconds: 250));
+          final user = localStorage!.getUserInfo();
           // to get unique device id
           // Add the access token to the request header
-/*          if (user != null) {
-            options.headers[_authorizationKey] = "Bearer ${user.accessToken}";
-          }*/
+          if (user != null) {
+            options.headers[_authorizationKey] = "Bearer ${user.token}";
+          }
 
           return handler.next(options);
         },
@@ -51,7 +50,7 @@ class ApiService {
           // final user = await localStorage.getUserInfo();
 
 /*          if (e.response?.statusCode == 401 && user != null) {
-*//*            // If a 401 response is received, refresh the access token
+*/ /*            // If a 401 response is received, refresh the access token
             String newAccessToken = await refreshToken();
 
             // Update the request header with the new access token
@@ -59,7 +58,7 @@ class ApiService {
                 'Bearer $newAccessToken';
 
             // Repeat the request with the updated header
-            return handler.resolve(await dio.fetch(e.requestOptions));*//*
+            return handler.resolve(await dio.fetch(e.requestOptions));*/ /*
           }*/
           handler.next(e);
         },

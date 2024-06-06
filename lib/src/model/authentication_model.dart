@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/enum.dart';
+import 'package:education_app/src/model/social_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'authentication_model.g.dart';
@@ -8,27 +9,29 @@ class AuthenticationModel {
   final String? name;
   final AccountType accountType;
   final String phone;
-  final String? otp;
+  final String? code;
   final String? description;
-  final String? stage;
-  final String? province;
-  final String? area;
-  final List subjects;
-  final List stages;
+  final String? stageId;
+  final String? provinceId;
+  final String? areaId;
+  final List subjectsIds;
+  final List stagesIds;
   final String? locationDescription;
+  final List<SocialModel> socials;
 
   AuthenticationModel({
     this.name,
     required this.accountType,
     required this.phone,
-    this.otp,
+    this.code,
     this.description,
-    this.stage,
-    this.province,
-    this.area,
-    this.subjects = const [],
-    this.stages = const [],
+    this.stageId,
+    this.provinceId,
+    this.areaId,
+    this.subjectsIds = const [],
+    this.stagesIds = const [],
     this.locationDescription,
+    this.socials = const [],
   });
 
   factory AuthenticationModel.fromJson(Map<String, dynamic> data) =>
@@ -38,16 +41,18 @@ class AuthenticationModel {
 
   AuthenticationModel copyWithOtp(String otp) {
     return AuthenticationModel(
+      name: name,
       accountType: accountType,
-      phone: phone,
-      otp: otp,
+      phone: phone.substring(1),
+      code: otp,
       locationDescription: locationDescription,
-      area: area,
-      stages: stages,
-      subjects: subjects,
+      areaId: areaId,
+      stagesIds: stagesIds,
+      subjectsIds: subjectsIds,
       description: description,
-      stage: stage,
-      province: province,
+      stageId: stageId,
+      provinceId: provinceId,
+      socials: socials,
     );
   }
 }

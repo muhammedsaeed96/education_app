@@ -1,4 +1,3 @@
-import 'package:education_app/src/application/account_service.dart';
 import 'package:education_app/src/common_widgets/primary_elevated_btn.dart';
 import 'package:education_app/src/common_widgets/profile_image.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
@@ -7,6 +6,9 @@ import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/from_validators.dart';
 import 'package:education_app/src/model/academy_model.dart';
+import 'package:education_app/src/model/area_model.dart';
+import 'package:education_app/src/model/province_model.dart';
+import 'package:education_app/src/model/stage_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:image_picker/image_picker.dart';
 import '../../common_widgets/title_form_field_widget.dart';
+import '../../services/account_service.dart';
 
 class PersonalProfileScreen extends ConsumerStatefulWidget {
   const PersonalProfileScreen({super.key});
@@ -36,15 +39,15 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
   final _subjects = [];
   final _locationDescriptionController = TextEditingController();
   final _descriptionController = TextEditingController();
-  String? _stage;
-  String? _province;
-  String? _area;
+  StageModel? _stage;
+  ProvinceModel? _province;
+  AreaModel? _area;
 
   @override
   void initState() {
-    final data = ref.read(accountProvider).value;
+    final data = ref.read(getAccountDataProvider).value;
     _userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
-    debugPrint(_userInfo.accountType);
+    debugPrint(_userInfo.accountType.name);
     if (data is StudentModel) {
       _nameController.text = data.name;
       _stage = data.stage;
@@ -54,16 +57,16 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       _nameController.text = data.name;
       _studyStages.addAll(data.stages);
       _subjects.addAll(data.subjects);
-      _province = data.province!.name;
-      _area = data.area!.name;
+      _province = data.province!;
+      _area = data.area!;
       _locationDescriptionController.text = data.locationDescription;
       _descriptionController.text = data.description;
     } else {
       data as AcademyModel;
       _nameController.text = data.title;
       _studyStages.addAll(data.stages);
-      _province = data.province!.name;
-      _area = data.area!.name;
+      _province = data.province!;
+      _area = data.area!;
       _locationDescriptionController.text = data.locationDescription;
       _descriptionController.text = data.description;
     }
@@ -84,14 +87,14 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       return;
     }
 
-    final data = ref.read(accountProvider).value;
+    final data = ref.read(getAccountDataProvider).value;
 
     final T accountData;
 
     if (data is StudentModel) {
       accountData = StudentModel(
         phone: data.phone,
-        id: _userInfo.id,
+        id: _userInfo.userId,
         name: _nameController.text,
         province: _province!,
         area: _area!,
@@ -195,7 +198,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
               controller: _nameController,
               validator: (val) => val.isValidText,
             ),
-            if (_userInfo.accountType != AccountType.student.name) ...[
+            if (_userInfo.accountType != AccountType.STUDENT) ...[
               gap24,
               TitleFormFiledWidget(
                 title: AppStrings.descriptionStr,
@@ -230,7 +233,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                       },
                     ),
                   ),*/
-                  if (_userInfo.accountType == AccountType.teacher.name) ...[
+                  if (_userInfo.accountType == AccountType.TEACHER) ...[
                     gapH8,
 /*                    Expanded(
                       child: Consumer(
@@ -263,7 +266,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 ],
               ),
             ],
-            if (_userInfo.accountType == AccountType.student.name) ...[
+            if (_userInfo.accountType == AccountType.STUDENT) ...[
               gap24,
 /*              DropDownFormFieldWidget(
                 title: AppStrings.stageStr,
@@ -316,7 +319,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 ),*/
               ],
             ),
-            if (_userInfo.accountType != AccountType.student.name) ...[
+            if (_userInfo.accountType != AccountType.STUDENT) ...[
               gap24,
               TitleFormFiledWidget(
                 title: AppStrings.locationDescriptionStr,

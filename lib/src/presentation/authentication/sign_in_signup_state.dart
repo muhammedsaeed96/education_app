@@ -52,11 +52,11 @@ extension SignInSignupStateX on SignInSignupState {
   }*/
 
   bool get isStudentAndSignup {
-    return accountType == AccountType.student && formType == FormType.signup;
+    return accountType == AccountType.STUDENT && formType == FormType.signup;
   }
 
   bool get isTeacherOrAcademyAndSignup {
-    return accountType != AccountType.student && formType == FormType.signup;
+    return accountType != AccountType.STUDENT && formType == FormType.signup;
   }
 
   bool get isSignIn => formType == FormType.signIn;

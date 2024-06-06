@@ -21,6 +21,7 @@ class Home extends ConsumerWidget {
     final value = ref.watch(getHomeDataProvider);
     return AsyncWidget(
       value: value,
+      retry: ()=>ref.invalidate(getHomeDataProvider),
       data: (data) {
         return ListView(
           padding: const EdgeInsets.symmetric(vertical: 20),

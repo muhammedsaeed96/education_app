@@ -20,9 +20,10 @@ class ContactUs extends ConsumerWidget {
     final value = ref.watch(getContactInfoProvider);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(40),
       child: AsyncWidget(
         value: value,
+        retry: () => ref.invalidate(getContactInfoProvider),
         data: (data) => Column(
           children: [
             Image.asset(

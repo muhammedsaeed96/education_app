@@ -14,4 +14,7 @@ class ApiKeys{
   static const stageIdKey = 'stageId';
   static const subjectIdKey = 'subjectId';
   static const nameKey = 'name';
+  static const phoneKey = 'phone';
+  static const accountTypeKey = 'accountType';
+  static const codeKey = 'code';
 }

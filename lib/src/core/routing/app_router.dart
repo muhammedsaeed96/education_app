@@ -15,6 +15,6 @@ final routes = {
   TeachersScreen.routeName: (context) => const TeachersScreen(),
   AcademiesScreen.routeName: (context) => const AcademiesScreen(),
   OtpScreen.routeName: (context) => const OtpScreen(),
-  // SignInSignupScreen.routeName: (context) => const SignInSignupScreen(),
+  SignInSignupScreen.routeName: (context) => const SignInSignupScreen(),
   PersonalProfileScreen.routeName: (context) => const PersonalProfileScreen(),
 };

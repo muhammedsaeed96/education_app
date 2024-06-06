@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:education_app/src/model/province_model.dart';
+import 'package:education_app/src/model/stage_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'area_model.dart';
 import 'custom_file_converter.dart';
 part 'student_model.g.dart';
 
@@ -11,9 +14,12 @@ class StudentModel {
   final String? imageUrl;
   @CustomFileConverter()
   final File? image;
-  final String province;
-  final String area;
-  final String stage;
+  @JsonKey(name: 'Province')
+  final ProvinceModel province;
+  @JsonKey(name: 'Area')
+  final AreaModel area;
+  @JsonKey(name: 'Stage')
+  final StageModel stage;
 
   StudentModel({
     required this.id,

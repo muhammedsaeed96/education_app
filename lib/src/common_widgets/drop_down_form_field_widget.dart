@@ -13,13 +13,15 @@ class DropDownFormFieldWidget extends StatelessWidget {
     required this.onChange,
     required this.items,
     this.selectedItem,
+    this.needSetSelectedItem = false,
   });
 
   final String title;
   final String hintText;
-  final void Function(String?) onChange;
-  final List<String> items;
+  final void Function(dynamic) onChange;
+  final List<dynamic> items;
   final String? selectedItem;
+  final bool needSetSelectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +49,18 @@ class DropDownFormFieldWidget extends StatelessWidget {
           menuMaxHeight: AppSizes.length204,
           elevation: 2,
           decoration: InputDecoration(hintText: hintText),
-          value: selectedItem,
-          validator: (val) => val.isValidText,
+          dropdownColor: Colors.white,
+          value:needSetSelectedItem ? _getSelectedItems : selectedItem,
+          validator: (val) {
+            final String? text = val as String?;
+            return text.isValidText;
+          },
           items: items
               .map(
                 (e) => DropdownMenuItem(
-                  value: e,
+                  value: items is List<String> ? e : e.id,
                   child: Text(
-                    e,
+                    items is List<String> ? e : e.name,
                     style: AppTextStyles.textRegularStyle16
                         .copyWith(color: Colors.black),
                   ),
@@ -66,5 +72,27 @@ class DropDownFormFieldWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String? get _getSelectedItems {
+    if (selectedItem != null) {
+      return selectedItem;
+    } else {
+      if (items.isNotEmpty) {
+        if (items is List<String>) {
+          return items[0];
+        } else {
+          return items[0].id;
+        }
+      } else {
+        return null;
+      }
+    }
+
+    selectedItem == null
+        ? items.isNotEmpty
+            ? (items is List<String> ? items[0] : items[0].id)
+            : null
+        : null;
   }
 }

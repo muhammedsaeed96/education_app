@@ -10,7 +10,12 @@ final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
 );
 
 final themeData = ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor400),
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: AppColors.primaryColor400,
+    background: Colors.white,
+    // onPrimary: AppColors.primaryColor400,
+    // onSecondary: AppColors.primaryColor400,
+  ),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.white,
   fontFamily: 'NotoKufiArabic',

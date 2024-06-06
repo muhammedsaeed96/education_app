@@ -17,10 +17,10 @@ class AccountService {
     required String id,
     required String token,
   }) async {
-    if (accountType == AccountType.student.name) {
+    if (accountType == AccountType.STUDENT.name) {
       return await accountRepository.getStudentAccount(id: id, token: token)
           as T;
-    } else if (accountType == AccountType.teacher.name) {
+    } else if (accountType == AccountType.TEACHER.name) {
       return await accountRepository.getTeacherAccount(id: id, token: token)
           as T;
     } else {
@@ -35,13 +35,13 @@ class AccountService {
     required String id,
     required String token,
   }) async {
-    if (accountType == AccountType.student.name) {
+    if (accountType == AccountType.STUDENT.name) {
       await accountRepository.updateStudentAccount(
         student: data as StudentModel,
         id: id,
         token: token,
       );
-    } else if (accountType == AccountType.teacher.name) {
+    } else if (accountType == AccountType.TEACHER.name) {
       await accountRepository.updateTeacherAccount(
         teacher: data as TeacherModel,
         id: id,
@@ -61,13 +61,13 @@ final accountServiceProvider = Provider(
   (ref) => AccountService(ref.read(accountRepositoryProvider)),
 );
 
-final accountProvider = FutureProvider(
+final getAccountDataProvider = FutureProvider(
   (ref) {
     final info = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
     return ref.read(accountServiceProvider).getAccount(
-          id: info.id,
+          id: info.userId,
           token: info.token,
-          accountType: info.accountType,
+          accountType: info.accountType.name,
         );
   },
 );
@@ -76,7 +76,7 @@ final teacherProvider = FutureProvider<TeacherModel>(
   (ref) {
     final info = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
     return ref.read(accountRepositoryProvider).getTeacherAccount(
-          id: info.id,
+          id: info.userId,
           token: info.token,
         );
   },
@@ -86,7 +86,7 @@ final academyProvider = FutureProvider<AcademyModel>(
   (ref) {
     final info = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
     return ref.read(accountRepositoryProvider).getAcademyAccount(
-          id: info.id,
+          id: info.userId,
           token: info.token,
         );
   },

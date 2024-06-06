@@ -31,6 +31,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text(AppStrings.teacherDetailsStr)),
       body: AsyncWidget(
         value: value,
+        retry: () => ref.invalidate(getTeacherByIdProvider(id)),
         data: (teacher) {
           return ListView(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),

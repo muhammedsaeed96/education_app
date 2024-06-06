@@ -101,4 +101,7 @@ class AppStrings {
   static const retryWithErrorStr = 'حدث خطأ يرجى اعادة المحاولة';
   static const socialsStr = 'مواقع التواصل';
 
+  static const facebookPageUrlStr = 'رابط صفحة الفيسبوك';
+  static const youtubeChannelUrlStr = 'رابط قناة اليوتيوب';
+
 }

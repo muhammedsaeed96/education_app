@@ -1,5 +1,5 @@
-import 'package:education_app/src/application/account_service.dart';
 import 'package:education_app/src/common_widgets/async_widget.dart';
+import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/student_model.dart';
@@ -7,18 +7,19 @@ import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/common_widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/constants/app_sizes.dart';
+import '../../../../services/account_service.dart';
 
 class Header extends ConsumerWidget {
   const Header({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(accountProvider);
+    final value = ref.watch(getAccountDataProvider);
 
     return AsyncWidget(
         value: value,
+        retry: () => ref.invalidate(getAccountDataProvider),
         data: (data) {
           final (url, name) = getUrlName(data);
 
@@ -28,7 +29,14 @@ class Header extends ConsumerWidget {
               gap4,
               Text(
                 name,
-                style:AppTextStyles.textMediumStyle16,
+                style: AppTextStyles.textMediumStyle16,
+              ),
+              gap2,
+              Text(
+                '0${data.phone}',
+                style: AppTextStyles.textRegularStyle16.copyWith(
+                  color: AppColors.gray500,
+                ),
               ),
               gap32,
             ],

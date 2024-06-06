@@ -28,24 +28,23 @@ class TitleFormFiledWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        validator != null
-            ? Text.rich(
-                TextSpan(
-                  text: title,
-                  style: AppTextStyles.textRegularStyle14
-                      .copyWith(color: AppColors.black87),
-                  children: <InlineSpan>[
-                    TextSpan(
-                      text: ' *',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: AppColors.red500),
+        Text.rich(
+          TextSpan(
+            text: title,
+            style: AppTextStyles.textRegularStyle14
+                .copyWith(color: AppColors.black87),
+            children: <InlineSpan>[
+              TextSpan(
+                text: validator != null ? ' *' : ' (اختياري)',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: validator != null
+                          ? AppColors.red500
+                          : AppColors.gray600,
                     ),
-                  ],
-                ),
-              )
-            : const SizedBox.shrink(),
+              ),
+            ],
+          ),
+        ),
         gap6,
         TextFormField(
           maxLines: maxLines,

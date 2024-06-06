@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AsyncWidget<T> extends StatelessWidget {
-  const AsyncWidget({super.key, required this.value, required this.data});
+  const AsyncWidget({
+    super.key,
+    required this.value,
+    required this.data,
+    required this.retry,
+  });
 
   final AsyncValue<T> value;
   final Widget Function(T) data;
+  final VoidCallback retry;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class AsyncWidget<T> extends StatelessWidget {
       data: data,
       error: (err, _) => ErrorMessageWidget(
         errorMessage: err as String,
-        retry: () {},
+        retry: retry,
       ),
       loading: () => const SizedBox(
         height: 100,

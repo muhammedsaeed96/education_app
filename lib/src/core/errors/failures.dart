@@ -48,14 +48,10 @@ class ServerFailure extends Failure {
   factory ServerFailure.fromResponse(DioException error) {
     if (error.response?.data is Map) {
       //get the response status code
-      final statusCode = error.response?.statusCode ?? 0;
+      // final statusCode = error.response?.statusCode ?? 0;
       //to get the error message from server
       final errorMsg = _getErrorMessageFromResponse(error.response?.data);
-      if (statusCode == 403) {
-        return ServerFailure(errorMsg);
-      } else {
-        return ServerFailure(AppStrings.unexpectedErrorStr);
-      }
+      return ServerFailure(errorMsg);
     } else {
       return ServerFailure(AppStrings.unexpectedErrorStr);
     }

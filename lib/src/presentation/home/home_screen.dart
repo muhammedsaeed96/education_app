@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
+import '../authentication/sign_in_signup_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -131,10 +132,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _changeNavBarIndex({required int index, required WidgetRef ref}) {
     final userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo();
-    debugPrint(userInfo?.accountType);
-    debugPrint(userInfo?.id);
+    debugPrint(userInfo?.accountType.name);
+    debugPrint(userInfo?.userId);
     if (index == 2 && userInfo == null) {
-      // Navigator.pushNamed(context, SignInSignupScreen.routeName);
+      Navigator.pushNamed(context, SignInSignupScreen.routeName);
       return;
     }
 

@@ -31,6 +31,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text(AppStrings.academyDetailsStr)),
       body: AsyncWidget(
         value: value,
+        retry: () => ref.invalidate(getAcademyByIdProvider(id)),
         data: (academy) {
           return ListView(
             padding: const EdgeInsets.symmetric(
@@ -87,7 +88,8 @@ class AcademyDetailsScreen extends ConsumerWidget {
               gap16,
               TitleDescWidget(
                 title: AppStrings.titleStr,
-                description: '${academy.province!.name} / ${academy.area!.name}',
+                description:
+                    '${academy.province!.name} / ${academy.area!.name}',
               ),
               gap16,
               TitleDescWidget(

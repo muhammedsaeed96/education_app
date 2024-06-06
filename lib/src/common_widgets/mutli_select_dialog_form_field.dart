@@ -19,7 +19,7 @@ class MultiSelectDialogFormField extends StatelessWidget {
   });
 
   final String title;
-  final List<String> items;
+  final List<dynamic> items;
   final void Function(List) confirm;
   final List initialValue;
   final String btnText;
@@ -55,7 +55,7 @@ class MultiSelectDialogFormField extends StatelessWidget {
           child: MultiSelectDialogField(
             title: const SizedBox.shrink(),
             initialValue: initialValue,
-            items: items.map((val) => MultiSelectItem(val, val)).toList(),
+            items: items.map((val) => MultiSelectItem(val.id, val.name)).toList(),
             listType: MultiSelectListType.LIST,
             chipDisplay: MultiSelectChipDisplay.none(),
 /*            chipDisplay: MultiSelectChipDisplay(

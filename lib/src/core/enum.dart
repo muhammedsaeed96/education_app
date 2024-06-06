@@ -2,7 +2,7 @@ enum TeachingType { academy, teacher }
 
 enum FormType { signIn, signup }
 
-enum AccountType { student, teacher, academy }
+enum AccountType { STUDENT,TEACHER,ACADEMY }
 
 enum ElementType { subject, stage }
 

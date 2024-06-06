@@ -8,7 +8,7 @@ class LocalStorage {
   LocalStorage(this.sharedPreferences);
 
   Future<void> storeUserInfo(UserInfoModel userInfo) async {
-    await sharedPreferences.setString(
+   final x = await sharedPreferences.setString(
       "userInfoKey",
       json.encode(userInfo.toJson()),
     );
@@ -22,6 +22,7 @@ class LocalStorage {
     return null;
   }
 
-  Future<void> removeUserInfo() async =>
-      await sharedPreferences.remove("userInfoKey");
+  Future<void> removeUserInfo() async {
+    await sharedPreferences.remove("userInfoKey");
+  }
 }

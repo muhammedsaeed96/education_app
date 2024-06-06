@@ -1,24 +1,24 @@
-import 'dart:convert';
+import 'package:education_app/src/core/enum.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'user_info_model.g.dart';
+
+
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
+
 
 class UserInfoModel {
-  final String id;
-  final String accountType;
+  final String userId;
+  final AccountType accountType;
   final String token;
 
   UserInfoModel({
-    required this.id,
+    required this.userId,
     required this.accountType,
     required this.token,
   });
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'accountType': accountType,
-        'token': token,
-      };
+  factory UserInfoModel.fromJson(Map<String, dynamic> data) =>
+      _$UserInfoModelFromJson(data);
 
-  UserInfoModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as String,
-        accountType = json['accountType'] as String,
-        token = json['token'] as String;
+  Map<String, dynamic> toJson() => _$UserInfoModelToJson(this);
 }

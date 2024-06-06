@@ -6,21 +6,24 @@ import 'local_storage.dart';
 
 class AsyncInit {
 
+  final Ref ref;
+
   late final SharedPreferences _sharedPreferences;
   late final LocalStorage localStorage;
   late final ApiService apiService;
 
-  AsyncInit() {
+  AsyncInit(this.ref) {
     _init();
   }
 
   Future<void> _init() async {
     apiService = ApiService();
     apiService.initializeDio();
-    debugPrint('AsyncInit init');
     _sharedPreferences = await SharedPreferences.getInstance();
     localStorage = LocalStorage(_sharedPreferences);
+    ApiService.localStorage = localStorage;
+    debugPrint('AsyncInit init');
   }
 }
 
-final asyncInitProvider = Provider<AsyncInit>((ref) => AsyncInit());
+final asyncInitProvider = Provider<AsyncInit>((ref) => AsyncInit(ref));
