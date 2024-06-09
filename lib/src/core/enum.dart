@@ -1,6 +1,6 @@
 enum TeachingType { academy, teacher }
 
-enum FormType { signIn, signup }
+enum FormType { signIn, signup  }
 
 enum AccountType { STUDENT,TEACHER,ACADEMY }
 

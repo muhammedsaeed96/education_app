@@ -31,7 +31,7 @@ final themeData = ThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 1.0,
+      elevation: 0.5,
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(

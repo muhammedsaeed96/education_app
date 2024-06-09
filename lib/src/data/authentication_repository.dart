@@ -3,6 +3,7 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/authentication_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/api_keys.dart';
 import '../core/constants/api_urls.dart';
@@ -21,7 +22,7 @@ class AuthenticationRepository {
       final res = await ref.read(asyncInitProvider).apiService.post(
         url: ApiUrls.requestOtpForSignInUrl,
         body: {
-          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.phoneKey: phone,
           ApiKeys.accountTypeKey: accountType,
         },
       );
@@ -42,10 +43,12 @@ class AuthenticationRepository {
     required String accountType,
   }) async {
     try {
+      debugPrint("requestOtpForSignup 444");
+
       final res = await ref.read(asyncInitProvider).apiService.post(
         url: ApiUrls.requestOtpForSignupUrl,
         body: {
-          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.phoneKey: phone,
           ApiKeys.accountTypeKey: accountType,
         },
       );
@@ -70,7 +73,7 @@ class AuthenticationRepository {
       final res = await ref.read(asyncInitProvider).apiService.post(
         url: ApiUrls.verifyOtpUrl,
         body: {
-          ApiKeys.phoneKey: phone.substring(1),
+          ApiKeys.phoneKey: phone,
           ApiKeys.accountTypeKey: accountType,
           ApiKeys.codeKey: otp,
         },

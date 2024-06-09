@@ -8,4 +8,13 @@ extension StringExtension on String? {
     }
     return '${ApiUrls.baseUrl}/$this';
   }
+
+  String get getFullPhone {
+    if (this!.length == 10) {
+      return '+964$this';
+    } else {
+      return '+964${this!.substring(1)}';
+    }
+}
+
 }

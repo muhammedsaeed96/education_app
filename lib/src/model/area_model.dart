@@ -1,3 +1,4 @@
+import 'package:education_app/src/model/province_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'area_model.g.dart';
@@ -15,5 +16,20 @@ class AreaModel{
       _$AreaModelFromJson(data);
 
   Map<String, dynamic> toJson() => _$AreaModelToJson(this);
+
+
+static  List<AreaModel> getAreasByProvinceId({
+    required List<ProvinceModel> provinces,
+    required String? provinceId,
+  }) {
+    final List<AreaModel> areas = provinceId != null
+        ? provinces
+        .firstWhere(
+          (p) => p.id == provinceId,
+    )
+        .areas
+        : [];
+    return areas;
+  }
 
 }

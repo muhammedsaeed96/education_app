@@ -19,20 +19,28 @@ class ProfileImage extends StatelessWidget {
 
   Widget _renderImage() {
     if (imageFile != null) {
-      return Image.file(imageFile!);
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(AppSizes.length96 / 2),
+        child: Image.file(
+          imageFile!,
+          width: AppSizes.length96,
+          height: AppSizes.length96,
+          fit: BoxFit.cover,
+        ),
+      );
     } else if (imageUrl != null) {
       return CustomNetworkImage(
         imageUrl: imageUrl,
         fit: BoxFit.cover,
-        radius: AppSizes.length80 / 2,
-        width: AppSizes.length80,
-        height: AppSizes.length80,
+        radius: AppSizes.length96 / 2,
+        width: AppSizes.length96,
+        height: AppSizes.length96,
       );
     } else {
       return SvgPicture.asset(
         Assets.icProfile,
-        height: AppSizes.length80,
-        width: AppSizes.length80,
+        height: AppSizes.length96,
+        width: AppSizes.length96,
       );
     }
   }

@@ -19,7 +19,7 @@ class PrimaryOutlinedBtn extends StatelessWidget {
     return OutlinedButton(
       onPressed: press,
       child: Text(
-        AppStrings.cancelStr,
+        text,
         style: AppTextStyles.textSemiBoldStyle14.copyWith(
           color: AppColors.gray500,
         ),

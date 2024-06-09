@@ -19,42 +19,47 @@ class Home extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(getHomeDataProvider);
-    return AsyncWidget(
-      value: value,
-      retry: ()=>ref.invalidate(getHomeDataProvider),
-      data: (data) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          children: [
-            const Padding(
-              padding: paddingH24,
-              child: TitleWidget(title: AppStrings.subjectsStr),
-            ),
-            gap20,
-            SubjectsHorizontalList(subjects: data.subjects),
-            gap32,
-            Padding(
-              padding: paddingH24,
-              child: TitleBtnWidget(
-                title: AppStrings.teachersStr,
-                onPress: ()=> Navigator.pushNamed(context, TeachersScreen.routeName),
-              ),
-            ),
-            gap12,
-            TeachersHorizontalList(teachers: data.teachers),
-            gap32,
-            Padding(
-              padding: paddingH24,
-              child: TitleBtnWidget(
-                title: AppStrings.academiesStr,
-                onPress: ()=> Navigator.pushNamed(context, AcademiesScreen.routeName),
-              ),
-            ),
-            gap12,
-            AcademiesHorizontalList(academies: data.academies)
-          ],
-        );
+    return RefreshIndicator(
+      onRefresh:() async{
+        ref.invalidate(getHomeDataProvider);
       },
+      child: AsyncWidget(
+        value: value,
+        retry: ()=>ref.invalidate(getHomeDataProvider),
+        data: (data) {
+          return ListView(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            children: [
+              const Padding(
+                padding: paddingH24,
+                child: TitleWidget(title: AppStrings.subjectsStr),
+              ),
+              gap20,
+              SubjectsHorizontalList(subjects: data.subjects),
+              gap32,
+              Padding(
+                padding: paddingH24,
+                child: TitleBtnWidget(
+                  title: AppStrings.teachersStr,
+                  onPress: ()=> Navigator.pushNamed(context, TeachersScreen.routeName),
+                ),
+              ),
+              gap12,
+              TeachersHorizontalList(teachers: data.teachers),
+              gap32,
+              Padding(
+                padding: paddingH24,
+                child: TitleBtnWidget(
+                  title: AppStrings.academiesStr,
+                  onPress: ()=> Navigator.pushNamed(context, AcademiesScreen.routeName),
+                ),
+              ),
+              gap12,
+              AcademiesHorizontalList(academies: data.academies)
+            ],
+          );
+        },
+      ),
     );
   }
 }

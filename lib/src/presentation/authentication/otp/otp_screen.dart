@@ -1,14 +1,18 @@
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
+import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
+import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/presentation/authentication/otp/widgets/otp_textField.dart';
 import 'package:education_app/src/presentation/controllers/sign_in_signup_controller.dart';
+import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common_widgets/auth_title_desc_widget.dart';
 import '../../../common_widgets/primary_elevated_btn.dart';
 import '../../../core/constants/app_sizes.dart';
+import '../../../core/enum.dart';
 import '../../controllers/sample_state_controller.dart';
 
 class OtpScreen extends ConsumerWidget {
@@ -16,24 +20,28 @@ class OtpScreen extends ConsumerWidget {
 
   static const routeName = '/otp_screen';
 
-  void _submit({required WidgetRef ref, required String otp}) {
-    ref.read(signInSignupControllerProvider.notifier).verifyOtp(otp);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(signInSignupControllerProvider.select((state) => state.value),
-        (_, next) {
-      if (next.isLoading) {
+    ref.listen(signInSignupControllerProvider, (previous, next) {
+      if (next.value.isLoading) {
         EasyLoading.show();
-      } else if (next.hasError) {
+      } else if (next.value.hasError) {
         EasyLoading.dismiss();
-        next.showErrorDialog(context);
+        next.value.showErrorDialog(context);
       } else {
         EasyLoading.dismiss();
         // make logout to false it mean user logged in right now
         ref.read(logoutProvider.notifier).state = false;
-        Navigator.popUntil(context, (route) => route.settings.name == '/');
+        // if user complete signup process successfully i will navigate to select profile picture screen
+        if (previous != null && previous.formType == FormType.signup) {
+          Navigator.popUntil(
+              context,
+              (route) =>
+                  route.settings.name == SelectProfilePictureScreen.routeName);
+        } else {
+          // if user complete signIn process successfully i will navigate to select profile picture screen
+          Navigator.popUntil(context, (route) => route.settings.name == '/');
+        }
       }
     });
 
@@ -55,6 +63,14 @@ class OtpScreen extends ConsumerWidget {
                 title: AppStrings.confirmMobileNumStr,
                 description: AppStrings.otpDeliverOnWhatsAppStr,
               ),
+              gap8,
+              Text(
+                ref.read(signInSignupControllerProvider).authentication!.phone,
+                style: AppTextStyles.textMediumStyle16.copyWith(
+                  color: AppColors.gray600,
+                ),
+                textDirection: TextDirection.ltr,
+              ),
               const Spacer(),
               const OtpTextField(),
               gap32,
@@ -68,7 +84,9 @@ class OtpScreen extends ConsumerWidget {
                     ignoring: otp.length != 4,
                     child: PrimaryElevatedBtn(
                       disable: otp.length != 4,
-                      press: () => _submit(ref: ref, otp: otp),
+                      press: () => ref
+                          .read(signInSignupControllerProvider.notifier)
+                          .verifyOtp(otp),
                       text: AppStrings.nextStr,
                     ),
                   );

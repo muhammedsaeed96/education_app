@@ -1,6 +1,7 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
@@ -8,14 +9,14 @@ import 'package:education_app/src/common_widgets/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_sizes.dart';
-import '../../../../services/account_service.dart';
+import '../../../controllers/account_controller.dart';
 
 class Header extends ConsumerWidget {
   const Header({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(getAccountDataProvider);
+    final value = ref.watch(getAccountDataProvider(true));
 
     return AsyncWidget(
         value: value,
@@ -29,14 +30,15 @@ class Header extends ConsumerWidget {
               gap4,
               Text(
                 name,
-                style: AppTextStyles.textMediumStyle16,
+                style: AppTextStyles.textMediumStyle14,
               ),
-              gap2,
+              gap4,
               Text(
-                '0${data.phone}',
-                style: AppTextStyles.textRegularStyle16.copyWith(
+                data.phone,
+                style: AppTextStyles.textRegularStyle14.copyWith(
                   color: AppColors.gray500,
                 ),
+                textDirection: TextDirection.ltr,
               ),
               gap32,
             ],
@@ -46,7 +48,7 @@ class Header extends ConsumerWidget {
 
   (String? imageUrl, String name) getUrlName(data) {
     if (data is StudentModel || data is TeacherModel) {
-      return (data.imageUrl, data.name);
+      return (data.imageUrl.toString().getFullUrl, data.name);
     } else {
       final academy = data as AcademyModel;
       return (academy.imageUrl, academy.title);

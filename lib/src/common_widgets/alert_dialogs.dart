@@ -64,7 +64,7 @@ Future<bool?> showAlertDialog({
                   gapH24,
                   PrimaryElevatedBtn(
                     height: AppSizes.length50,
-                    background: AppColors.gray50,
+                    background: AppColors.gray100,
                     textColor: AppColors.gray600,
                     width: btnWidth,
                     text: cancelActionText,

@@ -33,7 +33,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
       child: ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
               backgroundColor: MaterialStatePropertyAll(
-                disable ? AppColors.gray400 : background,
+                disable ? AppColors.gray300 : background,
               ),
               shape: radius != null
                   ? MaterialStatePropertyAll(

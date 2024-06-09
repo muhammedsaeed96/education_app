@@ -3,29 +3,28 @@ import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 
-
 class AuthTitleDescWidget extends StatelessWidget {
-  const AuthTitleDescWidget({super.key, required this.title, required this.description});
+  const AuthTitleDescWidget(
+      {super.key, required this.title, required this.description});
 
   final String title;
   final String description;
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         Text(
           title,
-          style: AppTextStyles.textBoldStyle18
-              .copyWith(color: Colors.black87),
+          style: AppTextStyles.textSemiBoldStyle16.copyWith(color: Colors.black87),
         ),
-        gap4,
+        gap6,
         Text(
           description,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(color: AppColors.gray500),
+          style: AppTextStyles.textRegularStyle14.copyWith(
+            color: AppColors.gray600,
+          ),
+          textAlign: TextAlign.center,
         ),
       ],
     );

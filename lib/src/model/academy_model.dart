@@ -32,6 +32,8 @@ class AcademyModel {
   final int visitorsNumber;
   final List<SocialModel> socials;
 
+  final List<String> stagesIds;
+
   AcademyModel({
     required this.id,
     required this.title,
@@ -43,8 +45,9 @@ class AcademyModel {
      this.area,
     required this.locationDescription,
     this.stages = const [],
-    required this.visitorsNumber,
+    this.visitorsNumber  = 0,
     this.socials = const [],
+    this.stagesIds = const [],
   });
 
   @override

@@ -41,6 +41,11 @@ class AppStrings {
   static const donNotHaveAccountStr = 'ليس لديك حساب؟ ';
   static const haveAccountStr = 'لديك حساب؟ ';
   static const createAccountStr = 'انشاء حساب';
+  static const createTeacherAccountStr = 'انشاء حساب معلم';
+  static const createAcademyAccountStr = 'انشاء حساب معهد';
+  static const createStudentAccountStr = 'انشاء حساب طالب ';
+  static const enterPhoneNumber = 'ادخل رقم الهاتف';
+  static const enterPhoneDescNumber = 'الرجاء ادخال رقم هاتفك أدناه. بمجرد تاكيد رقمك سيتم ارسال رمز التحقق عبر الواتساب.';
   static const nextStr = 'التالي';
   static const editStr = 'تحديث';
   static const phoneStr = 'رقم الهاتف ';
@@ -103,5 +108,10 @@ class AppStrings {
 
   static const facebookPageUrlStr = 'رابط صفحة الفيسبوك';
   static const youtubeChannelUrlStr = 'رابط قناة اليوتيوب';
+  static const chooseProfilePicStr = 'اختر صورة الحساب';
+  static const selectPicStr = 'اختر صورة';
+  static const skipStr = 'تخطي';
+  static const cameraStr = 'التقاط صورة';
+  static const galleryStr = 'اختيار من المعرض';
 
 }

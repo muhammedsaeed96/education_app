@@ -5,19 +5,22 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/from_validators.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/area_model.dart';
-import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:image_picker/image_picker.dart';
+import '../../common_widgets/drop_down_form_field_widget.dart';
+import '../../common_widgets/mutli_select_dialog_form_field.dart';
 import '../../common_widgets/title_form_field_widget.dart';
-import '../../services/account_service.dart';
+import '../../data/home_repository.dart';
+import '../controllers/account_controller.dart';
 
 class PersonalProfileScreen extends ConsumerStatefulWidget {
   const PersonalProfileScreen({super.key});
@@ -31,44 +34,48 @@ class PersonalProfileScreen extends ConsumerStatefulWidget {
 
 class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
   late final UserInfoModel _userInfo;
+
   final formKey = GlobalKey<FormState>();
 
   // final _phoneController = TextEditingController();
   final _nameController = TextEditingController();
-  final _studyStages = [];
-  final _subjects = [];
+  final List<String> _stagesIds = [];
+  final List<String> _subjectsIds = [];
   final _locationDescriptionController = TextEditingController();
   final _descriptionController = TextEditingController();
   StageModel? _stage;
-  ProvinceModel? _province;
-  AreaModel? _area;
+  String? _provinceId;
+  String? _areaId;
+
+  // teacher , student or academy data
+  late final dynamic _accountData;
 
   @override
   void initState() {
-    final data = ref.read(getAccountDataProvider).value;
+    _accountData = ref.read(getAccountDataProvider(true)).value;
     _userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
-    debugPrint(_userInfo.accountType.name);
-    if (data is StudentModel) {
-      _nameController.text = data.name;
-      _stage = data.stage;
-      _province = data.province;
-      _area = data.area;
-    } else if (data is TeacherModel) {
-      _nameController.text = data.name;
-      _studyStages.addAll(data.stages);
-      _subjects.addAll(data.subjects);
-      _province = data.province!;
-      _area = data.area!;
-      _locationDescriptionController.text = data.locationDescription;
-      _descriptionController.text = data.description;
+
+    if (_accountData is StudentModel) {
+      _nameController.text = _accountData.name;
+      _stage = _accountData.stage;
+      _provinceId = _accountData.provinceId;
+      _areaId = _accountData.provinceId;
+    } else if (_accountData is TeacherModel) {
+      _nameController.text = _accountData.name;
+      _stagesIds.addAll(_accountData.stagesIds);
+      _subjectsIds.addAll(_accountData.subjectsIds);
+      _provinceId = _accountData.provinceId;
+      _areaId = _accountData.areaId;
+      _locationDescriptionController.text = _accountData.locationDescription;
+      _descriptionController.text = _accountData.description;
     } else {
-      data as AcademyModel;
-      _nameController.text = data.title;
-      _studyStages.addAll(data.stages);
-      _province = data.province!;
-      _area = data.area!;
-      _locationDescriptionController.text = data.locationDescription;
-      _descriptionController.text = data.description;
+      _accountData as AcademyModel;
+      _nameController.text = _accountData.title;
+      _stagesIds.addAll(_accountData.stagesIds);
+      // _provinceId = _accountData.provinceId;
+      // _areaId = _accountData.areaId;
+      _locationDescriptionController.text = _accountData.locationDescription;
+      _descriptionController.text = _accountData.description;
     }
     super.initState();
   }
@@ -82,81 +89,58 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
   }
 
   void _submitForm<T>() {
+
     if (!formKey.currentState!.validate()) {
-      debugPrint('DATA NOT VALID');
+      debugPrint('AccountData NOT VALID');
       return;
     }
 
-    final data = ref.read(getAccountDataProvider).value;
-
     final T accountData;
 
-    if (data is StudentModel) {
+    if (_accountData is StudentModel) {
       accountData = StudentModel(
-        phone: data.phone,
+        phone: _accountData.phone,
         id: _userInfo.userId,
         name: _nameController.text,
-        province: _province!,
-        area: _area!,
-        // accountType: _userInfo.accountType,
-        // description: _descriptionController.text,
-        // locationDescription: _locationDescriptionController.text,
+        provinceId: _provinceId!,
+        areaId: _areaId!,
         stage: _stage!,
+      ) as T;
+    } else if (_accountData is TeacherModel) {
+      accountData = TeacherModel(
+        phone: _accountData.phone,
+        id: _userInfo.userId,
+        name: _nameController.text,
+        provinceId: _provinceId,
+        areaId: _areaId,
+        description: _descriptionController.text,
+        locationDescription: _locationDescriptionController.text,
+        stagesIds: _stagesIds,
+        subjectsIds: _subjectsIds,
+      ) as T;
+    } else {
+      _accountData as AcademyModel;
+      accountData = AcademyModel(
+        phone: _accountData.phone,
+        id: _userInfo.userId,
+        title: _nameController.text,
+        // province: _province!,
+        // area: _area!,
+        // accountType: _userInfo.accountType,
+        description: _descriptionController.text,
+        locationDescription: _locationDescriptionController.text,
+        // stage: _stage!,
         // stages: _studyStages,
         // subjects: _subjects,
       ) as T;
-    } else if (data is TeacherModel) {
-    /*  accountData = TeacherModel(
-        phone: data.phone,
-        id: _userInfo.id,
-        name: _nameController.text,
-        province: _province!,
-        area: _area!,
-        // accountType: _userInfo.accountType,
-        description: _descriptionController.text,
-        locationDescription: _locationDescriptionController.text,
-        // stage: _stage!,
-        // stages: _studyStages,
-        // subjects: _subjects,
-      ) as T;*/
-    } else {
-      data as AcademyModel;
-     /* accountData = AcademyModel(
-        phone: data.phone,
-        id: _userInfo.id,
-        title: _nameController.text,
-        province: _province!,
-        area: _area!,
-        // accountType: _userInfo.accountType,
-        description: _descriptionController.text,
-        locationDescription: _locationDescriptionController.text,
-        // stage: _stage!,
-        // stages: _studyStages,
-        // subjects: _subjects,
-      ) as T;*/
     }
 
-/*    ref.read(personalProfileProvider.notifier).updateAccount(
+    ref.read(accountControllerProvider.notifier).updateAccount(
           data: accountData,
-          previous: data,
-        );*/
+          accountType: _userInfo.accountType.name,
+          id: _userInfo.userId,
+        );
   }
-
-  // Future<File?> takePicture(ImageSource source, [int? imageQuality]) async {
-  //   try {
-  //     final imagePicker = ImagePicker();
-  //     final image = await imagePicker.pickImage(
-  //       source: source,
-  //       imageQuality: imageQuality,
-  //     );
-  //     if (image == null) {
-  //       return null;
-  //     }
-  //     return File(image.path);
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,9 +154,11 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
             Consumer(
               builder: (context, ref, child) {
                 final image = ref.watch(profileImageProvider);
-                return ProfileImage(
-                  imageUrl: null,
-                  imageFile: image,
+                return Center(
+                  child: ProfileImage(
+                    imageUrl: _accountData.imageUrl.toString().getFullUrl,
+                    imageFile: image,
+                  ),
                 );
               },
             ),
@@ -184,10 +170,11 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                   height: AppSizes.length40,
                   width: AppSizes.length144,
                   text: AppStrings.changeImageStr,
-                  press: () async {
-                /*    final file = await takePicture(ImageSource.gallery);
-                    ref.read(profileImageProvider.notifier).state = file;*/
-                  },
+                  press: () => Navigator.pushNamed(
+                    context,
+                    SelectProfilePictureScreen.routeName,
+                    arguments: _accountData.imageUrl.toString().getFullUrl,
+                  ),
                 ),
               ),
             ),
@@ -208,115 +195,95 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 maxLines: 3,
               ),
               gap24,
-              Row(
-                children: [
-/*                  Expanded(
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        final val = ref.watch(stagesLengthProvider);
-*//*                        return MultiSelectDialogFormField(
-                          title: AppStrings.studyStagesStr,
-                          confirm: (stages) {
-                            if (stages.isNotEmpty) {
-                              _studyStages.clear();
-                              _studyStages.addAll(stages);
-                              ref.read(stagesLengthProvider.notifier).state =
-                                  _studyStages.length;
-                            }
-                          },
-                          items: ref.read(getHomeDataProvider).value!.stages,
-                          initialValue: _studyStages,
-                          btnText: val > 0
-                              ? AppStrings.selectDoneStr
-                              : AppStrings.selectStagesStr,
-                        );*//*
-                      },
-                    ),
-                  ),*/
-                  if (_userInfo.accountType == AccountType.TEACHER) ...[
-                    gapH8,
-/*                    Expanded(
-                      child: Consumer(
-                        builder: (context, ref, child) {
-                          final val = ref.watch(subjectsChangesProvider);
-                          return MultiSelectDialogFormField(
-                            title: AppStrings.subjectsStr,
-                            confirm: (subjects) {
-                              if (subjects.isNotEmpty) {
-                                _subjects.clear();
-                                _subjects.addAll(subjects);
-                                ref
-                                    .read(subjectsChangesProvider.notifier)
-                                    .state = subjects.length;
-                              }
-                            },
-                            items: ref
-                                .read(getHomeDataProvider)
-                                .value!
-                                .subjectsNames,
-                            initialValue: _subjects,
-                            btnText: val > 0
-                                ? AppStrings.selectDoneStr
-                                : AppStrings.selectSubjectsStr,
-                          );
-                        },
-                      ),
-                    ),*/
-                  ]
-                ],
-              ),
             ],
             if (_userInfo.accountType == AccountType.STUDENT) ...[
               gap24,
-/*              DropDownFormFieldWidget(
+              DropDownFormFieldWidget(
                 title: AppStrings.stageStr,
                 hintText: AppStrings.stageExStr,
                 onChange: (stage) => _stage = stage,
                 items: ref.read(getHomeDataProvider).value!.stages,
-                selectedItem: _stage,
-              ),*/
+                selectedItem: _stage!.id,
+              ),
             ],
+            gap24,
+            _userInfo.accountType == AccountType.TEACHER
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildStagesMultiSelectDialogFromField(),
+                      ),
+                      gapH8,
+                      Expanded(
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            final val = ref.watch(subjectsIdsChangesProvider);
+                            return MultiSelectDialogFormField(
+                              title: AppStrings.subjectsStr,
+                              confirm: (ids) {
+                                final controller = ref
+                                    .read(subjectsIdsChangesProvider.notifier);
+                                controller.state = 0;
+                                _subjectsIds.clear();
+                                if (ids.isNotEmpty) {
+                                  _subjectsIds.addAll(ids as Iterable<String>);
+                                  controller.state = ids.length;
+                                }
+                              },
+                              initialValue: _accountData.subjectsIds,
+                              items: _accountData.allSubjects,
+                              btnText: val > 0
+                                  ? AppStrings.selectDoneStr
+                                  : AppStrings.selectSubjectsStr,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : _buildStagesMultiSelectDialogFromField(),
             gap24,
             Row(
               children: [
-/*                Expanded(
+                Expanded(
                   child: DropDownFormFieldWidget(
                     title: AppStrings.provinceStr,
                     hintText: AppStrings.selectProvinceStr,
                     onChange: (province) {
                       // to update province
                       ref
-                          .read(provinceProvider.notifier)
+                          .read(provinceIdProvider.notifier)
                           .update((state) => province!);
-                      _province = province;
+                      _provinceId = province;
                     },
-                    items: ref.read(getHomeDataProvider).value!.provinces,
-                    selectedItem: _province,
+                    items: _accountData.provinces,
+                    selectedItem: _provinceId!,
                   ),
-                ),*/
+                ),
                 gapH8,
-/*                Expanded(
+                Expanded(
                   child: Consumer(
                     builder: (context, ref, child) {
-                      ref.watch(provinceProvider);
+                      ref.watch(provinceIdProvider);
+                      List<AreaModel> areas = AreaModel.getAreasByProvinceId(
+                        provinces: _accountData.provinces,
+                        provinceId: _provinceId,
+                      );
+                      if (areas.isNotEmpty && _areaId == null) {
+                        _areaId = areas[0].id;
+                      }
                       return DropDownFormFieldWidget(
                         title: AppStrings.areaStr,
                         hintText: AppStrings.selectAreaStr,
-                        onChange: (area) => _area = area,
-                        items: ref
-                            .read(getHomeDataProvider)
-                            .value!
-                            .getAreasByProvinceName(_province),
-                        selectedItem: ref.read(provinceProvider).isEmpty
-                            ? _area
-                            : ref
-                                .read(getHomeDataProvider)
-                                .value!
-                                .getAreasByProvinceName(_province)[0],
+                        onChange: (id) => _areaId = id,
+                        items: areas,
+                        selectedItem: _areaId,
+                        needSetSelectedItem: true,
                       );
                     },
                   ),
-                ),*/
+                ),
               ],
             ),
             if (_userInfo.accountType != AccountType.STUDENT) ...[
@@ -345,5 +312,28 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       ),
     );
   }
-}
 
+  Widget _buildStagesMultiSelectDialogFromField() {
+    return Consumer(
+      builder: (context, ref, child) {
+        final val = ref.watch(stagesLengthProvider);
+        return MultiSelectDialogFormField(
+          title: AppStrings.studyStagesStr,
+          confirm: (ids) {
+            final controller = ref.read(stagesLengthProvider.notifier);
+            controller.state = 0;
+            _stagesIds.clear();
+            if (ids.isNotEmpty) {
+              _stagesIds.addAll(ids as Iterable<String>);
+              controller.state = ids.length;
+            }
+          },
+          initialValue: _accountData.stagesIds,
+          items: _accountData.allStages,
+          btnText:
+              val > 0 ? AppStrings.selectDoneStr : AppStrings.selectStagesStr,
+        );
+      },
+    );
+  }
+}

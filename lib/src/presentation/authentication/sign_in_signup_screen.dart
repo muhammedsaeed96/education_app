@@ -8,10 +8,10 @@ import 'package:education_app/src/core/utils/from_validators.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
 import 'package:education_app/src/model/province_model.dart';
+import 'package:education_app/src/presentation/authentication/enter_phone_screen.dart';
 import 'package:education_app/src/presentation/authentication/otp/otp_screen.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
 import 'package:education_app/src/presentation/controllers/sign_in_signup_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,27 +50,33 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
 
   Future<void> _submitForm() async {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
-      final success =
-          await ref.read(signInSignupControllerProvider.notifier).requestOtp(
-                name: _nameController.text.trim(),
-                phone: _phoneController.text.trim(),
-                accountType: _accountType!,
-                stageId: _stageId,
-                description: _descriptionController.text.trim(),
-                subjectsIds: _subjectsIds,
-                stagesIds: _studyStagesIds,
-                provinceId: _provinceId,
-                areaId: _areaId,
-                locationDescription: _locationDescriptionController.text.trim(),
-                facebookPageUrl: _facebookPageUrlController.text.trim(),
-                youtubeChannelUrl: _youtubeChannelUrl.text.trim(),
-              );
+      final controller = ref.read(signInSignupControllerProvider.notifier);
+      final signInSingUpState = ref.read(signInSignupControllerProvider);
 
-      if (success) {
-        EasyLoading.dismiss();
-        if (context.mounted) {
+      // if form type is sign in i will execute request otp
+      if (signInSingUpState.formType == FormType.signIn) {
+        final isSuccess = await controller.requestOtp(
+          phone: _phoneController.text.trim(),
+          accountType: ref.read(signInSignupControllerProvider).accountType,
+        );
+
+        if (mounted && isSuccess) {
           Navigator.pushNamed(context, OtpScreen.routeName);
         }
+      } else {
+        // to copy current signup data until user enter his phone
+        controller.saveSignupData(
+          name: _nameController.text.trim(),
+          accountType: _accountType!,
+          stageId: _stageId,
+          provinceId: _provinceId,
+          areaId: _areaId,
+          stagesIds: _studyStagesIds,
+          subjectsIds: _subjectsIds,
+          locationDescription: _locationDescriptionController.text.trim(),
+          description: _descriptionController.text.trim(),
+        );
+        Navigator.pushNamed(context, EnterPhoneScreen.routeName);
       }
     }
   }
@@ -94,6 +100,8 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       } else if (next.hasError) {
         EasyLoading.dismiss();
         next.showErrorDialog(context);
+      } else {
+        EasyLoading.dismiss();
       }
     });
 
@@ -118,12 +126,26 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 24,
+                  ),
                   child: Form(
                     key: formKey,
                     child: Column(
                       children: [
+                        /* if(!signInSignupState.isSignIn)...[
+                        const ProfileImage(),
+                        gap8,
+                        PrimaryElevatedBtn(
+                          text: AppStrings.chooseProfilePicStr,
+                          press: () {},
+                          width: AppSizes.length180,
+                          radius: 20,
+                          height: 40,
+                        ),
+                          gap32,
+                        ],*/
                         DropDownFormFieldWidget(
                           title: AppStrings.accountTypeStr,
                           hintText: AppStrings.selectRegistrationTypeStr,
@@ -135,8 +157,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                           },
                           items: AppStrings.accountTypes,
                         ),
-                        if (ref.read(signInSignupControllerProvider).formType ==
-                            FormType.signup) ...[
+                        if (signInSignupState.formType == FormType.signup) ...[
                           gap24,
                           TitleFormFiledWidget(
                             title: ref
@@ -150,14 +171,17 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             validator: (val) => val.isValidText,
                           ),
                         ],
-                        gap24,
-                        TitleFormFiledWidget(
-                          title: AppStrings.phoneStr,
-                          hintText: '07717665121',
-                          controller: _phoneController,
-                          validator: (val) => val.isValidPhone,
-                          isPhone: true,
-                        ),
+
+                        if (signInSignupState.formType == FormType.signIn) ...[
+                          gap24,
+                          TitleFormFiledWidget(
+                            title: AppStrings.phoneStr,
+                            hintText: '07717665121',
+                            controller: _phoneController,
+                            validator: (val) => val.isValidPhone,
+                            isPhone: true,
+                          ),
+                        ],
                         gap24,
                         // to show these widgets if account type not student
                         if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
@@ -169,7 +193,8 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             maxLines: 3,
                           ),
                           gap24,
-                          TitleFormFiledWidget(
+                          // TODO ENABLE IT LATER
+                          /*  TitleFormFiledWidget(
                             title: AppStrings.facebookPageUrlStr,
                             hintText: 'https://www.facebook.com',
                             controller: _facebookPageUrlController,
@@ -180,7 +205,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             hintText: 'http://www.youtube.com',
                             controller: _youtubeChannelUrl,
                           ),
-                          gap24,
+                          gap24,*/
                           signInSignupState.accountType == AccountType.TEACHER
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +285,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                                       builder: (context, ref, child) {
                                         ref.watch(provinceIdProvider);
                                         List<AreaModel> areas =
-                                            _getAreasByProvinceId(
+                                            AreaModel.getAreasByProvinceId(
                                           provinces: homeData.provinces,
                                           provinceId: _provinceId,
                                         );
@@ -296,7 +321,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                         gap32,
                         PrimaryElevatedBtn(
                           press: _submitForm,
-                          text: AppStrings.nextStr,
+                          text: AppStrings.sendOnWhatsAppStr,
                         ),
                       ],
                     ),
@@ -342,19 +367,5 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
         );
       },
     );
-  }
-
-  List<AreaModel> _getAreasByProvinceId({
-    required List<ProvinceModel> provinces,
-    required String? provinceId,
-  }) {
-    final List<AreaModel> areas = provinceId != null
-        ? provinces
-            .firstWhere(
-              (p) => p.id == provinceId,
-            )
-            .areas
-        : [];
-    return areas;
   }
 }

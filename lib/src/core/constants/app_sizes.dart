@@ -271,8 +271,8 @@ const gap12 = SizedBox(height: 12);
 const gap16 = SizedBox(height: 16);
 const gap20 = SizedBox(height: 20);
 const gap24 = SizedBox(height: 24);
-const gap32 = SizedBox(height: 32);
-const gap40 = SizedBox(height: 40);
+final gap32 = SizedBox(height: getProportionateScreenHeight(32));
+final gap40 = SizedBox(height: getProportionateScreenHeight(40));
 
 const gapH2 = SizedBox(width: 2);
 const gapH4 = SizedBox(width: 4);
@@ -280,6 +280,7 @@ const gapH6 = SizedBox(width: 6);
 const gapH8 = SizedBox(width: 8);
 const gapH10 = SizedBox(width: 10);
 const gapH12 = SizedBox(width: 12);
+const gapH16 = SizedBox(width: 16);
 const gapH20 = SizedBox(width: 20);
 const gapH24 = SizedBox(width: 24);
 

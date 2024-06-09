@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/data/authentication_repository.dart';
 import 'package:education_app/src/model/authentication_model.dart';
-import 'package:education_app/src/model/social_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
 import 'package:flutter/widgets.dart';
@@ -34,9 +34,8 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     state = state.copyWith(accountType: _getAccountType(type));
   }
 
-  Future<bool> requestOtp({
+  void saveSignupData({
     String? name,
-    required String phone,
     required String accountType,
     final String? stageId,
     String? description,
@@ -45,11 +44,28 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     List subjectsIds = const [],
     List stagesIds = const [],
     String? locationDescription,
-    String? facebookPageUrl,
-    String? youtubeChannelUrl,
-  }) async {
-    final List<SocialModel> socials = [];
+  }) {
+    state = state.copyWith(
+        authentication: AuthenticationModel(
+      name: name,
+      accountType: state.accountType,
+      phone: '',
+      description: description,
+      stageId: stageId,
+      provinceId: provinceId,
+      areaId: areaId,
+      subjectsIds: subjectsIds,
+      stagesIds: stagesIds,
+      locationDescription: locationDescription,
+    ));
+  }
 
+  Future<bool> requestOtp({
+    required String phone,
+    required AccountType accountType,
+  }) async {
+/*
+    final List<SocialModel> socials = [];
     if (facebookPageUrl != null && facebookPageUrl.isNotEmpty) {
       socials.add(
         SocialModel(url: facebookPageUrl, type: CommunicationType.facebook),
@@ -60,37 +76,22 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
       socials.add(
         SocialModel(url: youtubeChannelUrl, type: CommunicationType.youtube),
       );
-    }
-
+    }*/
     state = state.copyWith(
-        authentication: AuthenticationModel(
-      name: name,
-      accountType: state.accountType,
-      phone: phone,
-      description: description,
-      stageId: stageId,
-      provinceId: provinceId,
-      areaId: areaId,
-      subjectsIds: subjectsIds,
-      stagesIds: stagesIds,
-      locationDescription: locationDescription,
-      socials: socials,
-    ));
+      authentication: state.authentication == null
+          ? AuthenticationModel(
+              phone: phone.getFullPhone,
+              accountType: accountType,
+            )
+          : state.authentication?.copyWithPhoneAndAccountType(
+              phone: phone,
+              accountType: accountType,
+            ),
+    );
     state = state.copyWith(value: const AsyncLoading());
     final value = await AsyncValue.guard(() => _requestOtpByFormType());
     state = state.copyWith(value: value);
-
-    debugPrint('area $areaId');
-    debugPrint('province $provinceId');
-    debugPrint('stageId: $stageId');
-    debugPrint('subjects: ${subjectsIds.toString()}');
-    debugPrint('stages: ${stagesIds.toString()}');
-
-    if (!value.hasError) {
-      return true;
-    } else {
-      return false;
-    }
+    return !value.hasError;
   }
 
   Future<void> _requestOtpByFormType() async {
@@ -101,7 +102,6 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
             accountType: state.authentication!.accountType.name,
           );
     } else {
-      debugPrint('requestOtpForSignup');
       await ref.read(authenticationRepositoryProvider).requestOtpForSignup(
             phone: state.authentication!.phone,
             accountType: state.authentication!.accountType.name,
@@ -110,19 +110,23 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
   }
 
   Future<void> verifyOtp(String otp) async {
-    final AsyncValue<UserInfoModel> result;
 
-    final authRepo = ref.read(authenticationRepositoryProvider);
+    debugPrint('verifyOtp ' + otp);
+
 
     state = state.copyWith(value: const AsyncLoading());
+
+    final AsyncValue<UserInfoModel> result;
+    final authRepo = ref.read(authenticationRepositoryProvider);
+
     if (state.formType == FormType.signIn) {
       // login user
       result = await AsyncValue.guard(
-        () => authRepo.verifyOtp(
-          phone: state.authentication!.phone,
-          otp: otp,
-          accountType: state.authentication!.accountType.name,
-        ),
+        () => ref.read(authenticationRepositoryProvider).verifyOtp(
+              phone: state.authentication!.phone,
+              otp: otp,
+              accountType: state.authentication!.accountType.name,
+            ),
       );
     } else {
       String url = ApiUrls.studentUrl;
@@ -132,10 +136,11 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
         url = ApiUrls.getAcademyUrl;
       }
 
-      // create new user account
       state = state.copyWith(
         authentication: state.authentication?.copyWithOtp(otp),
       );
+
+      // create new user account
       result = await AsyncValue.guard(
         () => authRepo.createUserAccount(
           authentication: state.authentication!,
@@ -150,12 +155,13 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
           .localStorage
           .storeUserInfo(result.value!);
       debugPrint(ref.read(asyncInitProvider).localStorage.getUserInfo()!.token);
-      // to return state to default state
-      state = state.copyWith(
-        value: result,
+      state = SignInSignupState(
         formType: FormType.signIn,
         accountType: AccountType.STUDENT,
+        value: const AsyncData(null),
       );
+    } else {
+      state = state.copyWith(value: result);
     }
   }
 

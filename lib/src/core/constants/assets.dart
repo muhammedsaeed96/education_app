@@ -17,6 +17,8 @@ class Assets {
 
   static const String icUser = "assets/icons/ic_user.svg";
 
+  static const String icUserGray = "assets/icons/ic_user_gray.svg";
+
   static const String icUserFill = "assets/icons/ic_user_fill.svg";
 
   static const String icMath = "assets/icons/ic_math.svg";

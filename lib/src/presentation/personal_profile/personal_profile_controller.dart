@@ -14,7 +14,7 @@ class PersonalProfileController extends Notifier<AsyncValue> {
 
     final accountType = ref.read(asyncInitProvider).localStorage.getUserInfo()!.accountType;
 
-    if (accountType == AccountType.STUDENT.name) {
+    if (accountType == AccountType.STUDENT) {
 
       data as StudentModel;
       previous as StudentModel;
@@ -26,7 +26,7 @@ class PersonalProfileController extends Notifier<AsyncValue> {
       }
 
 
-    } else if (accountType == AccountType.TEACHER.name) {
+    } else if (accountType == AccountType.TEACHER) {
     } else {}
   }
 }

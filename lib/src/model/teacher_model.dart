@@ -26,7 +26,10 @@ class TeacherModel {
   @JsonKey(name: 'Subjects')
   final List<SubjectModel> subjects;
   final List<SocialModel> socials;
-
+  final String? provinceId;
+  final String? areaId;
+  final List<String> subjectsIds;
+  final List<String> stagesIds;
   @JsonKey(name: 'Province')
   final ProvinceModel? province;
   @JsonKey(name: 'Area')
@@ -35,6 +38,9 @@ class TeacherModel {
   final List<StageModel> stages;
   @JsonKey(name: 'vistorsNumber')
   final int visitorsNumber;
+  final List<ProvinceModel> provinces;
+  final List<StageModel> allStages;
+  final List<SubjectModel> allSubjects;
 
   TeacherModel({
     required this.id,
@@ -48,8 +54,15 @@ class TeacherModel {
     required this.locationDescription,
     this.subjects = const [],
     this.stages = const [],
-    required this.visitorsNumber,
+    this.visitorsNumber = 0,
     this.socials = const [],
+    this.subjectsIds = const [],
+    this.stagesIds = const [],
+    this.provinceId,
+    this.areaId,
+    this.provinces = const [],
+    this.allStages = const [],
+    this.allSubjects = const [],
   });
 
   @override

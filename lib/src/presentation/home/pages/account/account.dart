@@ -1,7 +1,7 @@
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
-import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/core/utils/async_value_ui.dart';
+import 'package:education_app/src/presentation/controllers/account_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/header.dart';
 import 'package:education_app/src/presentation/personal_profile/personal_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,13 +18,27 @@ class Account extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      accountControllerProvider,
+      (_, next) {
+        if (next.isLoading) {
+          EasyLoading.show();
+        } else if (next.hasError) {
+          EasyLoading.dismiss();
+          next.showErrorDialog(context);
+        } else {
+          EasyLoading.dismiss();
+        }
+      },
+    );
+
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       children: <Widget>[
         const Header(),
         AccountCard(
           title: AppStrings.accountInfoStr,
-          icon: Assets.icUser,
+          icon: Assets.icUserGray,
           press: () => Navigator.pushNamed(
             context,
             PersonalProfileScreen.routeName,
@@ -60,14 +74,16 @@ class Account extends ConsumerWidget {
           title: AppStrings.deleteAccountStr,
           icon: Assets.icTrash,
           redColor: true,
-          press: () {},
+          press: () => _deleteAccount(context: context, ref: ref),
         ),
       ],
     );
   }
 
-  Future<void> _logout(
-      {required BuildContext context, required WidgetRef ref}) async {
+  Future<void> _logout({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
     final result = await showAlertDialog(
       context: context,
       title: AppStrings.logoutStr,
@@ -78,11 +94,25 @@ class Account extends ConsumerWidget {
     );
     // if result true it mean user click confirm button
     if (result == true) {
-      EasyLoading.show();
-      await ref.read(asyncInitProvider).localStorage.removeUserInfo();
-      EasyLoading.dismiss();
-      // set logout state to true it mean user logout
-      ref.read(logoutProvider.notifier).state = true;
+      await ref.read(accountControllerProvider.notifier).logout();
+    }
+  }
+
+  Future<void> _deleteAccount({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    final result = await showAlertDialog(
+      context: context,
+      title: AppStrings.deleteAccountInDialogStr,
+      content: AppStrings.areYouSureToDeleteYourAccount,
+      defaultActionText: AppStrings.yesStr,
+      cancelActionText: AppStrings.cancelStr,
+      defaultActionBg: AppColors.red500,
+    );
+    // if result true it mean user click confirm button
+    if (result == true) {
+      await ref.read(accountControllerProvider.notifier).deleteAccount();
     }
   }
 }

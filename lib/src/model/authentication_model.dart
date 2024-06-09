@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/enum.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/social_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -43,7 +44,7 @@ class AuthenticationModel {
     return AuthenticationModel(
       name: name,
       accountType: accountType,
-      phone: phone.substring(1),
+      phone: phone,
       code: otp,
       locationDescription: locationDescription,
       areaId: areaId,
@@ -55,4 +56,26 @@ class AuthenticationModel {
       socials: socials,
     );
   }
+
+  AuthenticationModel copyWithPhoneAndAccountType({
+    required String phone,
+    required AccountType accountType,
+  }) {
+    return AuthenticationModel(
+      name: name,
+      accountType: accountType,
+      phone: phone.getFullPhone,
+      code: code,
+      locationDescription: locationDescription,
+      areaId: areaId,
+      stagesIds: stagesIds,
+      subjectsIds: subjectsIds,
+      description: description,
+      stageId: stageId,
+      provinceId: provinceId,
+      socials: socials,
+    );
+  }
 }
+
+

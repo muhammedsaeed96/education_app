@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
-import '../core/constants/app_strings.dart';
 
 class TitleFormFiledWidget extends StatelessWidget {
   const TitleFormFiledWidget({
@@ -51,16 +50,39 @@ class TitleFormFiledWidget extends StatelessWidget {
           controller: controller,
           textDirection: isPhone ? TextDirection.ltr : null,
           textAlign: isPhone ? TextAlign.left : TextAlign.right,
-          style: AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
-          decoration: InputDecoration(hintText: hintText),
-          // maxLength: isPhone ? 11 : null,
+          style: AppTextStyles.textRegularStyle14.copyWith(color: Colors.black),
+          decoration: InputDecoration(
+            hintText: hintText,
+            suffixIcon: _buildSuffix(),
+          ),
           onTapOutside: (_) => FocusManager.instance.primaryFocus!.unfocus(),
           inputFormatters:
               isPhone ? [FilteringTextInputFormatter.digitsOnly] : [],
           keyboardType: isPhone ? TextInputType.phone : null,
           validator: validator,
+          maxLength: isPhone ? 11 : null,
         ),
       ],
     );
+  }
+
+  Container? _buildSuffix() {
+    return isPhone
+        ? Container(
+            decoration: BoxDecoration(
+              color: AppColors.gray50,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.all(4),
+            margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+            width: 54,
+            alignment: Alignment.center,
+            child: Text(
+              '+964',
+              textDirection: TextDirection.ltr,
+              style: AppTextStyles.textMediumStyle14,
+            ),
+          )
+        : null;
   }
 }

@@ -15,11 +15,14 @@ class StudentModel {
   @CustomFileConverter()
   final File? image;
   @JsonKey(name: 'Province')
-  final ProvinceModel province;
+  final ProvinceModel? province;
   @JsonKey(name: 'Area')
-  final AreaModel area;
+  final AreaModel? area;
   @JsonKey(name: 'Stage')
   final StageModel stage;
+
+  final String? provinceId;
+  final String? areaId;
 
   StudentModel({
     required this.id,
@@ -27,9 +30,11 @@ class StudentModel {
     required this.phone,
     this.imageUrl,
     this.image,
-    required this.province,
-    required this.area,
+    this.province,
+    this.area,
     required this.stage,
+    this.provinceId,
+    this.areaId,
   });
 
   @override
