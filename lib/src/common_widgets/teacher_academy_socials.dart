@@ -38,7 +38,7 @@ class TeacherAcademySocials extends StatelessWidget {
             itemBuilder: (_, i) {
               if (i == socials.length) {
                 return SocialWidget(
-                  type: CommunicationType.whatsapp,
+                  type: LinkType.whatsapp,
                   url: phone,
                 );
               }
@@ -59,20 +59,20 @@ class TeacherAcademySocials extends StatelessWidget {
 class SocialWidget extends StatelessWidget {
   const SocialWidget({super.key, required this.type, required this.url});
 
-  final CommunicationType type;
+  final LinkType type;
   final String url;
 
   @override
   Widget build(BuildContext context) {
     final size = getProportionateScreenHeight(
-      type == CommunicationType.whatsapp ? 30.5 : 32,
+      type == LinkType.whatsapp ? 30.5 : 32,
     );
     return GestureDetector(
       onTap: () => UrlLauncherHelper.launchUrlByType(url, type),
       child: SvgPicture.asset(
-        type == CommunicationType.whatsapp
+        type == LinkType.whatsapp
             ? Assets.icWhatsapp
-            : type == CommunicationType.facebook
+            : type == LinkType.facebook
                 ? Assets.icFacebook
                 : Assets.icYoutube,
         width: size,

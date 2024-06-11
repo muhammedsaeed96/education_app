@@ -4,12 +4,15 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../core/constants/assets.dart';
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
-Future<bool?> showAlertDialog({
+Future<bool?> showAlertDialog<T>({
   required BuildContext context,
   required String title,
-  String? content,
+  T? content,
   String? cancelActionText,
   String defaultActionText = AppStrings.okStr,
   Color defaultActionBg = AppColors.primaryColor400,
@@ -36,21 +39,28 @@ Future<bool?> showAlertDialog({
         ),
       ),
       content: content != null
-          ? Text(
-              textAlign: TextAlign.center,
-              content,
-              style: AppTextStyles.textMediumStyle14.copyWith(
-                color: AppColors.gray500,
-              ),
-            )
+          ? content is String
+              ? Text(
+                  textAlign: TextAlign.center,
+                  content as String,
+                  style: AppTextStyles.textRegularStyle14.copyWith(
+                    color: AppColors.gray500,
+                  ),
+                )
+              : content as Widget
           : null,
       actions: <Widget>[
         cancelActionText == null
-            ? PrimaryElevatedBtn(
-                background: defaultActionBg,
-                text: defaultActionText,
-                press: () => Navigator.pop(context, true),
-              )
+            ? Center(
+              child: PrimaryElevatedBtn(
+                  background: defaultActionBg,
+                  width: AppSizes.screenWidth > 800
+                      ? AppSizes.screenWidth / 2
+                      : AppSizes.screenWidth * 0.68,
+                  text: defaultActionText,
+                  press: () => Navigator.pop(context, true),
+                ),
+            )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -77,14 +87,27 @@ Future<bool?> showAlertDialog({
   );
 }
 
+Future<void> showSuccessAlertDialog({required BuildContext context}) {
+  return showAlertDialog(
+    context: context,
+    title: AppStrings.successStr,
+    content: SvgPicture.asset(
+      Assets.icSuccess,
+      width: getProportionateScreenHeight(56),
+      height: getProportionateScreenHeight(56),
+    ),
+  );
+}
+
 Future<void> showExceptionAlertDialog({
   required BuildContext context,
   required String title,
   required dynamic exception,
-}) =>
-    showAlertDialog(
-      context: context,
-      title: title,
-      content: exception.toString(),
-      defaultActionText: AppStrings.okStr,
-    );
+}) {
+  return showAlertDialog(
+    context: context,
+    title: title,
+    content: exception.toString(),
+    defaultActionText: AppStrings.okStr,
+  );
+}

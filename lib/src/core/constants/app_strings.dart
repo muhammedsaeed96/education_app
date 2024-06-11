@@ -1,4 +1,7 @@
 class AppStrings {
+
+  AppStrings._();
+
   static const subjectsStr = 'المواد الدراسية';
   static const homeStr = 'الرئيسية';
   static const callUsStr = 'اتصل بنا';
@@ -29,6 +32,7 @@ class AppStrings {
   static const studyStagesStr = 'المراحل الدراسية';
   static const okStr = 'حسنا';
   static const doneStr = 'تم';
+  static const successStr = 'نجحت العملية';
   static const notifyStr = 'تنويه';
   static const errorStr = 'حدث خطأ';
   static const errorMessageStr = 'حدث خطأ معين يرجى اعادة المحاول';
@@ -78,7 +82,7 @@ class AppStrings {
   static const privacyStr = 'سياسة الخصوصية';
   static const aboutAppStr = 'نبذة عن التطبيق';
   static const rateAppStr = 'قيم التطبيق';
-  static const shareAppStr = 'مشاركة التطبيق مع الاصدقاء';
+  static const shareAppStr = 'مشاركة مع الاصدقاء';
   static const deleteAccountStr = 'حذف الحساب';
   static const logoutStr = 'تسجيل الخروج';
 
@@ -113,5 +117,12 @@ class AppStrings {
   static const skipStr = 'تخطي';
   static const cameraStr = 'التقاط صورة';
   static const galleryStr = 'اختيار من المعرض';
+
+  static const accountUpdateMessageStr = 'يمكنك اجراء عملية التحديث في حال قمت بالتعديل على معلومات الحساب.';
+
+  //app update strings
+  static const updateStr = 'تحديث';
+  static const newUpdateStr = 'تحديث جديد للتطبيق';
+  static const findOutUpdateStr = 'استكشف الإضافات و الميزات الجديدة';
 
 }

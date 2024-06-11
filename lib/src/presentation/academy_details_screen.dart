@@ -114,7 +114,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
                 child: ElevatedButton.icon(
                   onPressed: () => UrlLauncherHelper.launchUrlByType(
                     value.value!.phone,
-                    CommunicationType.phone,
+                    LinkType.phone,
                   ),
                   icon: SvgPicture.asset(
                     Assets.icPhoneFill,

@@ -14,15 +14,12 @@ class StudentModel {
   final String? imageUrl;
   @CustomFileConverter()
   final File? image;
-  @JsonKey(name: 'Province')
-  final ProvinceModel? province;
-  @JsonKey(name: 'Area')
-  final AreaModel? area;
-  @JsonKey(name: 'Stage')
-  final StageModel stage;
-
   final String? provinceId;
   final String? areaId;
+  final String? stageId;
+  final List<ProvinceModel> provinces;
+  final List<StageModel> stages;
+
 
   StudentModel({
     required this.id,
@@ -30,19 +27,19 @@ class StudentModel {
     required this.phone,
     this.imageUrl,
     this.image,
-    this.province,
-    this.area,
-    required this.stage,
     this.provinceId,
     this.areaId,
+    this.provinces = const [],
+    this.stageId,
+    this.stages = const [],
   });
 
   @override
   int get hashCode => Object.hash(
         name.hashCode,
-        // city.hashCode,
-        // region.hashCode,
-        stage.hashCode,
+         provinceId?.hashCode,
+         areaId?.hashCode,
+         stageId?.hashCode,
       );
 
   @override
@@ -51,6 +48,22 @@ class StudentModel {
         other is StudentModel &&
             runtimeType == other.runtimeType &&
             hashCode == other.hashCode;
+  }
+
+
+  StudentModel copyWithNewAccountData(Object studentModel) {
+    studentModel as StudentModel;
+    return StudentModel(
+      id: id,
+      name: studentModel.name,
+      phone: phone,
+      imageUrl: imageUrl,
+      provinces: provinces,
+      stages: stages,
+      stageId: studentModel.stageId,
+      provinceId: studentModel.provinceId,
+      areaId: studentModel.areaId,
+    );
   }
 
   factory StudentModel.fromJson(Map<String, dynamic> data) =>

@@ -51,7 +51,7 @@ class ContactUs extends ConsumerWidget {
               radius: 24,
               press: () => UrlLauncherHelper.launchUrlByType(
                 data.phone,
-                CommunicationType.phone,
+                LinkType.phone,
               ),
             ),
             SizedBox(height: getProportionateScreenHeight(40)),
@@ -64,12 +64,12 @@ class ContactUs extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SocialWidget(
-                  type: CommunicationType.facebook,
+                  type: LinkType.facebook,
                   url: data.facebookUrl,
                 ),
                 gapH24,
                 SocialWidget(
-                  type: CommunicationType.whatsapp,
+                  type: LinkType.whatsapp,
                   url: data.phone,
                 ),
               ],

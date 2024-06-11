@@ -68,13 +68,13 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     final List<SocialModel> socials = [];
     if (facebookPageUrl != null && facebookPageUrl.isNotEmpty) {
       socials.add(
-        SocialModel(url: facebookPageUrl, type: CommunicationType.facebook),
+        SocialModel(url: facebookPageUrl, type: LinkType.facebook),
       );
     }
 
     if (youtubeChannelUrl != null && youtubeChannelUrl.isNotEmpty) {
       socials.add(
-        SocialModel(url: youtubeChannelUrl, type: CommunicationType.youtube),
+        SocialModel(url: youtubeChannelUrl, type: LinkType.youtube),
       );
     }*/
     state = state.copyWith(

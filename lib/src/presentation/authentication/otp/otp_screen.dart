@@ -23,21 +23,17 @@ class OtpScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(signInSignupControllerProvider, (previous, next) {
-      if (next.value.isLoading) {
-        EasyLoading.show();
-      } else if (next.value.hasError) {
-        EasyLoading.dismiss();
-        next.value.showErrorDialog(context);
-      } else {
+      if (!next.value.isLoading && !next.value.hasError) {
         EasyLoading.dismiss();
         // make logout to false it mean user logged in right now
         ref.read(logoutProvider.notifier).state = false;
         // if user complete signup process successfully i will navigate to select profile picture screen
         if (previous != null && previous.formType == FormType.signup) {
-          Navigator.popUntil(
+          Navigator.pushNamedAndRemoveUntil(
               context,
-              (route) =>
-                  route.settings.name == SelectProfilePictureScreen.routeName);
+               SelectProfilePictureScreen.routeName,
+             (route) => route.settings.name == '/',
+          );
         } else {
           // if user complete signIn process successfully i will navigate to select profile picture screen
           Navigator.popUntil(context, (route) => route.settings.name == '/');

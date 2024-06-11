@@ -88,11 +88,5 @@ class DropDownFormFieldWidget extends StatelessWidget {
         return null;
       }
     }
-
-    selectedItem == null
-        ? items.isNotEmpty
-            ? (items is List<String> ? items[0] : items[0].id)
-            : null
-        : null;
   }
 }

@@ -13,6 +13,8 @@ class HomeRepository {
   HomeRepository({required this.apiService});
 
   Future<MainModel> getHomeData() async {
+    await Future.delayed(Duration(seconds: 2));
+
     try {
       final res = await apiService.get(url: ApiUrls.getHomeUrl);
       final data = res.data[ApiKeys.dataKey];

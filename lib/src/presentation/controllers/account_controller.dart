@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/data/account_repository.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/enum.dart';
 import '../../model/academy_model.dart';
@@ -19,18 +22,21 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
 
   Future<T> getAccount<T>({
     required String accountType,
-    required String id,
+    String? id,
     bool isPersonalAccount = false,
   }) async {
     if (accountType == AccountType.STUDENT.name) {
-      return await _accountRepository.getStudentAccount(id: id) as T;
+      return await _accountRepository.getStudentAccount(id: id!) as T;
     } else if (accountType == AccountType.TEACHER.name) {
       return await _accountRepository.getTeacherAccount(
         id: id,
         isPersonalAccount: isPersonalAccount,
       ) as T;
     } else {
-      return await _accountRepository.getAcademyAccount(id: id) as T;
+      return await _accountRepository.getAcademyAccount(
+        id: id,
+        isPersonalAccount: isPersonalAccount,
+      ) as T;
     }
   }
 
@@ -39,22 +45,32 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
     required T data,
     required String id,
   }) async {
+    state = const AsyncLoading();
+
+    final AsyncValue<void> result;
+
     if (accountType == AccountType.STUDENT.name) {
-      await _accountRepository.updateStudentAccount(
-        student: data as StudentModel,
-        id: id,
+      result = await AsyncValue.guard(
+        () => _accountRepository.updateStudentAccount(
+          student: data as StudentModel,
+          id: id,
+        ),
       );
     } else if (accountType == AccountType.TEACHER.name) {
-      await _accountRepository.updateTeacherAccount(
-        teacher: data as TeacherModel,
-        id: id,
+      result = await AsyncValue.guard(
+        () => _accountRepository.updateTeacherAccount(
+          teacher: data as TeacherModel,
+        ),
       );
     } else {
-      await _accountRepository.updateAcademyAccount(
-        academy: data as AcademyModel,
-        id: id,
+      result = await AsyncValue.guard(
+        () => _accountRepository.updateAcademyAccount(
+          academy: data as AcademyModel,
+        ),
       );
     }
+
+    state = result;
   }
 
   Future<void> deleteAccount() async {
@@ -74,15 +90,34 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<void> uploadProfileImage({required File file}) async {
+  // TODO we must not pass context and other ui components to controller
+  Future<void> uploadProfileImage({
+    required BuildContext context,
+    required File file,
+  }) async {
     final user = ref.read(asyncInitProvider).localStorage.getUserInfo();
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
+    // state = const AsyncLoading();
+    EasyLoading.show();
+    final result = await AsyncValue.guard(
       () {
         return _accountRepository.uploadProfileImage(
-            file: file, accountType: user!.accountType);
+          file: file,
+          accountType: user!.accountType,
+        );
       },
     );
+    EasyLoading.dismiss();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (result.hasError) {
+      result.showErrorDialog(context);
+    } else {
+      ref.invalidate(getAccountDataProvider);
+      Navigator.popUntil(context, (route) => route.settings.name == '/');
+    }
   }
 
   Future<void> logout() async {

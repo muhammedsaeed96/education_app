@@ -6,4 +6,4 @@ enum AccountType { STUDENT,TEACHER,ACADEMY }
 
 enum ElementType { subject, stage }
 
-enum CommunicationType { youtube, facebook , whatsapp , phone }
+enum LinkType { youtube, facebook , whatsapp , phone , link }

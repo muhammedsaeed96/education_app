@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
-import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/presentation/controllers/account_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,17 +21,17 @@ class SelectProfilePictureScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(accountControllerProvider, (_, next) {
+    /* ref.listen(accountControllerProvider, (_, next) {
       if (next.isLoading) {
         EasyLoading.show();
       } else if (next.hasError) {
         EasyLoading.dismiss();
         next.showErrorDialog(context);
       } else {
-        // Navigator.pop(context);
+        Navigator.pop(context);
         EasyLoading.dismiss();
       }
-    });
+    });*/
 
     ref.watch(profileImageProvider);
 
@@ -84,6 +83,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
                     press: () => ref
                         .read(accountControllerProvider.notifier)
                         .uploadProfileImage(
+                          context: context,
                           file: selectedImage!,
                         ),
                     width: AppSizes.length180,

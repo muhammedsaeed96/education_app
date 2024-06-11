@@ -8,6 +8,7 @@ import 'package:education_app/src/presentation/personal_profile/personal_profile
 import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:education_app/src/presentation/teachers_screen.dart';
 
+import '../../presentation/about_us_screen.dart';
 import '../../presentation/teacher_details_screen.dart';
 
 final routes = {
@@ -21,4 +22,5 @@ final routes = {
   SignInSignupScreen.routeName: (context) => const SignInSignupScreen(),
   PersonalProfileScreen.routeName: (context) => const PersonalProfileScreen(),
   SelectProfilePictureScreen.routeName: (context) => const SelectProfilePictureScreen(),
+  AboutUsScreen.routeName: (context) => const AboutUsScreen(),
 };

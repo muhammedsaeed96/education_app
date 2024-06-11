@@ -1,6 +1,9 @@
+import 'dart:io';
+import 'package:education_app/src/common_widgets/app_updater_dialog.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/data/home_repository.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/account.dart';
 import 'package:education_app/src/presentation/home/pages/contact_us.dart';
@@ -11,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
+import '../../core/utils/app_updater.dart';
 import '../authentication/sign_in_signup_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -21,6 +25,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late final AppUpdater _appUpdater;
+
   late final PageController _pageController;
   int currentNavBarIndex = 0;
 
@@ -32,6 +38,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   void initState() {
+    _appUpdater = AppUpdater();
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
@@ -44,6 +51,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(getHomeDataProvider.select((value) => value),
+        (previous, next) async {
+      final updateInfo = next.value?.updateInfo;
+      if (updateInfo == null) {
+        return;
+      }
+      final showUpdaterDialog = await _appUpdater.showUpdateDialog(updateInfo);
+      if (showUpdaterDialog && context.mounted) {
+        appUpdaterDialog(
+          context: context,
+          updateUrl: Platform.isAndroid
+              ? updateInfo.playStoreUrl
+              : updateInfo.appStoreUrl,
+        );
+      }
+    });
+
     ref.listen(logoutProvider, (_, next) {
       // if next true it mean user logout otherwise is logged in
       _changeNavBarIndex(index: next ? 0 : 2, ref: ref);

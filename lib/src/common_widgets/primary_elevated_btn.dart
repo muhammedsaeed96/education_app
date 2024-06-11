@@ -43,7 +43,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
                     )
                   : null,
             ),
-        onPressed: press,
+        onPressed: disable ? null : press,
         child: Text(
           text,
           style: AppTextStyles.textSemiBoldStyle14.copyWith(

@@ -43,15 +43,19 @@ class Assets {
 
   static const String icTrash = "assets/icons/ic_trash.svg";
 
-  static const String icInfo = "assets/icons/ic_Info.svg";
+  static const String icInfo = "assets/icons/ic_info.svg";
 
   static const String icShare = "assets/icons/ic_share.svg";
 
   static const String icStar = "assets/icons/ic_star.svg";
 
   static const String icWhatsapp = "assets/icons/ic_whatsapp.svg";
+
   static const String icFacebook = "assets/icons/ic_facebook.svg";
+
   static const String icYoutube = "assets/icons/ic_youtube.svg";
 
   static const String callUs = "assets/icons/call_us.jpg";
+
+  static const String icSuccess = "assets/icons/ic_success.svg";
 }

@@ -5,22 +5,22 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class UrlLauncherHelper {
   //check the url type Facebook,whatsapp,etc
-  static void launchUrlByType(String val, CommunicationType type) async {
+  static void launchUrlByType(String val, LinkType type) async {
     switch (type) {
-      case CommunicationType.phone:
-        try{
+      case LinkType.phone:
+        try {
           launchUrlString("tel://$val");
-        }catch(_){
+        } catch (_) {
           debugPrint('could not found this phone');
         }
         break;
-      case CommunicationType.whatsapp:
+      case LinkType.whatsapp:
         final whatsappUrl = Uri.parse(
           'https://api.whatsapp.com/send/?phone=$val',
         );
         _launchUrl(whatsappUrl);
         break;
-      case CommunicationType.facebook || CommunicationType.youtube:
+      case LinkType.facebook || LinkType.youtube || LinkType.link:
         final facebookUrl = Uri.parse(val);
         _launchUrl(facebookUrl);
         break;

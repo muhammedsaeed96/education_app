@@ -22,9 +22,9 @@ class AsyncWidget<T> extends StatelessWidget {
         errorMessage: err as String,
         retry: retry,
       ),
-      loading: () => const SizedBox(
-        height: 100,
-        child: Center(
+      loading: () => const Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12),
           child: CircularProgressIndicator(),
         ),
       ),

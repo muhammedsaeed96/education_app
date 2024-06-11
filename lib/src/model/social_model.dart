@@ -8,7 +8,7 @@ part 'social_model.g.dart';
 class SocialModel{
   
   final String url;
-  final CommunicationType type;
+  final LinkType type;
 
 
   SocialModel({required this.url,required this.type});

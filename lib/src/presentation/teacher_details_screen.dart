@@ -131,7 +131,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
                   onPressed: () {
                     UrlLauncherHelper.launchUrlByType(
                       value.value!.phone,
-                      CommunicationType.phone,
+                      LinkType.phone,
                     );
                   },
                   icon: SvgPicture.asset(

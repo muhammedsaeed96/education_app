@@ -3,6 +3,7 @@ import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:education_app/src/model/subject_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
+import 'package:education_app/src/model/update_info_model.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,7 +13,6 @@ part 'main_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class MainModel {
-
   final List<SubjectModel> subjects;
   final List<TeacherModel> teachers;
   final List<AcademyModel> academies;
@@ -21,6 +21,7 @@ class MainModel {
   @JsonKey(name: 'Areas')
   final List<AreaModel> areas;
   final List<StageModel> stages;
+  final UpdateInfoModel updateInfo;
 
   MainModel({
     this.subjects = const [],
@@ -29,7 +30,7 @@ class MainModel {
     this.provinces = const [],
     this.areas = const [],
     this.stages = const [],
-    // this.subjectsNames,
+    required this.updateInfo,
   });
 
   factory MainModel.fromJson(Map<String, dynamic> data) =>
@@ -37,23 +38,3 @@ class MainModel {
 
   Map<String, dynamic> toJson() => _$MainModelToJson(this);
 }
-
-
-
-/*  List<String> getAreasByProvinceName(String? cityName) {
-    return dummyHomeData.areas[cityName] ?? [];
-  }
-}
-
-final dummyHomeData = MainModel(
-  subjects: dummySubjects,
-  teachers: dummyTeachers,
-  academies: dummyAcademies,
-  provinces: ['بغداد','البصرة'],
-  areas: {
-    'بغداد': ['الغزالية', 'الكاظمية'],
-    'البصرة': ['ام قصر', 'الدهلة'],
-  },
-  stages: ['ابتدائية','متوسطة','اعدادية'],
-  subjectsNames: ['الرياضيات','الكيمياء','الفيزياء'],
-);*/

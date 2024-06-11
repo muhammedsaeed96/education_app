@@ -1,6 +1,10 @@
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
+import 'package:education_app/src/core/constants/api_urls.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
+import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
+import 'package:education_app/src/core/utils/url_launcher_helper.dart';
+import 'package:education_app/src/presentation/about_us_screen.dart';
 import 'package:education_app/src/presentation/controllers/account_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/header.dart';
 import 'package:education_app/src/presentation/personal_profile/personal_profile_screen.dart';
@@ -8,10 +12,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/assets.dart';
 import 'account_card.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 class Account extends ConsumerWidget {
   const Account({super.key});
@@ -46,21 +52,29 @@ class Account extends ConsumerWidget {
         ),
         gap12,
         AccountCard(
-          title: AppStrings.privacyStr,
-          icon: Assets.icPrivacy,
-          press: () {},
+          title: AppStrings.rateAppStr,
+          icon: Assets.icStar,
+          press: _openAppReview,
         ),
         gap12,
         AccountCard(
           title: AppStrings.shareAppStr,
           icon: Assets.icShare,
-          press: () {},
+          press: _shareAppLink,
         ),
         gap12,
         AccountCard(
-          title: AppStrings.rateAppStr,
-          icon: Assets.icStar,
-          press: () {},
+          title: AppStrings.privacyStr,
+          icon: Assets.icPrivacy,
+          press: () => UrlLauncherHelper.launchUrlByType(
+            ApiUrls.privacyUrl,
+            LinkType.link,
+          ),
+        ),        gap12,
+        AccountCard(
+          title: AppStrings.aboutAppStr,
+          icon: Assets.icInfo,
+          press: () => Navigator.pushNamed(context, AboutUsScreen.routeName),
         ),
         gap12,
         AccountCard(
@@ -113,6 +127,21 @@ class Account extends ConsumerWidget {
     // if result true it mean user click confirm button
     if (result == true) {
       await ref.read(accountControllerProvider.notifier).deleteAccount();
+    }
+  }
+
+  // to show app rating bottom sheet
+  void _openAppReview() async {
+    final InAppReview inAppReview = InAppReview.instance;
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
+  }
+
+  void _shareAppLink() async {
+    final result = await Share.share('https://www.hojuzat.com');
+    if (result.status == ShareResultStatus.success) {
+      print('Thank you for sharing my website!');
     }
   }
 }

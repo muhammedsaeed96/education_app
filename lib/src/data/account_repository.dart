@@ -34,10 +34,9 @@ class AccountRepository {
   }
 
   Future<TeacherModel> getTeacherAccount({
-    required String id,
+    String? id,
     required bool isPersonalAccount,
   }) async {
-
     final url = isPersonalAccount
         ? ApiUrls.getTeacherPersonalAccountUrl
         : '${ApiUrls.getTeacherUrl}/$id';
@@ -56,9 +55,15 @@ class AccountRepository {
     }
   }
 
-  Future<AcademyModel> getAcademyAccount({required String id}) async {
+  Future<AcademyModel> getAcademyAccount({
+    String? id,
+    bool isPersonalAccount = false,
+  }) async {
+    final url = isPersonalAccount
+        ? ApiUrls.getAcademyPersonalAccountUrlUrl
+        : '${ApiUrls.getAcademyUrl}/$id';
     try {
-      final res = await apiService.get(url: '${ApiUrls.getAcademyUrl}/$id');
+      final res = await apiService.get(url: url);
       final data = res.data[ApiKeys.dataKey];
       // set courses and seasons list to home model
       return AcademyModel.fromJson(data);
@@ -75,21 +80,64 @@ class AccountRepository {
     required StudentModel student,
     required String id,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    try {
+      final res = await apiService.patch(
+        url: ApiUrls.studentUrl,
+        body: student.toJson(),
+      );
+      final statusCode = res.statusCode;
+      if (statusCode != 200 && statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
-  Future<void> updateTeacherAccount({
-    required TeacherModel teacher,
-    required String id,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+  Future<void> updateTeacherAccount({required TeacherModel teacher}) async {
+    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final res = await apiService.patch(
+        url: ApiUrls.getTeacherUrl,
+        body: teacher.toJson(),
+      );
+      final statusCode = res.statusCode;
+
+      if (statusCode != 200 && statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
-  Future<void> updateAcademyAccount({
-    required AcademyModel academy,
-    required String id,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+  Future<void> updateAcademyAccount({required AcademyModel academy}) async {
+    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final res = await apiService.patch(
+        url: ApiUrls.getAcademyUrl,
+        body: academy.toJson(),
+      );
+      final statusCode = res.statusCode;
+
+      if (statusCode != 200 && statusCode != 201) {
+        throw (AppStrings.unexpectedErrorStr);
+      }
+    } catch (e) {
+      var error = e.toString();
+      if (e is DioException) {
+        error = ServerFailure.fromDioError(e).message;
+      }
+      throw (error);
+    }
   }
 
   Future<void> uploadProfileImage({
