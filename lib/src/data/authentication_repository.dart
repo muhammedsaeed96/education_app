@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/api_keys.dart';
 import '../core/constants/api_urls.dart';
-import '../core/errors/failures.dart';
+import '../core/failures.dart';
 
 class AuthenticationRepository {
   final Ref ref;

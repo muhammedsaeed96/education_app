@@ -3,7 +3,7 @@ import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/api_keys.dart';
 import '../core/constants/api_urls.dart';
-import '../core/errors/failures.dart';
+import '../core/failures.dart';
 import '../core/utils/api_services.dart';
 import '../model/main_model.dart';
 

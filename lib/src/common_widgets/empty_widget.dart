@@ -1,17 +1,33 @@
+import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../core/constants/app_text_styles.dart';
+import '../core/constants/assets.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({super.key});
+  const EmptyWidget({super.key, this.text = AppStrings.noDataStr});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        AppStrings.noDataStr,
-        style: AppTextStyles.textMediumStyle16,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            Assets.icEmpty,
+            width: AppSizes.screenHeight * 0.18,
+            height: AppSizes.screenHeight * 0.18,
+          ),
+          gap16,
+          Text(
+            text,
+            style: AppTextStyles.textMediumStyle16,
+          ),
+        ],
       ),
     );
   }

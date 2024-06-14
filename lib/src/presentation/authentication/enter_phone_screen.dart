@@ -11,7 +11,7 @@ import '../../core/constants/app_sizes.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/enum.dart';
 import '../controllers/sign_in_signup_controller.dart';
-import 'otp/otp_screen.dart';
+import 'otp_screen.dart';
 
 class EnterPhoneScreen extends ConsumerStatefulWidget {
   const EnterPhoneScreen({super.key});

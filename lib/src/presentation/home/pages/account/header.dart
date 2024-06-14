@@ -23,7 +23,6 @@ class Header extends ConsumerWidget {
         retry: () => ref.invalidate(getAccountDataProvider),
         data: (data) {
           final (url, name) = getUrlName(data);
-
           return Column(
             children: [
               ProfileImage(imageUrl: url),

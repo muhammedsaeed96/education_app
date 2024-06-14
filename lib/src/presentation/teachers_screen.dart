@@ -4,6 +4,7 @@ import 'package:education_app/src/common_widgets/loading.dart';
 import 'package:education_app/src/common_widgets/retry_btn.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
+import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
@@ -20,7 +21,6 @@ class TeachersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final state = ref.watch(teacherControllerProvider);
 
     return Scaffold(
@@ -64,7 +64,6 @@ class TeachersScreen extends ConsumerWidget {
     AsyncValue<List<TeacherModel>> state,
     WidgetRef ref,
   ) {
-
     final teachers = state.valueOrNull ?? [];
     final initialLoading = state.isLoading && teachers.isEmpty;
     final initialError = state.hasError && teachers.isEmpty;
@@ -114,11 +113,20 @@ class TeachersScreen extends ConsumerWidget {
                                 imageUrl: teacher.imageUrl,
                                 city: teacher.province!.name,
                                 region: teacher.area!.name,
-                                press: () => Navigator.pushNamed(
-                                  context,
-                                  TeacherDetailsScreen.routeName,
-                                  arguments: teacher.id,
-                                ),
+                                press: () {
+                                  // to add visitor to teacher
+                                  ref
+                                      .read(visitorRepositoryProvider)
+                                      .createVisitors(
+                                        id: teacher.id,
+                                        type: TeachingType.teacher,
+                                      );
+                                  Navigator.pushNamed(
+                                    context,
+                                    TeacherDetailsScreen.routeName,
+                                    arguments: teacher.id,
+                                  );
+                                },
                               ),
                             );
                           },

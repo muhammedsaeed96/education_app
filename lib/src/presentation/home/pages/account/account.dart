@@ -7,7 +7,7 @@ import 'package:education_app/src/core/utils/url_launcher_helper.dart';
 import 'package:education_app/src/presentation/about_us_screen.dart';
 import 'package:education_app/src/presentation/controllers/account_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/header.dart';
-import 'package:education_app/src/presentation/personal_profile/personal_profile_screen.dart';
+import 'package:education_app/src/presentation/personal_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

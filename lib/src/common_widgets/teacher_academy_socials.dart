@@ -5,10 +5,13 @@ import 'package:education_app/src/model/social_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_text_styles.dart';
+import '../core/utils/async_init.dart';
 import '../core/utils/url_launcher_helper.dart';
+import 'alert_dialogs.dart';
 
 class TeacherAcademySocials extends StatelessWidget {
   const TeacherAcademySocials({
@@ -56,19 +59,23 @@ class TeacherAcademySocials extends StatelessWidget {
   }
 }
 
-class SocialWidget extends StatelessWidget {
+class SocialWidget extends ConsumerWidget {
   const SocialWidget({super.key, required this.type, required this.url});
 
   final LinkType type;
   final String url;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = getProportionateScreenHeight(
       type == LinkType.whatsapp ? 30.5 : 32,
     );
     return GestureDetector(
-      onTap: () => UrlLauncherHelper.launchUrlByType(url, type),
+      onTap: () {
+        type == LinkType.whatsapp
+            ? _contactWithTeacher(context: context, ref: ref, phone: url)
+            : UrlLauncherHelper.launchUrlByType(url, type);
+      },
       child: SvgPicture.asset(
         type == LinkType.whatsapp
             ? Assets.icWhatsapp
@@ -79,5 +86,22 @@ class SocialWidget extends StatelessWidget {
         height: size,
       ),
     );
+  }
+
+  Future<void> _contactWithTeacher({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String phone,
+  }) async {
+    final isAuth = ref.read(asyncInitProvider).localStorage.isStudentAuth;
+    if (!isAuth) {
+      showAlertDialog(
+        context: context,
+        title: AppStrings.notifyStr,
+        content: AppStrings.loginToCommunicateWithTeacherStr,
+      );
+      return;
+    }
+    UrlLauncherHelper.launchUrlByType(phone, LinkType.whatsapp);
   }
 }

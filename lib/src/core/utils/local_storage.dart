@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +9,7 @@ class LocalStorage {
   LocalStorage(this.sharedPreferences);
 
   Future<void> storeUserInfo(UserInfoModel userInfo) async {
-   final x = await sharedPreferences.setString(
+    await sharedPreferences.setString(
       "userInfoKey",
       json.encode(userInfo.toJson()),
     );
@@ -20,6 +21,16 @@ class LocalStorage {
       return UserInfoModel.fromJson(json.decode(val));
     }
     return null;
+  }
+
+  bool get isStudentAuth => getUserInfo() != null;
+
+  bool isNotStudent() {
+    final user = getUserInfo();
+    if (user != null && user.accountType != AccountType.STUDENT) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> removeUserInfo() async {

@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:education_app/src/common_widgets/alert_dialogs.dart';
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/custom_network_image.dart';
 import 'package:education_app/src/common_widgets/teacher_academy_socials.dart';
@@ -8,7 +11,9 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/constants/assets.dart';
 import 'package:education_app/src/core/enum.dart';
+import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -128,12 +133,12 @@ class TeacherDetailsScreen extends ConsumerWidget {
               child: SizedBox(
                 height: AppSizes.length48,
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    UrlLauncherHelper.launchUrlByType(
-                      value.value!.phone,
-                      LinkType.phone,
-                    );
-                  },
+                  onPressed: () => _contactWithTeacher(
+                    context: context,
+                    ref: ref,
+                    phone: value.value?.phone ?? '',
+                    id: value.value?.id ?? '',
+                  ),
                   icon: SvgPicture.asset(
                     Assets.icPhoneFill,
                     colorFilter: const ColorFilter.mode(
@@ -151,5 +156,34 @@ class TeacherDetailsScreen extends ConsumerWidget {
               ),
             ),
     );
+  }
+
+  Future<void> _contactWithTeacher({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String id,
+    required String phone,
+  }) async {
+    final storage = ref.read(asyncInitProvider).localStorage;
+
+    final isAuth = storage.isStudentAuth;
+
+    if (!isAuth) {
+      showAlertDialog(
+        context: context,
+        title: AppStrings.notifyStr,
+        content: AppStrings.loginToCommunicateWithTeacherStr,
+      );
+      return;
+    }
+
+    if (storage.getUserInfo()?.accountType == AccountType.STUDENT) {
+      ref.read(visitorRepositoryProvider).createVisitors(
+            id: id,
+            type: TeachingType.teacher,
+          );
+    }
+
+    UrlLauncherHelper.launchUrlByType(phone, LinkType.phone);
   }
 }

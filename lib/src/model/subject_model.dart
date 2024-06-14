@@ -1,4 +1,3 @@
-import 'package:education_app/src/core/constants/assets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'subject_model.g.dart';
@@ -21,11 +20,3 @@ class SubjectModel {
 
   Map<String, dynamic> toJson() => _$SubjectModelToJson(this);
 }
-
-final dummySubjects = [
-  SubjectModel(id: 'abcd', name: 'الرياضيات', iconUrl: Assets.icMath),
-  SubjectModel(id: 'bcde', name: 'الكيمياء', iconUrl: Assets.icChemistry),
-  SubjectModel(id: 'fegr', name: 'الفيزياء', iconUrl: Assets.icPhysics),
-  SubjectModel(id: 'ddfe', name: 'العربي', iconUrl: Assets.icArabic),
-  SubjectModel(id: 'rtyu', name: 'الانكليزي', iconUrl: Assets.icEnglish),
-];

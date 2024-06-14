@@ -106,7 +106,8 @@ class AppStrings {
   static const noDataStr = 'لاتوجد بيانات';
   static const retryStr = 'اعادة المحاولة';
 
-  static const visitNumbersStr = 'الزيارات';
+  static const visitStr = 'الزيارات';
+  static const visitNumbersStr = 'عدد الزيارات :';
   static const retryWithErrorStr = 'حدث خطأ يرجى اعادة المحاولة';
   static const socialsStr = 'مواقع التواصل';
 
@@ -124,5 +125,16 @@ class AppStrings {
   static const updateStr = 'تحديث';
   static const newUpdateStr = 'تحديث جديد للتطبيق';
   static const findOutUpdateStr = 'استكشف الإضافات و الميزات الجديدة';
+
+  static const loginToCommunicateWithTeacherStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع الاستاذ';
+  static const loginToCommunicateWithAcademyStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع المعهد';
+
+  static const detailsStr = 'التفاصيل';
+  static const statisticsStr = 'احصائيتي';
+  static const lastVisitStr = 'اخر الزيارات';
+  static const profileVisitStr = 'زيارات ملفي الشخصي :';
+  static const studentsContactWithMeStr = 'طلاب تواصلوا معي :';
+  static const youDontHaveStudentStr = 'لايوجد لديك طلاب !';
+  static const lastStudents = 'اخر الطلاب';
 
 }

@@ -2,7 +2,10 @@ import 'package:education_app/src/common_widgets/teacher_academy_main_card.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_sizes.dart';
+import '../../../../core/enum.dart';
+import '../../../../data/visitor_repository.dart';
 import '../../../../model/academy_model.dart';
 import '../../../academy_details_screen.dart';
 
@@ -26,19 +29,28 @@ class AcademiesHorizontalList extends StatelessWidget {
   }
 }
 
-class AcademyCard extends StatelessWidget {
+class AcademyCard extends ConsumerWidget {
   const AcademyCard({super.key, required this.academy});
 
   final AcademyModel academy;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return TeacherAcademyMainCard(
-      press: () => Navigator.pushNamed(
+      press: () {
+        // to add visitor to teacher
+        ref
+            .read(visitorRepositoryProvider)
+            .createVisitors(
+          id: academy.id,
+          type: TeachingType.academy,
+        );
+        Navigator.pushNamed(
         context,
         AcademyDetailsScreen.routeName,
         arguments: academy.id,
-      ),
+      );
+      },
       imageUrl: academy.imageUrl,
       title: academy.title,
       city: academy.province?.name ?? '',

@@ -1,8 +1,9 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
-import 'package:education_app/src/core/routing/app_router.dart';
+import 'package:education_app/src/core/app_router.dart';
 import 'package:education_app/src/core/theme.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/init_easy_loading.dart';
+import 'package:education_app/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
+      initialRoute: SplashScreen.routeName,
       routes: routes,
     );
   }

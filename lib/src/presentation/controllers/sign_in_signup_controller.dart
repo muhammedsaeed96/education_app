@@ -111,9 +111,6 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
 
   Future<void> verifyOtp(String otp) async {
 
-    debugPrint('verifyOtp ' + otp);
-
-
     state = state.copyWith(value: const AsyncLoading());
 
     final AsyncValue<UserInfoModel> result;
@@ -131,9 +128,9 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     } else {
       String url = ApiUrls.studentUrl;
       if (state.authentication?.accountType == AccountType.TEACHER) {
-        url = ApiUrls.getTeacherUrl;
+        url = ApiUrls.teacherUrl;
       } else if (state.authentication?.accountType == AccountType.ACADEMY) {
-        url = ApiUrls.getAcademyUrl;
+        url = ApiUrls.academyUrl;
       }
 
       state = state.copyWith(

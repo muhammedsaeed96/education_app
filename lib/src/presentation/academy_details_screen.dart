@@ -10,11 +10,14 @@ import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../common_widgets/alert_dialogs.dart';
 import '../common_widgets/teacher_academy_socials.dart';
 import '../common_widgets/title_card.dart';
 import '../common_widgets/title_desc_widget.dart';
+import '../core/utils/async_init.dart';
 import '../core/utils/url_launcher_helper.dart';
 import '../data/academey_repository.dart';
+import '../data/visitor_repository.dart';
 
 class AcademyDetailsScreen extends ConsumerWidget {
   const AcademyDetailsScreen({super.key});
@@ -112,9 +115,11 @@ class AcademyDetailsScreen extends ConsumerWidget {
               child: SizedBox(
                 height: AppSizes.length48,
                 child: ElevatedButton.icon(
-                  onPressed: () => UrlLauncherHelper.launchUrlByType(
-                    value.value!.phone,
-                    LinkType.phone,
+                  onPressed: () => _contactWithTeacher(
+                    context: context,
+                    ref: ref,
+                    phone: value.value?.phone ?? '',
+                    id: value.value?.id ?? '',
                   ),
                   icon: SvgPicture.asset(
                     Assets.icPhoneFill,
@@ -133,5 +138,34 @@ class AcademyDetailsScreen extends ConsumerWidget {
               ),
             ),
     );
+  }
+
+  Future<void> _contactWithTeacher({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String id,
+    required String phone,
+  }) async {
+    final storage = ref.read(asyncInitProvider).localStorage;
+
+    final isAuth = storage.isStudentAuth;
+
+    if (!isAuth) {
+      showAlertDialog(
+        context: context,
+        title: AppStrings.notifyStr,
+        content: AppStrings.loginToCommunicateWithTeacherStr,
+      );
+      return;
+    }
+
+    if (storage.getUserInfo()?.accountType == AccountType.STUDENT) {
+      ref.read(visitorRepositoryProvider).createVisitors(
+            id: id,
+            type: TeachingType.teacher,
+          );
+    }
+
+    UrlLauncherHelper.launchUrlByType(phone, LinkType.phone);
   }
 }

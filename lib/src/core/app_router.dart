@@ -1,17 +1,19 @@
 import 'package:education_app/src/presentation/academies_screen.dart';
 import 'package:education_app/src/presentation/academy_details_screen.dart';
 import 'package:education_app/src/presentation/authentication/enter_phone_screen.dart';
-import 'package:education_app/src/presentation/authentication/otp/otp_screen.dart';
+import 'package:education_app/src/presentation/authentication/otp_screen.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_screen.dart';
 import 'package:education_app/src/presentation/home/home_screen.dart';
-import 'package:education_app/src/presentation/personal_profile/personal_profile_screen.dart';
+import 'package:education_app/src/presentation/personal_profile_screen.dart';
 import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
+import 'package:education_app/src/presentation/splash_screen.dart';
 import 'package:education_app/src/presentation/teachers_screen.dart';
 
-import '../../presentation/about_us_screen.dart';
-import '../../presentation/teacher_details_screen.dart';
+import '../presentation/about_us_screen.dart';
+import '../presentation/teacher_details_screen.dart';
 
 final routes = {
+  SplashScreen.routeName: (context) => const SplashScreen(),
   '/': (context) => const HomeScreen(),
   TeacherDetailsScreen.routeName: (context) => const TeacherDetailsScreen(),
   AcademyDetailsScreen.routeName: (context) => const AcademyDetailsScreen(),

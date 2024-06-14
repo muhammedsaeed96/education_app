@@ -22,7 +22,6 @@ class AsyncInit {
     _sharedPreferences = await SharedPreferences.getInstance();
     localStorage = LocalStorage(_sharedPreferences);
     ApiService.localStorage = localStorage;
-    debugPrint('AsyncInit init');
   }
 }
 

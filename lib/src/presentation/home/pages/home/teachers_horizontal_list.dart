@@ -3,7 +3,10 @@ import 'package:education_app/src/model/teacher_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_sizes.dart';
+import '../../../../core/enum.dart';
+import '../../../../data/visitor_repository.dart';
 import '../../../teacher_details_screen.dart';
 
 class TeachersHorizontalList extends StatelessWidget {
@@ -26,19 +29,28 @@ class TeachersHorizontalList extends StatelessWidget {
   }
 }
 
-class TeacherCard extends StatelessWidget {
+class TeacherCard extends ConsumerWidget {
   const TeacherCard({super.key, required this.teacher});
 
   final TeacherModel teacher;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return TeacherAcademyMainCard(
-      press: () => Navigator.pushNamed(
+      press: () {
+        // to add visitor to teacher
+        ref
+            .read(visitorRepositoryProvider)
+            .createVisitors(
+          id: teacher.id,
+          type: TeachingType.teacher,
+        );
+        Navigator.pushNamed(
         context,
         TeacherDetailsScreen.routeName,
         arguments: teacher.id,
-      ),
+      );
+      },
       imageUrl: teacher.imageUrl,
       title: teacher.name,
       city: teacher.province!.name,

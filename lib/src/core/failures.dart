@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import '../constants/api_keys.dart';
-import '../constants/app_strings.dart';
+import 'constants/api_keys.dart';
+import 'constants/app_strings.dart';
 
 abstract class Failure {
   Failure(this.message);

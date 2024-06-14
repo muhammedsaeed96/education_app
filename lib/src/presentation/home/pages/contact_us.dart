@@ -19,63 +19,56 @@ class ContactUs extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(getContactInfoProvider);
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(40),
-      child: AsyncWidget(
-        value: value,
-        retry: () => ref.invalidate(getContactInfoProvider),
-        data: (data) => Column(
-          children: [
-            Image.asset(
-              Assets.callUs,
-              width: getProportionateScreenHeight(250),
-              height: getProportionateScreenHeight(250),
+    return AsyncWidget(
+      value: value,
+      retry: () => ref.invalidate(getContactInfoProvider),
+      data: (data) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppStrings.phoneStr,
+            style: AppTextStyles.textSemiBoldStyle18,
+          ),
+          SizedBox(height: getProportionateScreenHeight(8)),
+          Text(
+            data.phone,
+            style: AppTextStyles.textMediumStyle16.copyWith(
+              color: AppColors.gray600,
             ),
-            Text(
-              AppStrings.phoneStr,
-              style: AppTextStyles.textSemiBoldStyle18,
-            ),
-            SizedBox(height: getProportionateScreenHeight(8)),
-            Text(
+            textDirection: TextDirection.ltr,
+          ),
+          SizedBox(height: getProportionateScreenHeight(8)),
+          PrimaryElevatedBtn(
+            text: AppStrings.callUsStr,
+            width: getProportionateScreenWidth(160),
+            height: getProportionateScreenHeight(40),
+            radius: 24,
+            press: () => UrlLauncherHelper.launchUrlByType(
               data.phone,
-              style: AppTextStyles.textMediumStyle16.copyWith(
-                color: AppColors.gray600,
+              LinkType.phone,
+            ),
+          ),
+          SizedBox(height: getProportionateScreenHeight(40)),
+          Text(
+            AppStrings.socialsStr,
+            style: AppTextStyles.textSemiBoldStyle18,
+          ),
+          SizedBox(height: getProportionateScreenHeight(12)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SocialWidget(
+                type: LinkType.facebook,
+                url: data.facebookUrl,
               ),
-              textDirection: TextDirection.ltr,
-            ),
-            SizedBox(height: getProportionateScreenHeight(6)),
-            PrimaryElevatedBtn(
-              text: AppStrings.callUsStr,
-              width: getProportionateScreenWidth(160),
-              height: getProportionateScreenHeight(40),
-              radius: 24,
-              press: () => UrlLauncherHelper.launchUrlByType(
-                data.phone,
-                LinkType.phone,
+              gapH24,
+              SocialWidget(
+                type: LinkType.whatsapp,
+                url: data.phone,
               ),
-            ),
-            SizedBox(height: getProportionateScreenHeight(40)),
-            Text(
-              AppStrings.socialsStr,
-              style: AppTextStyles.textSemiBoldStyle18,
-            ),
-            SizedBox(height: getProportionateScreenHeight(12)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SocialWidget(
-                  type: LinkType.facebook,
-                  url: data.facebookUrl,
-                ),
-                gapH24,
-                SocialWidget(
-                  type: LinkType.whatsapp,
-                  url: data.phone,
-                ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

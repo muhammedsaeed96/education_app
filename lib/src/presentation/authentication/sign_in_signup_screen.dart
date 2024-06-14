@@ -9,7 +9,7 @@ import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
 import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/presentation/authentication/enter_phone_screen.dart';
-import 'package:education_app/src/presentation/authentication/otp/otp_screen.dart';
+import 'package:education_app/src/presentation/authentication/otp_screen.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
 import 'package:education_app/src/presentation/controllers/sign_in_signup_controller.dart';
 import 'package:flutter/material.dart';

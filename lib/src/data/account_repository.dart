@@ -11,7 +11,7 @@ import 'package:education_app/src/model/teacher_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/api_keys.dart';
 import '../core/constants/api_urls.dart';
-import '../core/errors/failures.dart';
+import '../core/failures.dart';
 
 class AccountRepository {
   final ApiService apiService;
@@ -39,7 +39,7 @@ class AccountRepository {
   }) async {
     final url = isPersonalAccount
         ? ApiUrls.getTeacherPersonalAccountUrl
-        : '${ApiUrls.getTeacherUrl}/$id';
+        : '${ApiUrls.teacherUrl}/$id';
 
     try {
       final res = await apiService.get(url: url);
@@ -61,7 +61,7 @@ class AccountRepository {
   }) async {
     final url = isPersonalAccount
         ? ApiUrls.getAcademyPersonalAccountUrlUrl
-        : '${ApiUrls.getAcademyUrl}/$id';
+        : '${ApiUrls.academyUrl}/$id';
     try {
       final res = await apiService.get(url: url);
       final data = res.data[ApiKeys.dataKey];
@@ -102,7 +102,7 @@ class AccountRepository {
     await Future.delayed(const Duration(seconds: 1));
     try {
       final res = await apiService.patch(
-        url: ApiUrls.getTeacherUrl,
+        url: ApiUrls.teacherUrl,
         body: teacher.toJson(),
       );
       final statusCode = res.statusCode;
@@ -123,7 +123,7 @@ class AccountRepository {
     await Future.delayed(const Duration(seconds: 1));
     try {
       final res = await apiService.patch(
-        url: ApiUrls.getAcademyUrl,
+        url: ApiUrls.academyUrl,
         body: academy.toJson(),
       );
       final statusCode = res.statusCode;

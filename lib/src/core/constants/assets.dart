@@ -21,6 +21,10 @@ class Assets {
 
   static const String icUserFill = "assets/icons/ic_user_fill.svg";
 
+  static const String icEye= "assets/icons/ic_eye.svg";
+
+  static const String icEyeFill = "assets/icons/ic_eye_fill.svg";
+
   static const String icMath = "assets/icons/ic_math.svg";
 
   static const String icProfile = "assets/icons/ic_profile.svg";
@@ -58,4 +62,6 @@ class Assets {
   static const String callUs = "assets/icons/call_us.jpg";
 
   static const String icSuccess = "assets/icons/ic_success.svg";
+
+  static const String icEmpty = "assets/icons/ic_empty.svg";
 }

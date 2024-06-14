@@ -4,7 +4,7 @@ import 'package:education_app/src/model/current_filters_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/api_keys.dart';
 import '../core/constants/api_urls.dart';
-import '../core/errors/failures.dart';
+import '../core/failures.dart';
 import '../core/utils/api_services.dart';
 import '../model/teacher_model.dart';
 
@@ -20,7 +20,7 @@ class TeachersRepository {
   }) async {
     try {
       final res = await apiService.get(
-        url: ApiUrls.getTeacherUrl,
+        url: ApiUrls.teacherUrl,
         queryParameters: {
           ApiKeys.provinceIdKey: filters?.provinceId,
           ApiKeys.areaIdKey: filters?.areaId,
@@ -47,7 +47,7 @@ class TeachersRepository {
 
   Future<TeacherModel> getTeacher(TeacherID id) async {
     try {
-      final res = await apiService.get(url: '${ApiUrls.getTeacherUrl}/$id');
+      final res = await apiService.get(url: '${ApiUrls.teacherUrl}/$id');
       final data = res.data[ApiKeys.dataKey];
       // set courses and seasons list to home model
       return TeacherModel.fromJson(data);

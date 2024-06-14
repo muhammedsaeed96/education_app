@@ -16,6 +16,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
 import '../../core/utils/app_updater.dart';
 import '../authentication/sign_in_signup_screen.dart';
+import '../visitors_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _pageViewPages = [
     const Home(),
+     VisitorsScreen(),
     const ContactUs(),
     const Account(),
   ];
@@ -69,19 +71,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     ref.listen(logoutProvider, (_, next) {
-      // if next true it mean user logout otherwise is logged in
-      _changeNavBarIndex(index: next ? 0 : 2, ref: ref);
+      _changeNavBarIndex(index: next ? 0 : 3, ref: ref);
     });
 
     return Scaffold(
       body: SafeArea(
-        child: PageView(
+        child: PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
-          children: List.generate(
-            _pageViewPages.length,
-            (index) => _pageViewPages[index],
-          ),
+          itemBuilder: (_, i) => _pageViewPages[i],
+          itemCount: _pageViewPages.length,
         ),
       ),
       bottomNavigationBar: _bottomNavBar(),
@@ -89,32 +88,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _bottomNavBar() {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.gray200)),
-      ),
-      height: AppSizes.length80,
-      child: Row(
-        children: [
-          _navBarItem(index: 0, text: AppStrings.homeStr),
-          _navBarItem(index: 1, text: AppStrings.callUsStr),
-          _navBarItem(index: 2, text: AppStrings.accountStr),
-        ],
-      ),
-    );
+
+    return Consumer(builder: (context, ref, child) {
+      ref.watch(logoutProvider);
+      final isNotStudent =
+          ref.read(asyncInitProvider).localStorage.isNotStudent();
+      return Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.gray200)),
+        ),
+        height: AppSizes.length80,
+        child: Row(
+          children: [
+            _navBarItem(index: 0, text: AppStrings.homeStr),
+            isNotStudent
+                ? _navBarItem(index: 1, text: AppStrings.visitStr)
+                : const SizedBox.shrink(),
+            _navBarItem(index: 2, text: AppStrings.callUsStr),
+            _navBarItem(index: 3, text: AppStrings.accountStr),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _navBarItem({
     required int index,
     required String text,
   }) {
+    final isNotStudent =
+        ref.read(asyncInitProvider).localStorage.isNotStudent();
+
     return InkWell(
       highlightColor: Colors.transparent,
       focusColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () => _changeNavBarIndex(index: index, ref: ref),
       child: SizedBox(
-        width: AppSizes.screenWidth / 3,
+        width:
+            isNotStudent ? AppSizes.screenWidth / 4 : AppSizes.screenWidth / 3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -145,20 +157,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String _getImageUrlByIndex(int index) {
     if (index == 0) {
       return index == currentNavBarIndex ? Assets.icHomeFill : Assets.icHome;
-    }
-
-    if (index == 1) {
+    } else if (index == 1) {
+      return index == currentNavBarIndex ? Assets.icEyeFill : Assets.icEye;
+    } else if (index == 2) {
       return index == currentNavBarIndex ? Assets.icPhoneFill : Assets.icPhone;
+    } else {
+      return index == currentNavBarIndex ? Assets.icUserFill : Assets.icUser;
     }
-
-    return index == currentNavBarIndex ? Assets.icUserFill : Assets.icUser;
   }
 
   void _changeNavBarIndex({required int index, required WidgetRef ref}) {
     final userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo();
-    debugPrint(userInfo?.accountType.name);
-    debugPrint(userInfo?.userId);
-    if (index == 2 && userInfo == null) {
+    if (index == 3 && userInfo == null) {
       Navigator.pushNamed(context, SignInSignupScreen.routeName);
       return;
     }

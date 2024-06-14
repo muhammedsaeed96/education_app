@@ -16,10 +16,10 @@ import 'package:education_app/src/presentation/controllers/sample_state_controll
 import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common_widgets/drop_down_form_field_widget.dart';
-import '../../common_widgets/mutli_select_dialog_form_field.dart';
-import '../../common_widgets/title_form_field_widget.dart';
-import '../controllers/account_controller.dart';
+import '../common_widgets/drop_down_form_field_widget.dart';
+import '../common_widgets/mutli_select_dialog_form_field.dart';
+import '../common_widgets/title_form_field_widget.dart';
+import 'controllers/account_controller.dart';
 
 class PersonalProfileScreen extends ConsumerStatefulWidget {
   const PersonalProfileScreen({super.key});
