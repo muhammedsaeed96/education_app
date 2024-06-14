@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
         builder: (context, snapshot) {
           Future.delayed(
             const Duration(milliseconds: 150),
-            () => Navigator.pushReplacementNamed(context, '/'),
+            () => Future.delayed(Duration.zero,()=>Navigator.pushReplacementNamed(context, '/')),
           );
           return const SizedBox.shrink();
         },

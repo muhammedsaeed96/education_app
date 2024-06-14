@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
+import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/constants/api_keys.dart';
@@ -64,5 +65,7 @@ final visitorRepositoryProvider = Provider((ref) {
 
 final getVisitorsProvider =
     FutureProvider.autoDispose.family<VisitorModel, AccountType>(
-  (ref, type) => ref.read(visitorRepositoryProvider).getVisitors(type: type),
+  (ref, type) {
+    return ref.read(visitorRepositoryProvider).getVisitors(type: type);
+  },
 );

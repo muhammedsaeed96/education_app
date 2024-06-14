@@ -19,6 +19,9 @@ class StudentModel {
   final String? stageId;
   final List<ProvinceModel> provinces;
   final List<StageModel> stages;
+  final String? province;
+  final String? area;
+  final String? stage;
 
 
   StudentModel({
@@ -32,6 +35,9 @@ class StudentModel {
     this.provinces = const [],
     this.stageId,
     this.stages = const [],
+    this.province,
+    this.area,
+    this.stage,
   });
 
   @override

@@ -28,7 +28,7 @@ class AddressWidget extends StatelessWidget {
           child: Text(
             '$city / $region',
             style: AppTextStyles.textMediumStyle12.copyWith(
-              color: AppColors.gray500,
+              color: AppColors.gray600,
             ),
             overflow: TextOverflow.ellipsis,
           ),

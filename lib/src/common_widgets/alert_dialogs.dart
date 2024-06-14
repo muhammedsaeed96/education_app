@@ -56,7 +56,7 @@ Future<bool?> showAlertDialog<T>({
                   background: defaultActionBg,
                   width: AppSizes.screenWidth > 800
                       ? AppSizes.screenWidth / 2
-                      : AppSizes.screenWidth * 0.68,
+                      : AppSizes.screenWidth * 0.72,
                   text: defaultActionText,
                   press: () => Navigator.pop(context, true),
                 ),
@@ -65,20 +65,22 @@ Future<bool?> showAlertDialog<T>({
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   PrimaryElevatedBtn(
-                    height: AppSizes.length50,
-                    background: defaultActionBg,
-                    width: btnWidth,
-                    text: defaultActionText,
-                    press: () => Navigator.pop(context, true),
-                  ),
-                  gapH24,
-                  PrimaryElevatedBtn(
-                    height: AppSizes.length50,
-                    background: AppColors.gray100,
+                    radius: 16,
+                    height: AppSizes.length46,
+                    background: AppColors.gray200,
                     textColor: AppColors.gray600,
                     width: btnWidth,
                     text: cancelActionText,
                     press: () => Navigator.pop(context, false),
+                  ),
+                  gapH16,
+                  PrimaryElevatedBtn(
+                    radius: 16,
+                    height: AppSizes.length46,
+                    background: defaultActionBg,
+                    width: btnWidth,
+                    text: defaultActionText,
+                    press: () => Navigator.pop(context, true),
                   ),
                 ],
               ),

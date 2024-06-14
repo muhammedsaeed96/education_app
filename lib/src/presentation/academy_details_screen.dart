@@ -61,6 +61,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
                     style: AppTextStyles.textSemiBoldStyle14.copyWith(
                       color: AppColors.gray500,
                     ),
+                    textDirection: TextDirection.ltr,
                   ),
                 ],
               ),

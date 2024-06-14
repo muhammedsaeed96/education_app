@@ -18,10 +18,10 @@ class VisitorsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final value = ref.watch(
       getVisitorsProvider(
-        ref.read(asyncInitProvider).localStorage.getUserInfo()!.accountType,
+        ref.read(asyncInitProvider).localStorage.getUserInfo()?.accountType ??
+            AccountType.STUDENT,
       ),
     );
 
@@ -122,17 +122,20 @@ class VisitorCard extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(bottom: 6),
           child: Text(
-            'title',
+            student.name,
             style: AppTextStyles.textSemiBoldStyle12,
           ),
         ),
-        subtitle: const AddressWidget(city: 'city', region: 'region'),
+        subtitle: AddressWidget(
+          city: student.province ?? '',
+          region: student.area ?? '',
+        ),
         trailing: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               color: AppColors.gray50, borderRadius: BorderRadius.circular(20)),
           child: Text(
-            'ابتدائية',
+            student.stage ?? '',
             style: AppTextStyles.textSemiBoldStyle10.copyWith(
               color: AppColors.primaryColor500,
             ),

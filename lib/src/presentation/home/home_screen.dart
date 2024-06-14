@@ -33,7 +33,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _pageViewPages = [
     const Home(),
-     VisitorsScreen(),
+     const VisitorsScreen(),
     const ContactUs(),
     const Account(),
   ];
@@ -74,16 +74,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       _changeNavBarIndex(index: next ? 0 : 3, ref: ref);
     });
 
-    return Scaffold(
-      body: SafeArea(
-        child: PageView.builder(
+    return SafeArea(
+      child: Scaffold(
+        body: PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           itemBuilder: (_, i) => _pageViewPages[i],
           itemCount: _pageViewPages.length,
         ),
+        bottomNavigationBar: _bottomNavBar(),
       ),
-      bottomNavigationBar: _bottomNavBar(),
     );
   }
 
@@ -94,10 +94,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       final isNotStudent =
           ref.read(asyncInitProvider).localStorage.isNotStudent();
       return Container(
+        padding: const EdgeInsets.only(top: 8),
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.gray200)),
         ),
-        height: AppSizes.length80,
+        height: getProportionateScreenHeight(58),
         child: Row(
           children: [
             _navBarItem(index: 0, text: AppStrings.homeStr),
@@ -118,37 +119,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }) {
     final isNotStudent =
         ref.read(asyncInitProvider).localStorage.isNotStudent();
-
     return InkWell(
       highlightColor: Colors.transparent,
       focusColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () => _changeNavBarIndex(index: index, ref: ref),
-      child: SizedBox(
-        width:
-            isNotStudent ? AppSizes.screenWidth / 4 : AppSizes.screenWidth / 3,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 150),
-              child: SvgPicture.asset(
-                key: ValueKey(_getImageUrlByIndex(index)),
-                _getImageUrlByIndex(index),
-                width: AppSizes.length24,
-                height: AppSizes.length24,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: SizedBox(
+          width:
+          (isNotStudent ? AppSizes.screenWidth / 4 : AppSizes.screenWidth / 3) - 8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                child: SvgPicture.asset(
+                  key: ValueKey(_getImageUrlByIndex(index)),
+                  _getImageUrlByIndex(index),
+                  width: AppSizes.length24,
+                  height: AppSizes.length24,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              text,
-              style: AppTextStyles.textSemiBoldStyle12.copyWith(
-                color: index == currentNavBarIndex
-                    ? AppColors.primaryColor400
-                    : AppColors.gray500,
+              const SizedBox(height: 2),
+              Text(
+                text,
+                style: AppTextStyles.textSemiBoldStyle12.copyWith(
+                  color: index == currentNavBarIndex
+                      ? AppColors.primaryColor400
+                      : AppColors.gray500,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
