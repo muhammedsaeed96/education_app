@@ -35,7 +35,7 @@ final themeData = ThemeData(
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
-    style: ElevatedButton.styleFrom(
+    style: OutlinedButton.styleFrom(
       foregroundColor: AppColors.gray500,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

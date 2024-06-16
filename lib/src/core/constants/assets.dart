@@ -55,6 +55,8 @@ class Assets {
 
   static const String icWhatsapp = "assets/icons/ic_whatsapp.svg";
 
+  static const String icWhatsappIcon = "assets/icons/ic_whatsapp_icon.svg";
+
   static const String icFacebook = "assets/icons/ic_facebook.svg";
 
   static const String icYoutube = "assets/icons/ic_youtube.svg";

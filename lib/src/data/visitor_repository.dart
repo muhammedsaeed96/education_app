@@ -4,7 +4,7 @@ import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/constants/api_keys.dart';
+import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/constants/app_strings.dart';
 import '../core/failures.dart';
@@ -44,7 +44,7 @@ class VisitorRepository {
 
     try {
       final res = await apiService.get(url: url);
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return VisitorModel.fromJson(data);
     } catch (e) {

@@ -79,6 +79,16 @@ class SelectProfilePictureScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: PrimaryElevatedBtn(
+                    text: AppStrings.skipStr,
+                    press: () => Navigator.pop(context),
+                    width: AppSizes.length180,
+                    background: AppColors.gray200,
+                    textColor: AppColors.gray600,
+                  ),
+                ),
+                gapH16,
+                Expanded(
+                  child: PrimaryElevatedBtn(
                     text: AppStrings.saveStr,
                     press: () => ref
                         .read(accountControllerProvider.notifier)
@@ -88,16 +98,6 @@ class SelectProfilePictureScreen extends ConsumerWidget {
                         ),
                     width: AppSizes.length180,
                     disable: selectedImage == null,
-                  ),
-                ),
-                gapH16,
-                Expanded(
-                  child: PrimaryElevatedBtn(
-                    text: AppStrings.skipStr,
-                    press: () => Navigator.pop(context),
-                    width: AppSizes.length180,
-                    background: AppColors.gray200,
-                    textColor: AppColors.gray600,
                   ),
                 ),
               ],

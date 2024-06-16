@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/utils/async_value_ui.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:education_app/src/core/utils/from_validators.dart';
@@ -31,7 +32,7 @@ class _EnterPhoneScreenState extends ConsumerState<EnterPhoneScreen> {
       final isSuccess = await ref
           .read(signInSignupControllerProvider.notifier)
           .requestOtp(
-            phone: _phoneController.text.trim(),
+            phone: _phoneController.text.trim().getFullPhone,
             accountType: ref.read(signInSignupControllerProvider).accountType,
           );
 
@@ -49,18 +50,6 @@ class _EnterPhoneScreenState extends ConsumerState<EnterPhoneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(signInSignupControllerProvider.select((state) => state.value),
-        (_, next) {
-      if (next.isLoading) {
-        EasyLoading.show();
-      } else if (next.hasError) {
-        EasyLoading.dismiss();
-        next.showErrorDialog(context);
-      } else {
-        EasyLoading.dismiss();
-      }
-    });
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

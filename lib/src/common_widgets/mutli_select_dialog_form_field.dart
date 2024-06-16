@@ -76,9 +76,9 @@ class MultiSelectDialogFormField extends StatelessWidget {
               size: AppSizes.length20,
             ),
             itemsTextStyle:
-                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+                AppTextStyles.textRegularStyle18.copyWith(color: Colors.black),
             selectedItemsTextStyle:
-                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+                AppTextStyles.textRegularStyle18.copyWith(color: Colors.black),
             selectedColor: AppColors.primaryColor400,
             checkColor: Colors.white,
             decoration: const BoxDecoration(),

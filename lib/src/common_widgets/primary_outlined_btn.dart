@@ -9,19 +9,41 @@ class PrimaryOutlinedBtn extends StatelessWidget {
     super.key,
     required this.text,
     required this.press,
+    this.radius,
+    this.borderColor,
+    this.bg,
+    this.height,
+    this.width,
   });
 
   final String text;
   final VoidCallback press;
 
+  final double? radius;
+  final Color? borderColor;
+  final Color? bg;
+  final double? height;
+  final double? width;
+
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: press,
-      child: Text(
-        text,
-        style: AppTextStyles.textSemiBoldStyle14.copyWith(
-          color: AppColors.gray500,
+    return SizedBox(
+      height: height,
+      width: width ?? double.infinity,
+      child: OutlinedButton(
+        onPressed: press,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: bg,
+          foregroundColor: borderColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius ?? 10),
+          ),
+        ),
+        child: Text(
+          text,
+          style: AppTextStyles.textSemiBoldStyle14.copyWith(
+            color: AppColors.gray500,
+          ),
         ),
       ),
     );

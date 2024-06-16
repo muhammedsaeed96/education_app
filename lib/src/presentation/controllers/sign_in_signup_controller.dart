@@ -7,6 +7,7 @@ import 'package:education_app/src/data/authentication_repository.dart';
 import 'package:education_app/src/model/authentication_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
+import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/api_urls.dart';
@@ -77,10 +78,36 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
         SocialModel(url: youtubeChannelUrl, type: LinkType.youtube),
       );
     }*/
+
+    final authData = state.authentication == null
+        ? AuthenticationModel(phone: phone, accountType: accountType)
+        : state.authentication?.copyWithPhoneAndAccountType(
+            phone: phone,
+            accountType: accountType,
+          );
+
+    // to check if next otp attempt available
+
+    final otpHelper = ref.read(asyncInitProvider).otpHelper;
+
+    final bool canReqOtp = otpHelper.nextAttemptAvailable();
+
+    if (canReqOtp == false) {
+      state = state.copyWith(
+        accountType: accountType,
+        authentication: authData,
+        value: AsyncError(
+          otpHelper.getNextAttemptText ?? '',
+          StackTrace.current,
+        ),
+      );
+      return false;
+    }
+
     state = state.copyWith(
       authentication: state.authentication == null
           ? AuthenticationModel(
-              phone: phone.getFullPhone,
+              phone: phone,
               accountType: accountType,
             )
           : state.authentication?.copyWithPhoneAndAccountType(
@@ -90,6 +117,11 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     );
     state = state.copyWith(value: const AsyncLoading());
     final value = await AsyncValue.guard(() => _requestOtpByFormType());
+    // to increment otp when user send one
+    if (!value.hasError) {
+      otpHelper.incrementOtpReqCount();
+      ref.read(requestOtpAvailableProvider.notifier).state = false;
+    }
     state = state.copyWith(value: value);
     return !value.hasError;
   }
@@ -109,8 +141,7 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     }
   }
 
-  Future<void> verifyOtp(String otp) async {
-
+  Future<FormType?> verifyOtp(String otp) async {
     state = state.copyWith(value: const AsyncLoading());
 
     final AsyncValue<UserInfoModel> result;
@@ -145,6 +176,7 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
         ),
       );
     }
+    final formType = state.formType;
 
     if (!result.hasError) {
       await ref
@@ -157,8 +189,10 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
         accountType: AccountType.STUDENT,
         value: const AsyncData(null),
       );
+      return formType;
     } else {
       state = state.copyWith(value: result);
+      return null;
     }
   }
 

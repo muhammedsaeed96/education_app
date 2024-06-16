@@ -64,7 +64,7 @@ class AuthenticationModel {
     return AuthenticationModel(
       name: name,
       accountType: accountType,
-      phone: phone.getFullPhone,
+      phone: phone,
       code: code,
       locationDescription: locationDescription,
       areaId: areaId,

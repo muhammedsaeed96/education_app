@@ -2,6 +2,7 @@ import 'package:education_app/src/common_widgets/alert_dialogs.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
+import 'package:education_app/src/presentation/authentication/otp_countdown_timer.dart';
 import 'package:education_app/src/presentation/controllers/sign_in_signup_controller.dart';
 import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,25 +23,6 @@ class OtpScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(signInSignupControllerProvider, (previous, next) {
-      if (!next.value.isLoading && !next.value.hasError) {
-        EasyLoading.dismiss();
-        // make logout to false it mean user logged in right now
-        ref.read(logoutProvider.notifier).state = false;
-        // if user complete signup process successfully i will navigate to select profile picture screen
-        if (previous != null && previous.formType == FormType.signup) {
-          Navigator.pushNamedAndRemoveUntil(
-              context,
-               SelectProfilePictureScreen.routeName,
-             (route) => route.settings.name == '/',
-          );
-        } else {
-          // if user complete signIn process successfully i will navigate to select profile picture screen
-          Navigator.popUntil(context, (route) => route.settings.name == '/');
-        }
-      }
-    });
-
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) =>
@@ -73,16 +55,16 @@ class OtpScreen extends ConsumerWidget {
               Consumer(
                 builder: (_, ref, child) {
                   ref.watch(otpValueProvider);
-
                   final otp = ref.read(otpValueProvider);
-
                   return IgnorePointer(
                     ignoring: otp.length != 4,
                     child: PrimaryElevatedBtn(
                       disable: otp.length != 4,
-                      press: () => ref
-                          .read(signInSignupControllerProvider.notifier)
-                          .verifyOtp(otp),
+                      press: () => _verifyOtp(
+                        context: context,
+                        ref: ref,
+                        code: otp,
+                      ),
                       text: AppStrings.nextStr,
                     ),
                   );
@@ -93,12 +75,77 @@ class OtpScreen extends ConsumerWidget {
             ],
           ),
         ),
-        // ),
+        bottomNavigationBar: Consumer(
+          builder: (_, ref, child) {
+            final canReqOtp = ref.watch(requestOtpAvailableProvider);
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 48,
+                top: 8,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Visibility(visible: !canReqOtp, child: OtpCountDownTimer()),
+                  gapH6,
+                  IgnorePointer(
+                    ignoring: !canReqOtp,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () => _resendOtp(ref),
+                      child: Text(
+                        AppStrings.resendOtpStr,
+                        style: AppTextStyles.textMediumStyle16.copyWith(
+                          color: canReqOtp
+                              ? AppColors.primaryColor400
+                              : AppColors.gray400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
+  Future<void> _verifyOtp({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String code,
+  }) async {
+    EasyLoading.show();
+    final verifyType =
+        await ref.read(signInSignupControllerProvider.notifier).verifyOtp(code);
+    EasyLoading.dismiss();
+    ref.read(logoutProvider.notifier).state = false;
+    if (context.mounted) {
+      // if user complete signup process successfully i will navigate to select profile picture screen
+      if (verifyType == FormType.signup) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          SelectProfilePictureScreen.routeName,
+          (route) => route.settings.name == '/',
+        );
+      } else if (verifyType == FormType.signIn) {
+        // if user complete signIn process successfully i will navigate to select profile picture screen
+        Navigator.popUntil(context, (route) => route.settings.name == '/');
+      }
+    }
+  }
 
+  void _resendOtp(WidgetRef ref) {
+    final controller = ref.read(signInSignupControllerProvider);
+    ref.read(signInSignupControllerProvider.notifier).requestOtp(
+          phone: controller.authentication?.phone ?? '',
+          accountType: controller.accountType,
+        );
+  }
 
   // to show dialog when user click back button to give him warning
   Future<void> _stopAuthProcess({
@@ -135,9 +182,7 @@ class OtpTextField extends ConsumerWidget {
           appContext: context,
           controller: null,
           onChanged: (val) {
-            ref
-                .read(otpValueProvider.notifier)
-                .update((state) => val);
+            ref.read(otpValueProvider.notifier).update((state) => val);
           },
           length: 4,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],

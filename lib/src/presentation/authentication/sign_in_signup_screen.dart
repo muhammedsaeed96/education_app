@@ -5,9 +5,9 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/core/utils/from_validators.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
-import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/presentation/authentication/enter_phone_screen.dart';
 import 'package:education_app/src/presentation/authentication/otp_screen.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
@@ -56,7 +56,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       // if form type is sign in i will execute request otp
       if (signInSingUpState.formType == FormType.signIn) {
         final isSuccess = await controller.requestOtp(
-          phone: _phoneController.text.trim(),
+          phone: _phoneController.text.trim().getFullPhone,
           accountType: ref.read(signInSignupControllerProvider).accountType,
         );
 
@@ -321,7 +321,9 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                         gap32,
                         PrimaryElevatedBtn(
                           press: _submitForm,
-                          text: AppStrings.sendOnWhatsAppStr,
+                          text: signInSignupState.isSignIn
+                              ? AppStrings.sendOnWhatsAppStr
+                              : AppStrings.nextStr,
                         ),
                       ],
                     ),

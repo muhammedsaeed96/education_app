@@ -1,6 +1,6 @@
-class ApiKeys{
+class AppKeys{
 
-  ApiKeys._();
+  AppKeys._();
   static const dataKey = 'data';
   static const usernameKey = 'username';
   static const statusKey = 'status';
@@ -17,4 +17,9 @@ class ApiKeys{
   static const phoneKey = 'phone';
   static const accountTypeKey = 'accountType';
   static const codeKey = 'code';
+
+  // local storages keys
+  static const userInfoKey = 'userInfoKey';
+  static const otpRequestTimesKey = 'times';
+  static const nextOtpPermittedTimeKey = 'nextOtpTime';
 }

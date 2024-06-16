@@ -11,7 +11,7 @@ class AppColors {
   static const Color primaryColor500 = Color(0xFF2d9c9c);
   static const Color primaryColor600 = Color(0xFF288888);
   static const Color primaryColor700 = Color(0xFF227575);
-  static Color primaryColor50 = const Color(0xFFdaf4f0);
+  static Color primaryColor50 = const Color(0xFFd0f7f3);
 
   ///black with opacity
   static Color black87 = const Color(0x00000000).withOpacity(0.87);

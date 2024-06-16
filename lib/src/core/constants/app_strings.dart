@@ -136,5 +136,7 @@ class AppStrings {
   static const studentsContactWithMeStr = 'طلاب تواصلوا معي :';
   static const youDontHaveStudentStr = 'لايوجد لديك طلاب !';
   static const lastStudents = 'اخر الطلاب';
-
+  static const contactByWhatsappStr = 'تواصل عبر الواتساب';
+  static const callNowStr = 'اتصل الان';
+  static const resendOtpStr = "اعادة ارسال الرمز";
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/constants/api_keys.dart';
+import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/failures.dart';
 import '../core/utils/api_services.dart';
@@ -17,7 +17,7 @@ class HomeRepository {
 
     try {
       final res = await apiService.get(url: ApiUrls.getHomeUrl);
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return MainModel.fromJson(data);
     } catch (e) {

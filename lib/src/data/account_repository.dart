@@ -9,7 +9,7 @@ import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/constants/api_keys.dart';
+import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/failures.dart';
 
@@ -21,7 +21,7 @@ class AccountRepository {
   Future<StudentModel> getStudentAccount({required String id}) async {
     try {
       final res = await apiService.get(url: ApiUrls.studentUrl);
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return StudentModel.fromJson(data);
     } catch (e) {
@@ -43,7 +43,7 @@ class AccountRepository {
 
     try {
       final res = await apiService.get(url: url);
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return TeacherModel.fromJson(data);
     } catch (e) {
@@ -64,7 +64,7 @@ class AccountRepository {
         : '${ApiUrls.academyUrl}/$id';
     try {
       final res = await apiService.get(url: url);
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return AcademyModel.fromJson(data);
     } catch (e) {

@@ -16,6 +16,7 @@ class UrlLauncherHelper {
         break;
       case LinkType.whatsapp:
         final whatsappUrl = Uri.parse(
+
           'https://api.whatsapp.com/send/?phone=$val',
         );
         _launchUrl(whatsappUrl);

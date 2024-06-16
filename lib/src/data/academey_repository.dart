@@ -4,7 +4,7 @@ import 'package:education_app/src/core/utils/api_services.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/visitor_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/constants/api_keys.dart';
+import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/failures.dart';
 import '../model/academy_model.dart';
@@ -18,7 +18,7 @@ class AcademyRepository {
   Future<AcademyModel> getAcademy(AcademyID id) async {
     try {
       final res = await apiService.get(url: '${ApiUrls.academyUrl}/$id');
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return AcademyModel.fromJson(data);
     } catch (e) {
@@ -39,15 +39,15 @@ class AcademyRepository {
       final res = await apiService.get(
         url: ApiUrls.academyUrl,
         queryParameters: {
-          ApiKeys.provinceIdKey: filters?.provinceId,
-          ApiKeys.areaIdKey: filters?.areaId,
-          ApiKeys.stageIdKey: filters?.stageId,
-          ApiKeys.skipKey: skip,
-          ApiKeys.takeKey: 10,
-          ApiKeys.nameKey: searchValue,
+          AppKeys.provinceIdKey: filters?.provinceId,
+          AppKeys.areaIdKey: filters?.areaId,
+          AppKeys.stageIdKey: filters?.stageId,
+          AppKeys.skipKey: skip,
+          AppKeys.takeKey: 10,
+          AppKeys.nameKey: searchValue,
         },
       );
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return List<AcademyModel>.from(
         data.map((e) => AcademyModel.fromJson(e)),

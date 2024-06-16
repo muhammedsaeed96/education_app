@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'constants/api_keys.dart';
+import 'constants/app_keys.dart';
 import 'constants/app_strings.dart';
 
 abstract class Failure {
@@ -15,8 +15,8 @@ class ServerFailure extends Failure {
   //to get error message from response data when an error occur
   static String _getErrorMessageFromResponse(Map<String, dynamic> data) {
     String errorMsg = AppStrings.unexpectedErrorStr;
-    if (data.containsKey(ApiKeys.messageKey)) {
-      errorMsg = data[ApiKeys.messageKey];
+    if (data.containsKey(AppKeys.messageKey)) {
+      errorMsg = data[AppKeys.messageKey];
     }
     return errorMsg;
   }

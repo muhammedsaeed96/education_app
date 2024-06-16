@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
 import 'package:education_app/src/core/constants/api_urls.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/enum.dart';
+import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/core/utils/url_launcher_helper.dart';
+import 'package:education_app/src/data/home_repository.dart';
 import 'package:education_app/src/presentation/about_us_screen.dart';
 import 'package:education_app/src/presentation/controllers/account_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/header.dart';
@@ -16,6 +20,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/assets.dart';
+import '../../../controllers/sample_state_controller.dart';
 import 'account_card.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -42,13 +47,21 @@ class Account extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       children: <Widget>[
         const Header(),
-        AccountCard(
-          title: AppStrings.accountInfoStr,
-          icon: Assets.icUserGray,
-          press: () => Navigator.pushNamed(
-            context,
-            PersonalProfileScreen.routeName,
-          ),
+        Consumer(
+          builder: (context, ref, child) {
+            final value = ref.watch(getAccountDataProvider(true));
+
+            return AccountCard(
+              title: AppStrings.accountInfoStr,
+              icon: Assets.icUserGray,
+              press: () => value.isLoading || value.hasError
+                  ? null
+                  : Navigator.pushNamed(
+                      context,
+                      PersonalProfileScreen.routeName,
+                    ),
+            );
+          },
         ),
         gap12,
         AccountCard(
@@ -60,7 +73,7 @@ class Account extends ConsumerWidget {
         AccountCard(
           title: AppStrings.shareAppStr,
           icon: Assets.icShare,
-          press: _shareAppLink,
+          press: () => _shareAppLink(ref),
         ),
         gap12,
         AccountCard(
@@ -70,7 +83,8 @@ class Account extends ConsumerWidget {
             ApiUrls.privacyUrl,
             LinkType.link,
           ),
-        ),        gap12,
+        ),
+        gap12,
         AccountCard(
           title: AppStrings.aboutAppStr,
           icon: Assets.icInfo,
@@ -109,6 +123,8 @@ class Account extends ConsumerWidget {
     // if result true it mean user click confirm button
     if (result == true) {
       await ref.read(accountControllerProvider.notifier).logout();
+      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
+      ref.read(requestOtpAvailableProvider.notifier).state = true;
     }
   }
 
@@ -127,6 +143,8 @@ class Account extends ConsumerWidget {
     // if result true it mean user click confirm button
     if (result == true) {
       await ref.read(accountControllerProvider.notifier).deleteAccount();
+      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
+      ref.read(requestOtpAvailableProvider.notifier).state = true;
     }
   }
 
@@ -138,10 +156,16 @@ class Account extends ConsumerWidget {
     }
   }
 
-  void _shareAppLink() async {
-    final result = await Share.share('https://www.hojuzat.com');
+  void _shareAppLink(WidgetRef ref) async {
+    final appInfo = ref.read(getHomeDataProvider).value?.updateInfo;
+    if (appInfo == null) {
+      return;
+    }
+    final appUrl =
+        Platform.isAndroid ? appInfo.playStoreUrl : appInfo.appStoreUrl;
+    final result = await Share.share(appUrl);
     if (result.status == ShareResultStatus.success) {
-      print('Thank you for sharing my website!');
+      debugPrint('Thank you for sharing my website!');
     }
   }
 }

@@ -17,7 +17,6 @@ class Header extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(getAccountDataProvider(true));
-
     return AsyncWidget(
         value: value,
         retry: () => ref.invalidate(getAccountDataProvider),

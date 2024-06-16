@@ -20,3 +20,5 @@ final profileImageProvider = StateProvider.autoDispose<File?>((ref) => null);
 final logoutProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 final searchValProvider = StateProvider<String?>((ref) => null);
+
+final requestOtpAvailableProvider = StateProvider<bool>((ref) => false);

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/current_filters_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../core/constants/api_keys.dart';
+import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/failures.dart';
 import '../core/utils/api_services.dart';
@@ -22,16 +22,16 @@ class TeachersRepository {
       final res = await apiService.get(
         url: ApiUrls.teacherUrl,
         queryParameters: {
-          ApiKeys.provinceIdKey: filters?.provinceId,
-          ApiKeys.areaIdKey: filters?.areaId,
-          ApiKeys.stageIdKey: filters?.stageId,
-          ApiKeys.subjectIdKey: filters?.subjectId,
-          ApiKeys.skipKey: skip,
-          ApiKeys.takeKey: 10,
-          ApiKeys.nameKey : searchValue,
+          AppKeys.provinceIdKey: filters?.provinceId,
+          AppKeys.areaIdKey: filters?.areaId,
+          AppKeys.stageIdKey: filters?.stageId,
+          AppKeys.subjectIdKey: filters?.subjectId,
+          AppKeys.skipKey: skip,
+          AppKeys.takeKey: 10,
+          AppKeys.nameKey : searchValue,
         },
       );
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return List<TeacherModel>.from(
         data.map((e) => TeacherModel.fromJson(e)),
@@ -48,7 +48,7 @@ class TeachersRepository {
   Future<TeacherModel> getTeacher(TeacherID id) async {
     try {
       final res = await apiService.get(url: '${ApiUrls.teacherUrl}/$id');
-      final data = res.data[ApiKeys.dataKey];
+      final data = res.data[AppKeys.dataKey];
       // set courses and seasons list to home model
       return TeacherModel.fromJson(data);
     } catch (e) {
