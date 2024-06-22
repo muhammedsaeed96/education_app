@@ -24,7 +24,7 @@ class Header extends ConsumerWidget {
           final (url, name) = getUrlName(data);
           return Column(
             children: [
-              ProfileImage(imageUrl: url),
+              ProfileImage(imageUrl: url.getFullUrl),
               gap4,
               Text(
                 name,

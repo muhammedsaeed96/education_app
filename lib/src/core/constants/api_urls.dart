@@ -2,6 +2,7 @@ class ApiUrls {
   ApiUrls._();
 
   static const baseUrl = 'http://localhost';
+  // static const baseUrl = 'http://10.0.2.2:80';
   static const getHomeUrl = '$baseUrl/home';
   static const teacherUrl = '$baseUrl/teacher';
   static const getTeacherPersonalAccountUrl =

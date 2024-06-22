@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../common_widgets/empty_widget.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/enum.dart';
 import '../../../../data/visitor_repository.dart';
@@ -16,16 +17,18 @@ class AcademiesHorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppSizes.length180,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, index) => AcademyCard(academy: academies[index]),
-        separatorBuilder: (_, __) => gapH8,
-        itemCount: academies.length,
-      ),
-    );
+    return academies.isEmpty
+        ? EmptyWidget(showTextOnly: true)
+        : SizedBox(
+            height: AppSizes.length180,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, index) => AcademyCard(academy: academies[index]),
+              separatorBuilder: (_, __) => gapH8,
+              itemCount: academies.length,
+            ),
+          );
   }
 }
 
@@ -35,21 +38,19 @@ class AcademyCard extends ConsumerWidget {
   final AcademyModel academy;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TeacherAcademyMainCard(
       press: () {
         // to add visitor to teacher
-        ref
-            .read(visitorRepositoryProvider)
-            .createVisitors(
-          id: academy.id,
-          type: TeachingType.academy,
-        );
+        ref.read(visitorRepositoryProvider).createVisitors(
+              id: academy.id,
+              type: TeachingType.academy,
+            );
         Navigator.pushNamed(
-        context,
-        AcademyDetailsScreen.routeName,
-        arguments: academy.id,
-      );
+          context,
+          AcademyDetailsScreen.routeName,
+          arguments: academy.id,
+        );
       },
       imageUrl: academy.imageUrl,
       title: academy.title,

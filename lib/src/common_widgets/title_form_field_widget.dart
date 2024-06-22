@@ -75,7 +75,7 @@ class TitleFormFiledWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(4),
             margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
-            width: 54,
+            width: getProportionateScreenWidth(54),
             alignment: Alignment.center,
             child: Text(
               '+964',

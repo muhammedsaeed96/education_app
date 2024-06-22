@@ -45,7 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+    	<key>NSCameraUsageDescription</key>
+    	<string>يطلب التطبيق الاذن بالوصول الى الكاميرا لغرض التقاط صورة الحساب الشخصي</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-    	<string>يطلب التطبيق الاذن بالوصول الى الاستوديو لغرض اختيار صور وحفظها في حسابك</string>
+    	<string>يطلب التطبيق الاذن بالوصول الى الاستوديو لغرض اختيار صورة الحساب الشخصي</string>
 </dict>
 </plist>

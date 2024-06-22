@@ -95,6 +95,12 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static TextStyle textMediumStyle20= TextStyle(
+    color: AppColors.black87,
+    fontSize: AppSizes.length20,
+    fontWeight: FontWeight.w500,
+  );
+
   // Text regular styles
 
   static TextStyle textRegularStyle10 = TextStyle(

@@ -341,7 +341,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                     .updateFormType();
               },
             ),
-            gap24,
+            gap28,
           ],
         ),
       ),

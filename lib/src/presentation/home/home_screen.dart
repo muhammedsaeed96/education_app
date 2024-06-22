@@ -94,11 +94,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       final isNotStudent =
           ref.read(asyncInitProvider).localStorage.isNotStudent();
       return Container(
-        padding: const EdgeInsets.only(top: 8),
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.gray200)),
         ),
-        height: getProportionateScreenHeight(58),
+        height:getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
         child: Row(
           children: [
             _navBarItem(index: 0, text: AppStrings.homeStr),
@@ -120,9 +119,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final isNotStudent =
         ref.read(asyncInitProvider).localStorage.isNotStudent();
     return InkWell(
-      highlightColor: Colors.transparent,
+      highlightColor: AppColors.gray50,
       focusColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      splashColor: AppColors.primaryColor50.withOpacity(0.2),
       onTap: () => _changeNavBarIndex(index: index, ref: ref),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),

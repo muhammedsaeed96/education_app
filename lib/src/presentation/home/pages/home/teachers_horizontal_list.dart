@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../common_widgets/empty_widget.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/enum.dart';
 import '../../../../data/visitor_repository.dart';
@@ -16,16 +17,18 @@ class TeachersHorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppSizes.length180,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, index) => TeacherCard(teacher: teachers[index]),
-        separatorBuilder: (_, __) => gapH8,
-        itemCount: teachers.length,
-      ),
-    );
+    return teachers.isEmpty
+        ? EmptyWidget(showTextOnly: true)
+        : SizedBox(
+            height: AppSizes.length180,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (_, index) => TeacherCard(teacher: teachers[index]),
+              separatorBuilder: (_, __) => gapH8,
+              itemCount: teachers.length,
+            ),
+          );
   }
 }
 
@@ -35,21 +38,19 @@ class TeacherCard extends ConsumerWidget {
   final TeacherModel teacher;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TeacherAcademyMainCard(
       press: () {
         // to add visitor to teacher
-        ref
-            .read(visitorRepositoryProvider)
-            .createVisitors(
-          id: teacher.id,
-          type: TeachingType.teacher,
-        );
+        ref.read(visitorRepositoryProvider).createVisitors(
+              id: teacher.id,
+              type: TeachingType.teacher,
+            );
         Navigator.pushNamed(
-        context,
-        TeacherDetailsScreen.routeName,
-        arguments: teacher.id,
-      );
+          context,
+          TeacherDetailsScreen.routeName,
+          arguments: teacher.id,
+        );
       },
       imageUrl: teacher.imageUrl,
       title: teacher.name,

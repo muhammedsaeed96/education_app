@@ -35,6 +35,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
       tap: press,
       radius: 12,
       child: Container(
+        alignment: Alignment.bottomCenter,
         constraints: BoxConstraints(
           minWidth: AppSizes.length120,
           maxWidth: AppSizes.screenWidth * 0.5,
@@ -45,6 +46,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(

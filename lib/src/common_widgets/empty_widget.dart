@@ -7,28 +7,38 @@ import '../core/constants/app_text_styles.dart';
 import '../core/constants/assets.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({super.key, this.text = AppStrings.noDataStr});
+  const EmptyWidget({
+    super.key,
+    this.text = AppStrings.noDataStr,
+    this.showTextOnly = false,
+  });
 
   final String text;
+  final bool showTextOnly;
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            Assets.icEmpty,
-            width: AppSizes.screenHeight * 0.18,
-            height: AppSizes.screenHeight * 0.18,
-          ),
-          gap16,
-          Text(
-            text,
-            style: AppTextStyles.textMediumStyle16,
-          ),
-        ],
-      ),
+      child: showTextOnly
+          ? Text(
+              text,
+              style: AppTextStyles.textMediumStyle20,
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  Assets.icEmpty,
+                  width: AppSizes.screenHeight * 0.18,
+                  height: AppSizes.screenHeight * 0.18,
+                ),
+                gap16,
+                Text(
+                  text,
+                  style: AppTextStyles.textMediumStyle16,
+                ),
+              ],
+            ),
     );
   }
 }

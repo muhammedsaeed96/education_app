@@ -17,6 +17,7 @@ void filtersBottomSheet({
   required TeachingType type,
 }) {
   showModalBottomSheet<void>(
+    constraints: const BoxConstraints(minWidth: double.infinity),
     context: context,
     builder: (_) => BottomSheet(type: type),
   );

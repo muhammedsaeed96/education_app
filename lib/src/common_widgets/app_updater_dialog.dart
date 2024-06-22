@@ -30,7 +30,7 @@ Future appUpdaterDialog({
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSizes.w20,
-                vertical: AppSizes.length15,
+                vertical: AppSizes.length16,
               ),
               height: AppSizes.length132,
               decoration: const BoxDecoration(
@@ -43,7 +43,7 @@ Future appUpdaterDialog({
               child: ListTile(
                 minVerticalPadding: 0,
                 contentPadding: EdgeInsets.zero,
-                horizontalTitleGap: AppSizes.length2,
+                horizontalTitleGap: 2,
                 dense: false,
 /*                leading: Padding(
                   padding: EdgeInsets.only(left: AppSizes.w6),

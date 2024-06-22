@@ -19,9 +19,6 @@ class OtpHelper {
   Future<void> _setNextAttemptTime(int times) async {
     final now = DateTime.now();
     DateTime td;
-    td = now.add(const Duration(seconds: 20)); // 1 min
-    await _storage.setNextOtpAttempt(td.toString());
-    return;
     switch (times) {
       case 1:
         td = now.add(const Duration(minutes: 1)); // 1 min

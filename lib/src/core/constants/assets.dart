@@ -66,4 +66,6 @@ class Assets {
   static const String icSuccess = "assets/icons/ic_success.svg";
 
   static const String icEmpty = "assets/icons/ic_empty.svg";
+
+  static const String icLogo = "assets/icons/logo.png";
 }

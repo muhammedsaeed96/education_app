@@ -1,10 +1,6 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
-import 'package:education_app/src/common_widgets/custom_inkwell.dart';
-import 'package:education_app/src/common_widgets/primary_elevated_btn.dart';
-import 'package:education_app/src/common_widgets/primary_outlined_btn.dart';
 import 'package:education_app/src/common_widgets/title_btn_widget.dart';
 import 'package:education_app/src/common_widgets/title_widget.dart';
-import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/presentation/academies_screen.dart';
@@ -14,8 +10,6 @@ import 'package:education_app/src/presentation/home/pages/home/teachers_horizont
 import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../data/home_repository.dart';
 
 class Home extends ConsumerWidget {

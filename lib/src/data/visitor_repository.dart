@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/constants/app_keys.dart';
@@ -29,15 +30,16 @@ class VisitorRepository {
         throw (AppStrings.unexpectedErrorStr);
       }
     } catch (e) {
-      var error = e.toString();
+     /* var error = e.toString();
       if (e is DioException) {
         error = ServerFailure.fromDioError(e).message;
       }
-      throw (error);
+      throw (error);*/
     }
   }
 
   Future<VisitorModel> getVisitors({required AccountType type}) async {
+    debugPrint("getVisitors");
     final url = type == AccountType.TEACHER
         ? ApiUrls.getTeacherVisitorsUrl
         : ApiUrls.getAcademyVisitorsUrl;

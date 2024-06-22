@@ -8,7 +8,9 @@ extension AsyncValueUi on AsyncValue {
     if (hasError) {
       showExceptionAlertDialog(
         context: context,
-        title: AppStrings.errorStr,
+        title: error.toString().contains('يرجى اعادة المحاولة بعد ')
+            ? AppStrings.notifyStr
+            : AppStrings.errorStr,
         exception: error,
       );
     }

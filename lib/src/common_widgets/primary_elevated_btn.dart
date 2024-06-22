@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/constants/app_colors.dart';
+import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/app_text_styles.dart';
@@ -8,7 +9,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
     super.key,
     required this.text,
     required this.press,
-    this.height = 50,
+    this.height,
     this.width = double.infinity,
     this.disable = false,
     this.background = AppColors.primaryColor400,
@@ -18,7 +19,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
 
   final String text;
   final VoidCallback press;
-  final double height;
+  final double? height;
   final double width;
   final bool disable;
   final Color background;
@@ -28,7 +29,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height ?? getProportionateScreenHeight(50),
       width: width,
       child: ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(

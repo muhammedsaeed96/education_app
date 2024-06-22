@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
+import '../core/constants/app_text_styles.dart';
 
 class TitleTextBtnRowWidget extends StatelessWidget {
   const TitleTextBtnRowWidget({
@@ -21,17 +22,14 @@ class TitleTextBtnRowWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: AppColors.gray500),
+          style: AppTextStyles.textMediumStyle16.copyWith(color: AppColors.gray500),
         ),
         gapH4,
         TextButton(
           onPressed: press,
           child: Text(
             btnText,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: AppTextStyles.textMediumStyle16.copyWith(
                   color: AppColors.primaryColor400,
                   // decoration: TextDecoration.underline,
                 ),

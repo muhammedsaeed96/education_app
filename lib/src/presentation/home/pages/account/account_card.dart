@@ -32,32 +32,33 @@ class AccountCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.gray100),
         ),
-        child: ListTile(
-          horizontalTitleGap: 8,
-          minVerticalPadding: 0,
-          contentPadding: EdgeInsets.zero,
-          leading: SvgPicture.asset(
-            icon,
-            height: AppSizes.length24,
-            width: AppSizes.length24,
-            colorFilter: redColor
-                ? const ColorFilter.mode(
-                    AppColors.red500,
-                    BlendMode.srcIn,
-                  )
-                : null,
-          ),
-          title: Text(
-            title,
-            style: AppTextStyles.textMediumStyle14.copyWith(
-                  color: redColor ? AppColors.red500 : AppColors.gray600,
-                ),
-          ),
-          trailing: Icon(
-            Icons.arrow_forward_ios,
-            color: AppColors.gray600,
-            size: AppSizes.length12,
-          ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              height: AppSizes.length24,
+              width: AppSizes.length24,
+              colorFilter: redColor
+                  ? const ColorFilter.mode(
+                      AppColors.red500,
+                      BlendMode.srcIn,
+                    )
+                  : null,
+            ),
+            gapH8,
+            Text(
+              title,
+              style: AppTextStyles.textMediumStyle14.copyWith(
+                color: redColor ? AppColors.red500 : AppColors.gray600,
+              ),
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: AppColors.gray600,
+              size: AppSizes.length12,
+            ),
+          ],
         ),
       ),
     );

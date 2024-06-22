@@ -18,7 +18,7 @@ class AsyncInit {
   }
 
   Future<void> _init() async {
-    apiService = ApiService();
+    apiService = ApiService(ref: ref);
     apiService.initializeDio();
     _sharedPreferences = await SharedPreferences.getInstance();
     localStorage = LocalStorage(_sharedPreferences);
