@@ -15,6 +15,8 @@ class AppStrings {
   static const descriptionStr = 'الوصف';
   static const descriptionExStr = 'خبرة في مجال التدريس لمدة ثلاث سنوات';
   static const aboutTeacherStr = 'نبذة عن الاستاذ';
+  static const aboutYouStr = 'نبذة عنك';
+  static const aboutAcademyStr = "نبذة عن المعهد";
   static const majorStr = 'الاختصاص';
   static const locationDescriptionStr = 'تفاصيل الموقع';
   static const contactWithTeacher = 'تواصل مع الاستاذ';
@@ -113,6 +115,9 @@ class AppStrings {
 
   static const facebookPageUrlStr = 'رابط صفحة الفيسبوك';
   static const youtubeChannelUrlStr = 'رابط قناة اليوتيوب';
+  static const instagramUrlStr = 'رابط صفحة الانستغرام ';
+  static const telegramChannelUrl = 'رابط قناة التلكرام ';
+  static const urlExStr = 'https://me.url.com';
   static const chooseProfilePicStr = 'اختر صورة الحساب';
   static const selectPicStr = 'اختر صورة';
   static const skipStr = 'تخطي';
@@ -139,4 +144,6 @@ class AppStrings {
   static const contactByWhatsappStr = 'تواصل عبر الواتساب';
   static const callNowStr = 'اتصل الان';
   static const resendOtpStr = "اعادة ارسال الرمز";
+  static const notValidUrlStr = "الرابط غير صحيح";
+
 }

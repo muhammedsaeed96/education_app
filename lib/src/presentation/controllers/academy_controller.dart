@@ -6,7 +6,7 @@ import 'package:education_app/src/presentation/controllers/pagination_controller
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AcademyController extends AsyncNotifier<List<AcademyModel>>
+class AcademyController extends AutoDisposeAsyncNotifier<List<AcademyModel>>
     implements PaginationController<AcademyModel, int> {
   @override
   FutureOr<List<AcademyModel>> build() async => await loadPage(currentPage);
@@ -102,6 +102,6 @@ class AcademyController extends AsyncNotifier<List<AcademyModel>>
 }
 
 final academyControllerProvider =
-    AsyncNotifierProvider<AcademyController, List<AcademyModel>>(
+    AsyncNotifierProvider.autoDispose<AcademyController, List<AcademyModel>>(
   () => AcademyController(),
 );

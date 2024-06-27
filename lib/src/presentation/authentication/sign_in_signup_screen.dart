@@ -37,13 +37,15 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
 
   String? _accountType;
   final _phoneController = TextEditingController();
-  final _facebookPageUrlController = TextEditingController();
-  final _youtubeChannelUrl = TextEditingController();
   final _nameController = TextEditingController();
   final List _studyStagesIds = [];
   final List _subjectsIds = [];
   final _locationDescriptionController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _facebookController = TextEditingController();
+  final _youtubeController = TextEditingController();
+  final _telegramController = TextEditingController();
+  final _instagramController = TextEditingController();
   String? _stageId;
   String? _provinceId;
   String? _areaId;
@@ -75,6 +77,10 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
           subjectsIds: _subjectsIds,
           locationDescription: _locationDescriptionController.text.trim(),
           description: _descriptionController.text.trim(),
+          facebookUrl: _facebookController.text.trim(),
+          youtubeUrl: _youtubeController.text.trim(),
+          telegramUrl: _telegramController.text.trim(),
+          instagramUrl: _instagramController.text.trim(),
         );
         Navigator.pushNamed(context, EnterPhoneScreen.routeName);
       }
@@ -86,8 +92,10 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
     _phoneController.dispose();
     _locationDescriptionController.dispose();
     _descriptionController.dispose();
-    _facebookPageUrlController.dispose();
-    _youtubeChannelUrl.dispose();
+    _facebookController.dispose();
+    _youtubeController.dispose();
+    _instagramController.dispose();
+    _telegramController.dispose();
     super.dispose();
   }
 
@@ -134,18 +142,6 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                     key: formKey,
                     child: Column(
                       children: [
-                        /* if(!signInSignupState.isSignIn)...[
-                        const ProfileImage(),
-                        gap8,
-                        PrimaryElevatedBtn(
-                          text: AppStrings.chooseProfilePicStr,
-                          press: () {},
-                          width: AppSizes.length180,
-                          radius: 20,
-                          height: 40,
-                        ),
-                          gap32,
-                        ],*/
                         DropDownFormFieldWidget(
                           title: AppStrings.accountTypeStr,
                           hintText: AppStrings.selectRegistrationTypeStr,
@@ -186,11 +182,14 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                         // to show these widgets if account type not student
                         if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
                           TitleFormFiledWidget(
-                            title: AppStrings.descriptionStr,
+                            title: signInSignupState.accountType ==
+                                    AccountType.ACADEMY
+                                ? AppStrings.aboutAcademyStr
+                                : AppStrings.aboutYouStr,
                             hintText: AppStrings.descriptionExStr,
                             controller: _descriptionController,
                             validator: (val) => val.isValidDescription,
-                            maxLines: 3,
+                            maxLines: 4,
                           ),
                           gap24,
                           // TODO ENABLE IT LATER
@@ -316,8 +315,39 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             validator: (val) => val.isValidDescription,
                             maxLines: 3,
                           ),
+                          gap24,
+                          TitleFormFiledWidget(
+                            title: AppStrings.facebookPageUrlStr,
+                            hintText: AppStrings.urlExStr,
+                            controller: _facebookController,
+                            validator: (val) => val.isValidUrl,
+                            isRequired: false,
+                          ),
+                          gap24,
+                          TitleFormFiledWidget(
+                            title: AppStrings.instagramUrlStr,
+                            hintText: AppStrings.urlExStr,
+                            controller: _instagramController,
+                            validator: (val) => val.isValidUrl,
+                            isRequired: false,
+                          ),
+                          gap24,
+                          TitleFormFiledWidget(
+                            title: AppStrings.youtubeChannelUrlStr,
+                            hintText: AppStrings.urlExStr,
+                            controller: _youtubeController,
+                            validator: (val) => val.isValidUrl,
+                            isRequired: false,
+                          ),
+                          gap24,
+                          TitleFormFiledWidget(
+                            title: AppStrings.telegramChannelUrl,
+                            hintText: AppStrings.urlExStr,
+                            controller: _telegramController,
+                            validator: (val) => val.isValidUrl,
+                            isRequired: false,
+                          ),
                         ],
-
                         gap32,
                         PrimaryElevatedBtn(
                           press: _submitForm,

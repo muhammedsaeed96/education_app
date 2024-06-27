@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/custom_file_converter.dart';
 import 'package:education_app/src/model/province_model.dart';
-import 'package:education_app/src/model/social_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'academy_model.g.dart';
 
 typedef AcademyID = String;
@@ -28,12 +28,15 @@ class AcademyModel {
   @JsonKey(name: 'Stages')
   final List<StageModel> stages;
   final int visitorsNumber;
-  final List<SocialModel> socials;
   final List<String> stagesIds;
   final List<ProvinceModel> provinces;
   final List<StageModel> allStages;
   final String? provinceId;
   final String? areaId;
+  final String? facebookUrl;
+  final String? youtubeUrl;
+  final String? instagramUrl;
+  final String? telegramUrl;
 
   AcademyModel({
     required this.id,
@@ -47,12 +50,15 @@ class AcademyModel {
     required this.locationDescription,
     this.stages = const [],
     this.visitorsNumber = 0,
-    this.socials = const [],
     this.stagesIds = const [],
     this.provinces = const [],
     this.allStages = const [],
     this.provinceId,
     this.areaId,
+    this.facebookUrl,
+    this.youtubeUrl,
+    this.instagramUrl,
+    this.telegramUrl,
   });
 
   @override
@@ -62,6 +68,10 @@ class AcademyModel {
         areaId.hashCode,
         description.hashCode,
         locationDescription.hashCode,
+        facebookUrl.hashCode,
+        youtubeUrl.hashCode,
+        instagramUrl.hashCode,
+        telegramUrl.hashCode,
       );
 
   @override
@@ -87,6 +97,10 @@ class AcademyModel {
         allStages: allStages,
         provinceId: academyModel.provinceId,
         areaId: academyModel.areaId,
+        facebookUrl: academyModel.facebookUrl,
+        youtubeUrl: academyModel.youtubeUrl,
+        instagramUrl: academyModel.instagramUrl,
+        telegramUrl: academyModel.telegramUrl,
       );
     }
     return this;

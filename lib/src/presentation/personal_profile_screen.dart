@@ -42,6 +42,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
   final List<dynamic> _subjectsIds = [];
   final _locationDescriptionController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _facebookController = TextEditingController();
+  final _youtubeController = TextEditingController();
+  final _telegramController = TextEditingController();
+  final _instagramController = TextEditingController();
   String? _stageId;
   String? _provinceId;
   String? _areaId;
@@ -51,16 +55,16 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
 
   bool _isFormDataUpdated = false;
 
-  late final String?  _imageUrl;
+  late final String? _imageUrl;
 
   @override
   void initState() {
     _accountData = ref.read(getAccountDataProvider(true)).value;
     _userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
 
-      _provinceId = _accountData.provinceId;
-      _areaId = _accountData.areaId;
-      _imageUrl = _accountData.imageUrl;
+    _provinceId = _accountData.provinceId;
+    _areaId = _accountData.areaId;
+    _imageUrl = _accountData.imageUrl;
 
     if (_accountData is StudentModel) {
       _nameController.text = _accountData.name;
@@ -71,12 +75,20 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       _subjectsIds.addAll(_accountData.subjectsIds);
       _locationDescriptionController.text = _accountData.locationDescription;
       _descriptionController.text = _accountData.description;
+      _facebookController.text = _accountData.facebookUrl ?? '';
+      _youtubeController.text = _accountData.youtubeUrl ?? '';
+      _telegramController.text = _accountData.telegramUrl ?? '';
+      _instagramController.text = _accountData.instagramUrl ?? '';
     } else {
       _accountData as AcademyModel;
       _nameController.text = _accountData.title;
       _stagesIds.addAll(_accountData.stagesIds);
       _locationDescriptionController.text = _accountData.locationDescription;
       _descriptionController.text = _accountData.description;
+      _facebookController.text = _accountData.facebookUrl ?? '';
+      _youtubeController.text = _accountData.youtubeUrl ?? '';
+      _telegramController.text = _accountData.telegramUrl ?? '';
+      _instagramController.text = _accountData.instagramUrl ?? '';
     }
     super.initState();
   }
@@ -86,6 +98,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     _nameController.dispose();
     _locationDescriptionController.dispose();
     _descriptionController.dispose();
+    _facebookController.dispose();
+    _youtubeController.dispose();
+    _instagramController.dispose();
+    _telegramController.dispose();
     super.dispose();
   }
 
@@ -110,25 +126,33 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       formData = TeacherModel(
         phone: _accountData.phone,
         id: _userInfo.userId,
-        name: _nameController.text,
+        name: _nameController.text.trim(),
         provinceId: _provinceId,
         areaId: _areaId,
-        description: _descriptionController.text,
-        locationDescription: _locationDescriptionController.text,
+        description: _descriptionController.text.trim(),
+        locationDescription: _locationDescriptionController.text.trim(),
         stagesIds: _stagesIds.cast<String>(),
         subjectsIds: _subjectsIds.cast<String>(),
+        facebookUrl: _facebookController.text.trim(),
+        youtubeUrl: _youtubeController.text.trim(),
+        telegramUrl: _telegramController.text.trim(),
+        instagramUrl: _instagramController.text.trim(),
       ) as T;
     } else {
       _accountData as AcademyModel;
       formData = AcademyModel(
         phone: _accountData.phone,
         id: _userInfo.userId,
-        title: _nameController.text,
+        title: _nameController.text.trim(),
         provinceId: _provinceId,
         areaId: _areaId,
-        description: _descriptionController.text,
-        locationDescription: _locationDescriptionController.text,
+        description: _descriptionController.text.trim(),
+        locationDescription: _locationDescriptionController.text.trim(),
         stagesIds: _stagesIds.cast<String>(),
+        facebookUrl: _facebookController.text.trim(),
+        youtubeUrl: _youtubeController.text.trim(),
+        telegramUrl: _telegramController.text.trim(),
+        instagramUrl: _instagramController.text.trim(),
       ) as T;
     }
 
@@ -153,7 +177,6 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     ref.listen(accountControllerProvider, (previous, next) {
       if (!next.hasError && !next.isLoading) {
         _isFormDataUpdated = true;
@@ -197,10 +220,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                     press: () {
                       ref.read(profileImageProvider.notifier).state = null;
                       Navigator.pushNamed(
-                      context,
-                      SelectProfilePictureScreen.routeName,
-                      arguments: _accountData.imageUrl.toString().getFullUrl,
-                    );
+                        context,
+                        SelectProfilePictureScreen.routeName,
+                        arguments: _accountData.imageUrl.toString().getFullUrl,
+                      );
                     },
                   ),
                 ),
@@ -215,11 +238,13 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
               if (_userInfo.accountType != AccountType.STUDENT) ...[
                 gap24,
                 TitleFormFiledWidget(
-                  title: AppStrings.descriptionStr,
+                  title: _userInfo.accountType == AccountType.ACADEMY
+                      ? AppStrings.aboutAcademyStr
+                      : AppStrings.aboutYouStr,
                   hintText: AppStrings.descriptionExStr,
                   controller: _descriptionController,
                   validator: (val) => val.isValidDescription,
-                  maxLines: 3,
+                  maxLines: 4,
                 ),
                 gap24,
               ],
@@ -325,6 +350,38 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                   controller: _locationDescriptionController,
                   validator: (val) => val.isValidDescription,
                   maxLines: 3,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.facebookPageUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _facebookController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.instagramUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _instagramController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.youtubeChannelUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _youtubeController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.telegramChannelUrl,
+                  hintText: AppStrings.urlExStr,
+                  controller: _telegramController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
                 ),
               ],
             ],

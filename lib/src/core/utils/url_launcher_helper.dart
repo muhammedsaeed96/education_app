@@ -21,7 +21,7 @@ class UrlLauncherHelper {
         );
         _launchUrl(whatsappUrl);
         break;
-      case LinkType.facebook || LinkType.youtube || LinkType.link:
+      case LinkType.link:
         final facebookUrl = Uri.parse(val);
         _launchUrl(facebookUrl);
         break;

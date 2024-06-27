@@ -32,16 +32,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int currentNavBarIndex = 0;
 
   final List<Widget> _pageViewPages = [
-    const Home(),
-     const VisitorsScreen(),
-    const ContactUs(),
-    const Account(),
+    const Home(
+      key: PageStorageKey('page1'),
+    ),
+    const ContactUs(key: PageStorageKey('page2')),
+    const Account(key: PageStorageKey('page3')),
   ];
 
   @override
   void initState() {
     _appUpdater = AppUpdater();
     _pageController = PageController(initialPage: 0);
+    if (_isAuthAndNotStudent) {
+      _pageViewPages.insert(
+        1,
+        const VisitorsScreen(key: PageStorageKey('page4')),
+      );
+    }
     super.initState();
   }
 
@@ -71,12 +78,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     ref.listen(logoutProvider, (_, next) {
-      _changeNavBarIndex(index: next ? 0 : 3, ref: ref);
+      debugPrint('logged out');
+      if (_isAuthAndNotStudent && _pageViewPages.length < 4) {
+        _pageViewPages.insert(
+            1, const VisitorsScreen(key: PageStorageKey('page4')));
+        setState(() {});
+      }
+      if (next && _pageViewPages.length == 4) {
+        _pageViewPages.removeAt(1);
+        setState(() {});
+      }
+
+      _changeNavBarIndex(
+        index: next
+            ? 0
+            : _isAuthAndNotStudent
+                ? 3
+                : 2,
+        ref: ref,
+      );
     });
 
     return SafeArea(
       child: Scaffold(
         body: PageView.builder(
+          onPageChanged: (_) => setState(() {}),
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           itemBuilder: (_, i) => _pageViewPages[i],
@@ -88,24 +114,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _bottomNavBar() {
-
     return Consumer(builder: (context, ref, child) {
       ref.watch(logoutProvider);
-      final isNotStudent =
-          ref.read(asyncInitProvider).localStorage.isNotStudent();
       return Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.gray200)),
         ),
-        height:getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
+        height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
         child: Row(
           children: [
             _navBarItem(index: 0, text: AppStrings.homeStr),
-            isNotStudent
+            _isAuthAndNotStudent
                 ? _navBarItem(index: 1, text: AppStrings.visitStr)
                 : const SizedBox.shrink(),
-            _navBarItem(index: 2, text: AppStrings.callUsStr),
-            _navBarItem(index: 3, text: AppStrings.accountStr),
+            _navBarItem(
+              index: _isAuthAndNotStudent ? 2 : 1,
+              text: AppStrings.callUsStr,
+            ),
+            _navBarItem(
+              index: _isAuthAndNotStudent ? 3 : 2,
+              text: AppStrings.accountStr,
+            ),
           ],
         ),
       );
@@ -116,8 +145,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     required int index,
     required String text,
   }) {
-    final isNotStudent =
-        ref.read(asyncInitProvider).localStorage.isNotStudent();
     return InkWell(
       highlightColor: AppColors.gray50,
       focusColor: Colors.transparent,
@@ -126,8 +153,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: SizedBox(
-          width:
-          (isNotStudent ? AppSizes.screenWidth / 4 : AppSizes.screenWidth / 3) - 8,
+          width: (_isAuthAndNotStudent
+                  ? AppSizes.screenWidth / 4
+                  : AppSizes.screenWidth / 3) -
+              8,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -157,31 +186,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   String _getImageUrlByIndex(int index) {
-    if (index == 0) {
-      return index == currentNavBarIndex ? Assets.icHomeFill : Assets.icHome;
-    } else if (index == 1) {
-      return index == currentNavBarIndex ? Assets.icEyeFill : Assets.icEye;
-    } else if (index == 2) {
-      return index == currentNavBarIndex ? Assets.icPhoneFill : Assets.icPhone;
-    } else {
-      return index == currentNavBarIndex ? Assets.icUserFill : Assets.icUser;
+    String icon;
+    switch (index) {
+      case 0:
+        icon = Assets.icHome;
+        break;
+      case 1:
+        icon = !_isAuthAndNotStudent ? Assets.icPhone : Assets.icEye;
+        break;
+      case 2:
+        icon = !_isAuthAndNotStudent ? Assets.icUser : Assets.icPhone;
+        break;
+      default:
+        icon = Assets.icUser;
     }
+    return index == currentNavBarIndex
+        ? icon.split('.')[0] + '_fill.svg'
+        : icon;
   }
 
   void _changeNavBarIndex({required int index, required WidgetRef ref}) {
-    final userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo();
-    if (index == 3 && userInfo == null) {
+    final provider = ref.read(asyncInitProvider).localStorage;
+
+    final userInfo = provider.getUserInfo();
+
+    int accountPageIndex = 2;
+
+    if (_isAuthAndNotStudent) {
+      accountPageIndex = 3;
+    }
+
+    if (index == accountPageIndex && userInfo == null) {
       Navigator.pushNamed(context, SignInSignupScreen.routeName);
       return;
     }
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
 
-    setState(() {
-      currentNavBarIndex = index;
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
-      );
-    });
+    // setState(() {
+    currentNavBarIndex = index;
+    // });
+  }
+
+  bool get _isAuthAndNotStudent {
+    return ref.read(asyncInitProvider).localStorage.isAuthAndNotStudent();
   }
 }

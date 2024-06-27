@@ -13,11 +13,18 @@ import '../common_widgets/adderss_widget.dart';
 import '../core/constants/app_text_styles.dart';
 import '../model/student_model.dart';
 
-class VisitorsScreen extends ConsumerWidget {
+class VisitorsScreen extends ConsumerStatefulWidget{
   const VisitorsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<VisitorsScreen> createState() => _VisitorsScreenState();
+}
+
+class _VisitorsScreenState extends ConsumerState<VisitorsScreen> with AutomaticKeepAliveClientMixin{
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    debugPrint('VisitorsScreen Build');
     final value = ref.watch(
       getVisitorsProvider(
         ref.read(asyncInitProvider).localStorage.getUserInfo()?.accountType ??
@@ -103,6 +110,9 @@ class VisitorsScreen extends ConsumerWidget {
       retry: () => ref.invalidate(getVisitorsProvider),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class VisitorCard extends StatelessWidget {

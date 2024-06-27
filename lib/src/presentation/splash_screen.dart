@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor500,
+      backgroundColor: AppColors.primaryColor400,
       body: FutureBuilder(
         future: null,
         builder: (context, snapshot) {
@@ -26,8 +26,8 @@ class SplashScreen extends StatelessWidget {
           return Center(
             child: Image.asset(
               Assets.icLogo,
-              width: AppSizes.screenHeight * 0.36,
-              height: AppSizes.screenHeight * 0.36,
+              width: AppSizes.screenHeight * 0.32,
+              height: AppSizes.screenHeight * 0.32,
             ),
           );
         },

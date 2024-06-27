@@ -39,7 +39,7 @@ class TeacherAcademySmallCard extends StatelessWidget {
             imageUrl: '${ApiUrls.baseUrl}/$imageUrl',
             height: AppSizes.length58,
             width: AppSizes.length58,
-            radius: AppSizes.length58 / 2,
+            radius:AppSizes.length58 / 2,
           ),
           title: Padding(
             padding: const EdgeInsets.only(bottom: 6),

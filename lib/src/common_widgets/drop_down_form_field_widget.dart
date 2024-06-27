@@ -50,18 +50,24 @@ class DropDownFormFieldWidget extends StatelessWidget {
           elevation: 2,
           decoration: InputDecoration(hintText: hintText),
           dropdownColor: Colors.white,
-          value:needSetSelectedItem ? _getSelectedItems : selectedItem,
+          value: needSetSelectedItem ? _getSelectedItems : selectedItem,
           validator: (val) {
             final String? text = val as String?;
             return text.isValidText;
           },
+          disabledHint: Text(
+            hintText,
+            style: AppTextStyles.textRegularStyle14.copyWith(
+              color: AppColors.gray400,
+            ),
+          ),
           items: items
               .map(
                 (e) => DropdownMenuItem(
                   value: items is List<String> ? e : e.id,
                   child: Text(
                     items is List<String> ? e : e.name,
-                    style: AppTextStyles.textRegularStyle16
+                    style: AppTextStyles.textRegularStyle14
                         .copyWith(color: Colors.black),
                   ),
                 ),

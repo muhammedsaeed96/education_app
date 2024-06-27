@@ -1,13 +1,11 @@
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/presentation/controllers/academy_controller.dart';
-import 'package:education_app/src/presentation/controllers/filter_controller.dart';
 import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/assets.dart';
 

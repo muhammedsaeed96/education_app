@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:education_app/src/model/province_model.dart';
-import 'package:education_app/src/model/social_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:education_app/src/model/subject_model.dart';
 import 'package:flutter/foundation.dart';
@@ -26,7 +25,6 @@ class TeacherModel {
   final String locationDescription;
   @JsonKey(name: 'Subjects')
   final List<SubjectModel> subjects;
-  final List<SocialModel> socials;
   final String? provinceId;
   final String? areaId;
   final List<String> subjectsIds;
@@ -41,6 +39,10 @@ class TeacherModel {
   final List<ProvinceModel> provinces;
   final List<StageModel> allStages;
   final List<SubjectModel> allSubjects;
+  final String? facebookUrl;
+  final String? youtubeUrl;
+  final String? instagramUrl;
+  final String? telegramUrl;
 
   TeacherModel({
     required this.id,
@@ -55,7 +57,6 @@ class TeacherModel {
     this.subjects = const [],
     this.stages = const [],
     this.visitorsNumber = 0,
-    this.socials = const [],
     this.subjectsIds = const [],
     this.stagesIds = const [],
     this.provinceId,
@@ -63,6 +64,10 @@ class TeacherModel {
     this.provinces = const [],
     this.allStages = const [],
     this.allSubjects = const [],
+    this.facebookUrl,
+    this.youtubeUrl,
+    this.instagramUrl,
+    this.telegramUrl,
   });
 
   @override
@@ -72,6 +77,10 @@ class TeacherModel {
         areaId.hashCode,
         description.hashCode,
         locationDescription.hashCode,
+        facebookUrl.hashCode,
+        youtubeUrl.hashCode,
+        instagramUrl.hashCode,
+        telegramUrl.hashCode,
       );
 
   @override
@@ -98,6 +107,11 @@ class TeacherModel {
       allStages: allStages,
       provinceId: teacherModel.provinceId,
       areaId: teacherModel.areaId,
+      facebookUrl: teacherModel.facebookUrl,
+      youtubeUrl: teacherModel.youtubeUrl,
+      instagramUrl: teacherModel.instagramUrl,
+      telegramUrl: teacherModel.telegramUrl,
+
     );
   }
 

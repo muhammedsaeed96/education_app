@@ -30,7 +30,7 @@ class TeachersScreen extends ConsumerWidget {
         child: Column(
           children: [
             const SearchFilterRow(
-              hintText: AppStrings.searchOnAcademyStr,
+              hintText: AppStrings.searchOnTeacherStr,
               type: TeachingType.teacher,
             ),
             Expanded(

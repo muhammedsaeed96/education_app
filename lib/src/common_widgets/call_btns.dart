@@ -13,10 +13,11 @@ import '../data/visitor_repository.dart';
 import 'alert_dialogs.dart';
 
 class CallsBtns extends ConsumerWidget {
-  const CallsBtns({super.key, this.phone, this.id});
+  const CallsBtns({super.key, this.phone, this.id, required this.type});
 
   final String? phone;
   final String? id;
+  final TeachingType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,12 +35,13 @@ class CallsBtns extends ConsumerWidget {
           SizedBox(
             height: AppSizes.length48,
             child: ElevatedButton.icon(
-              onPressed: () => _contactWithTeacher(
+              onPressed: () => _contactWithTeacherOrAcademy(
                 context: context,
                 ref: ref,
                 phone: phone ?? '',
                 id: id ?? '',
                 type: LinkType.phone,
+                teachingType: type,
               ),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -77,12 +79,13 @@ class CallsBtns extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              onPressed: () => _contactWithTeacher(
+              onPressed: () => _contactWithTeacherOrAcademy(
                 context: context,
                 ref: ref,
                 phone: phone ?? '',
                 id: id ?? '',
                 type: LinkType.whatsapp,
+                teachingType: type,
               ),
               icon: SvgPicture.asset(
                 height: AppSizes.length30,
@@ -104,12 +107,13 @@ class CallsBtns extends ConsumerWidget {
     );
   }
 
-  Future<void> _contactWithTeacher({
+  Future<void> _contactWithTeacherOrAcademy({
     required BuildContext context,
     required WidgetRef ref,
     required String id,
     required String phone,
     required LinkType type,
+    required TeachingType teachingType,
   }) async {
     final storage = ref.read(asyncInitProvider).localStorage;
 
@@ -127,7 +131,7 @@ class CallsBtns extends ConsumerWidget {
     if (storage.getUserInfo()?.accountType == AccountType.STUDENT) {
       ref.read(visitorRepositoryProvider).createVisitors(
             id: id,
-            type: TeachingType.teacher,
+            type: teachingType,
           );
     }
 

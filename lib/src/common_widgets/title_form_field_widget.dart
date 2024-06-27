@@ -12,6 +12,7 @@ class TitleFormFiledWidget extends StatelessWidget {
     required this.controller,
     this.validator,
     this.isPhone = false,
+    this.isRequired = true,
     this.maxLines = 1,
   });
 
@@ -20,6 +21,7 @@ class TitleFormFiledWidget extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final bool isPhone;
+  final bool isRequired;
   final int maxLines;
 
   @override
@@ -34,9 +36,9 @@ class TitleFormFiledWidget extends StatelessWidget {
                 .copyWith(color: AppColors.black87),
             children: <InlineSpan>[
               TextSpan(
-                text: validator != null ? ' *' : ' (اختياري)',
+                text: validator != null && isRequired ? ' *' : ' (اختياري)',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: validator != null
+                      color: validator != null && isRequired
                           ? AppColors.red500
                           : AppColors.gray600,
                     ),

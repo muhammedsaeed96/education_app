@@ -24,7 +24,7 @@ class Header extends ConsumerWidget {
           final (url, name) = getUrlName(data);
           return Column(
             children: [
-              ProfileImage(imageUrl: url.getFullUrl),
+              ProfileImage(imageUrl: url),
               gap4,
               Text(
                 name,
@@ -49,7 +49,7 @@ class Header extends ConsumerWidget {
       return (data.imageUrl.toString().getFullUrl, data.name);
     } else {
       final academy = data as AcademyModel;
-      return (academy.imageUrl, academy.title);
+      return (data.imageUrl.toString().getFullUrl, academy.title);
     }
   }
 }

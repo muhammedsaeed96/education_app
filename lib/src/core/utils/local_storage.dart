@@ -26,7 +26,7 @@ class LocalStorage {
 
   bool get isStudentAuth => getUserInfo() != null;
 
-  bool isNotStudent() {
+  bool isAuthAndNotStudent() {
     final user = getUserInfo();
     if (user != null && user.accountType != AccountType.STUDENT) {
       return true;

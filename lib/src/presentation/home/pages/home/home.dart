@@ -11,12 +11,21 @@ import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/home_repository.dart';
+import '../../../controllers/filter_controller.dart';
 
-class Home extends ConsumerWidget {
+class Home extends ConsumerStatefulWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Home> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    debugPrint('HOME BUILD');
+    super.build(context);
     final value = ref.watch(getHomeDataProvider);
     return RefreshIndicator(
       onRefresh: () async {
@@ -40,8 +49,10 @@ class Home extends ConsumerWidget {
                 padding: paddingH24,
                 child: TitleBtnWidget(
                   title: AppStrings.teachersStr,
-                  onPress: () =>
-                      Navigator.pushNamed(context, TeachersScreen.routeName),
+                  onPress: () {
+                    ref.read(filtersControllerProvider.notifier).clearFilters();
+                    Navigator.pushNamed(context, TeachersScreen.routeName);
+                  },
                 ),
               ),
               gap12,
@@ -51,8 +62,10 @@ class Home extends ConsumerWidget {
                 padding: paddingH24,
                 child: TitleBtnWidget(
                   title: AppStrings.academiesStr,
-                  onPress: () =>
-                      Navigator.pushNamed(context, AcademiesScreen.routeName),
+                  onPress: () {
+                    ref.read(filtersControllerProvider.notifier).clearFilters();
+                    Navigator.pushNamed(context, AcademiesScreen.routeName);
+                  },
                 ),
               ),
               gap12,
@@ -63,4 +76,7 @@ class Home extends ConsumerWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

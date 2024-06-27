@@ -19,7 +19,7 @@ class AsyncWidget<T> extends StatelessWidget {
     return value.when(
       data: data,
       error: (err, _) => ErrorMessageWidget(
-        errorMessage: err as String,
+        errorMessage: err is String ? err : '',
         retry: retry,
       ),
       loading: () => const Center(

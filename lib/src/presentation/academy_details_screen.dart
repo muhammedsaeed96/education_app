@@ -5,20 +5,14 @@ import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
-import 'package:education_app/src/core/constants/assets.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../common_widgets/alert_dialogs.dart';
-import '../common_widgets/teacher_academy_socials.dart';
+import '../common_widgets/socials_row_widget.dart';
 import '../common_widgets/title_card.dart';
 import '../common_widgets/title_desc_widget.dart';
-import '../core/utils/async_init.dart';
-import '../core/utils/url_launcher_helper.dart';
 import '../data/academey_repository.dart';
-import '../data/visitor_repository.dart';
 
 class AcademyDetailsScreen extends ConsumerWidget {
   const AcademyDetailsScreen({super.key});
@@ -101,18 +95,24 @@ class AcademyDetailsScreen extends ConsumerWidget {
                 title: AppStrings.locationDescriptionStr,
                 description: academy.locationDescription,
               ),
-              /*     gap16,
-              TeacherAcademySocials(
-                phone: academy.phone,
-                socials: academy.socials,
-              ),*/
+              gap16,
+              SocialsRowWidget(
+                facebookUrl: academy.facebookUrl ?? '',
+                instagramUrl: academy.instagramUrl ?? '',
+                telegramUrl: academy.telegramUrl ?? '',
+                youtubeUrl: academy.youtubeUrl ?? '',
+              ),
             ],
           );
         },
       ),
       bottomNavigationBar: value.hasError || value.isLoading
           ? const SizedBox.shrink()
-          : CallsBtns(phone: value.value?.phone, id: value.value?.id),
+          : CallsBtns(
+              phone: value.value?.phone,
+              id: value.value?.id,
+              type: TeachingType.academy,
+            ),
     );
   }
 }

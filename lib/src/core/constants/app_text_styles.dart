@@ -6,13 +6,13 @@ abstract class AppTextStyles {
  
   static TextStyle textBoldStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length16,
+    fontSize: _getFontSize(16),
     fontWeight: FontWeight.w700,
   );
 
   static TextStyle textBoldStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length18,
+    fontSize: _getFontSize(18),
     fontWeight: FontWeight.w700,
   );
 
@@ -41,31 +41,31 @@ abstract class AppTextStyles {
 
   static TextStyle textSemiBoldStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length10,
+    fontSize: _getFontSize(10),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length12,
+    fontSize: _getFontSize(12),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length14,
+    fontSize: _getFontSize(14),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length16,
+    fontSize: _getFontSize(16),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length18,
+    fontSize: _getFontSize(18),
     fontWeight: FontWeight.w600,
   );
 
@@ -73,31 +73,31 @@ abstract class AppTextStyles {
 
   static TextStyle textMediumStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length10,
+    fontSize: _getFontSize(10),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length12,
+    fontSize: _getFontSize(12),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length14,
+    fontSize: _getFontSize(14),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length16,
+    fontSize: _getFontSize(16),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle20= TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length20,
+    fontSize: _getFontSize(20),
     fontWeight: FontWeight.w500,
   );
 
@@ -105,31 +105,47 @@ abstract class AppTextStyles {
 
   static TextStyle textRegularStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length10,
+    fontSize: _getFontSize(10),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length12,
+    fontSize: _getFontSize(12),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length14,
+    fontSize: _getFontSize(14),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length16,
+    fontSize: _getFontSize(16),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: AppSizes.length18,
+    fontSize: _getFontSize(18),
     fontWeight: FontWeight.w400,
   );
+
+
+  static double _getFontSize(double textSize) {
+    final width = AppSizes.screenWidth;
+    var fontSize = textSize;
+    if (width <= 480) {
+      fontSize = textSize;
+    } else if (width > 600 && width <= 960) {
+      fontSize = textSize + 3;
+    } else {
+      fontSize = textSize + 4 ;
+    }
+    return fontSize;
+  }
+
+
 }

@@ -1,25 +1,17 @@
-import 'dart:ffi';
-
-import 'package:education_app/src/common_widgets/alert_dialogs.dart';
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/custom_network_image.dart';
-import 'package:education_app/src/common_widgets/teacher_academy_socials.dart';
+import 'package:education_app/src/common_widgets/socials_row_widget.dart';
 import 'package:education_app/src/common_widgets/title_card.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
-import 'package:education_app/src/core/constants/assets.dart';
 import 'package:education_app/src/core/enum.dart';
-import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
-import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../common_widgets/call_btns.dart';
 import '../common_widgets/title_desc_widget.dart';
-import '../core/utils/url_launcher_helper.dart';
 import '../data/teachers_repository.dart';
 
 class TeacherDetailsScreen extends ConsumerWidget {
@@ -119,18 +111,24 @@ class TeacherDetailsScreen extends ConsumerWidget {
                 title: AppStrings.locationDescriptionStr,
                 description: teacher.locationDescription,
               ),
-/*              gap16,
-              TeacherAcademySocials(
-                phone: teacher.phone,
-                socials: teacher.socials,
-              ),*/
+              gap16,
+              SocialsRowWidget(
+                facebookUrl: teacher.facebookUrl ?? '',
+                instagramUrl: teacher.instagramUrl ?? '',
+                telegramUrl: teacher.telegramUrl ?? '',
+                youtubeUrl: teacher.youtubeUrl ?? '',
+              ),
             ],
           );
         },
       ),
       bottomNavigationBar: value.hasError || value.isLoading
           ? const SizedBox.shrink()
-          : CallsBtns(phone: value.value?.phone, id: value.value?.id),
+          : CallsBtns(
+              phone: value.value?.phone,
+              id: value.value?.id,
+              type: TeachingType.teacher,
+            ),
     );
   }
 }

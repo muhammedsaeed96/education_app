@@ -83,7 +83,6 @@ class AuthenticationRepository {
       }
 
       return UserInfoModel.fromJson(res.data['data']);
-
     } catch (e) {
       var error = e.toString();
       if (e is DioException) {

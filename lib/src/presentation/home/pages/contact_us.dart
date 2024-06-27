@@ -1,6 +1,5 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/primary_elevated_btn.dart';
-import 'package:education_app/src/common_widgets/teacher_academy_socials.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
@@ -10,13 +9,23 @@ import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/data/general_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../core/utils/url_launcher_helper.dart';
 
-class ContactUs extends ConsumerWidget {
+class ContactUs extends ConsumerStatefulWidget {
   const ContactUs({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ContactUs> createState() => _ContactUsState();
+}
+
+class _ContactUsState extends ConsumerState<ContactUs>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    debugPrint('ContactUs BUILD');
+
+    super.build(context);
     final value = ref.watch(getContactInfoProvider);
 
     return AsyncWidget(
@@ -57,18 +66,41 @@ class ContactUs extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SocialWidget(
-                type: LinkType.facebook,
-                url: data.facebookUrl,
-              ),
+              SocialButton(type: LinkType.link, url: data.facebookUrl),
               gapH24,
-              SocialWidget(
-                type: LinkType.whatsapp,
-                url: data.phone,
-              ),
+              SocialButton(type: LinkType.whatsapp, url: data.phone),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class SocialButton extends ConsumerWidget {
+  const SocialButton({super.key, required this.type, required this.url});
+
+  final LinkType type;
+  final String url;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final size = getProportionateScreenHeight(
+      type == LinkType.whatsapp ? 30.5 : 32,
+    );
+    return GestureDetector(
+      onTap: () {
+        type == LinkType.whatsapp
+            ? UrlLauncherHelper.launchUrlByType(url, LinkType.whatsapp)
+            : UrlLauncherHelper.launchUrlByType(url, type);
+      },
+      child: SvgPicture.asset(
+        type == LinkType.whatsapp ? Assets.icWhatsappIcon : Assets.icFacebook,
+        width: size,
+        height: size,
       ),
     );
   }

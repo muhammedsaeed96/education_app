@@ -24,11 +24,20 @@ import '../../../controllers/sample_state_controller.dart';
 import 'account_card.dart';
 import 'package:in_app_review/in_app_review.dart';
 
-class Account extends ConsumerWidget {
-  const Account({super.key});
+class Account extends ConsumerStatefulWidget {
+  const Account({required Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Account> createState() => _AccountState();
+}
+
+class _AccountState extends ConsumerState<Account>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    debugPrint('Account Build');
+
     ref.listen(
       accountControllerProvider,
       (_, next) {
@@ -122,9 +131,11 @@ class Account extends ConsumerWidget {
     );
     // if result true it mean user click confirm button
     if (result == true) {
-      await ref.read(accountControllerProvider.notifier).logout();
-      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
       ref.read(requestOtpAvailableProvider.notifier).state = true;
+      await Future.wait([
+        ref.read(asyncInitProvider).otpHelper.clearNextAttempt(),
+        ref.read(accountControllerProvider.notifier).logout(),
+      ]);
     }
   }
 
@@ -142,9 +153,9 @@ class Account extends ConsumerWidget {
     );
     // if result true it mean user click confirm button
     if (result == true) {
-      await ref.read(accountControllerProvider.notifier).deleteAccount();
-      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
       ref.read(requestOtpAvailableProvider.notifier).state = true;
+      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
+      await ref.read(accountControllerProvider.notifier).deleteAccount();
     }
   }
 
@@ -168,4 +179,7 @@ class Account extends ConsumerWidget {
       debugPrint('Thank you for sharing my website!');
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

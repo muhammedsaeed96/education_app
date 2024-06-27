@@ -68,6 +68,7 @@ class AppSizes {
   static double w26 = getProportionateScreenWidth(26);
   static double w28 = getProportionateScreenWidth(28);
   static double w98 = getProportionateScreenWidth(98);
+  static double w58 = getProportionateScreenWidth(58);
 }
 
 // Get the proportionate height as per screen size

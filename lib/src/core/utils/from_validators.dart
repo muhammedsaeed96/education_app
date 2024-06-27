@@ -26,4 +26,12 @@ extension FromValidators on String? {
       return AppStrings.tooShortDescriptionStr;
     }
   }
+
+  String? get isValidUrl {
+    if (this == null || this!.isEmpty) {
+      return null;
+    } else {
+      return Uri.tryParse(this!)!.hasAbsolutePath ? null : AppStrings.notValidUrlStr;
+    }
+  }
 }

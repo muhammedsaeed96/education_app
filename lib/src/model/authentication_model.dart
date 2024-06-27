@@ -1,6 +1,4 @@
 import 'package:education_app/src/core/enum.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
-import 'package:education_app/src/model/social_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'authentication_model.g.dart';
@@ -18,7 +16,10 @@ class AuthenticationModel {
   final List subjectsIds;
   final List stagesIds;
   final String? locationDescription;
-  final List<SocialModel> socials;
+  final String? facebookUrl;
+  final String? youtubeUrl;
+  final String? instagramUrl;
+  final String? telegramUrl;
 
   AuthenticationModel({
     this.name,
@@ -32,7 +33,10 @@ class AuthenticationModel {
     this.subjectsIds = const [],
     this.stagesIds = const [],
     this.locationDescription,
-    this.socials = const [],
+    this.facebookUrl,
+    this.youtubeUrl,
+    this.instagramUrl,
+    this.telegramUrl,
   });
 
   factory AuthenticationModel.fromJson(Map<String, dynamic> data) =>
@@ -53,7 +57,9 @@ class AuthenticationModel {
       description: description,
       stageId: stageId,
       provinceId: provinceId,
-      socials: socials,
+      facebookUrl: facebookUrl,
+      youtubeUrl: youtubeUrl,
+      instagramUrl: instagramUrl,
     );
   }
 
@@ -73,9 +79,9 @@ class AuthenticationModel {
       description: description,
       stageId: stageId,
       provinceId: provinceId,
-      socials: socials,
+      facebookUrl: facebookUrl,
+      youtubeUrl: youtubeUrl,
+      instagramUrl: instagramUrl,
     );
   }
 }
-
-

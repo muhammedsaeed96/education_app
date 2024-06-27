@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/data/authentication_repository.dart';
 import 'package:education_app/src/model/authentication_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
@@ -45,9 +44,13 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     List subjectsIds = const [],
     List stagesIds = const [],
     String? locationDescription,
+    String? facebookUrl,
+    String? youtubeUrl,
+    String? instagramUrl,
+    String? telegramUrl,
   }) {
     state = state.copyWith(
-        authentication: AuthenticationModel(
+     authentication: AuthenticationModel(
       name: name,
       accountType: state.accountType,
       phone: '',
@@ -58,6 +61,10 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
       subjectsIds: subjectsIds,
       stagesIds: stagesIds,
       locationDescription: locationDescription,
+      facebookUrl: facebookUrl,
+      youtubeUrl: youtubeUrl,
+      instagramUrl: instagramUrl,
+      telegramUrl: telegramUrl,
     ));
   }
 
@@ -65,20 +72,6 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     required String phone,
     required AccountType accountType,
   }) async {
-/*
-    final List<SocialModel> socials = [];
-    if (facebookPageUrl != null && facebookPageUrl.isNotEmpty) {
-      socials.add(
-        SocialModel(url: facebookPageUrl, type: LinkType.facebook),
-      );
-    }
-
-    if (youtubeChannelUrl != null && youtubeChannelUrl.isNotEmpty) {
-      socials.add(
-        SocialModel(url: youtubeChannelUrl, type: LinkType.youtube),
-      );
-    }*/
-
     final authData = state.authentication == null
         ? AuthenticationModel(phone: phone, accountType: accountType)
         : state.authentication?.copyWithPhoneAndAccountType(
@@ -90,7 +83,8 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
 
     final otpHelper = ref.read(asyncInitProvider).otpHelper;
 
-    final bool canReqOtp = otpHelper.nextAttemptAvailable();
+    // final bool canReqOtp = otpHelper.nextAttemptAvailable();
+    final bool canReqOtp = true;
 
     if (canReqOtp == false) {
       state = state.copyWith(
