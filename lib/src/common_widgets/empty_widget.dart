@@ -22,7 +22,7 @@ class EmptyWidget extends StatelessWidget {
       child: showTextOnly
           ? Text(
               text,
-              style: AppTextStyles.textMediumStyle20,
+              style: AppTextStyles.textMediumStyle18,
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -6,8 +6,13 @@ import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/url_launcher_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../core/constants/app_text_styles.dart';
+import '../core/utils/async_init.dart';
+import '../presentation/authentication/sign_in_signup_screen.dart';
+import '../presentation/controllers/simple_state_controller.dart';
+import 'alert_dialogs.dart';
 
 class SocialsRowWidget extends StatelessWidget {
   const SocialsRowWidget({
@@ -36,30 +41,33 @@ class SocialsRowWidget extends StatelessWidget {
                 AppStrings.socialsStr,
                 style: AppTextStyles.textSemiBoldStyle12,
               ),
-              gap4,
+              gap12,
               SizedBox(
                 height: getProportionateScreenHeight(40),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    facebookUrl.isNotEmpty
-                        ? SocialButtonWidget(
-                            iconPath: Assets.icFacebook,
-                            url: facebookUrl,
-                          )
-                        : SizedBox.shrink(),
-                    instagramUrl.isNotEmpty
-                        ? SocialButtonWidget(
-                            iconPath: Assets.icInstagram,
-                            url: instagramUrl,
-                          )
-                        : SizedBox.shrink(),
-                    youtubeUrl.isNotEmpty
-                        ? SocialButtonWidget(
-                            iconPath: Assets.icYoutube,
-                            url: youtubeUrl,
-                          )
-                        : SizedBox.shrink(),
+                    if (youtubeUrl.isNotEmpty) ...[
+                      SocialButtonWidget(
+                        iconPath: Assets.icYoutube,
+                        url: youtubeUrl,
+                      ),
+                      gapH16,
+                    ],
+                    if (facebookUrl.isNotEmpty) ...[
+                      SocialButtonWidget(
+                        iconPath: Assets.icFacebook,
+                        url: facebookUrl,
+                      ),
+                      gapH16,
+                    ],
+                    if (instagramUrl.isNotEmpty) ...[
+                      SocialButtonWidget(
+                        iconPath: Assets.icInstagram,
+                        url: instagramUrl,
+                      ),
+                      gapH16,
+                    ],
                     telegramUrl.isNotEmpty
                         ? SocialButtonWidget(
                             iconPath: Assets.icTelegram,
@@ -75,7 +83,7 @@ class SocialsRowWidget extends StatelessWidget {
   }
 }
 
-class SocialButtonWidget extends StatelessWidget {
+class SocialButtonWidget extends ConsumerWidget {
   const SocialButtonWidget({
     super.key,
     required this.url,
@@ -86,21 +94,47 @@ class SocialButtonWidget extends StatelessWidget {
   final String iconPath;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: getProportionateScreenHeight(40),
       width: getProportionateScreenHeight(40),
       child: CustomInkwell(
         radius: getProportionateScreenHeight(40) / 2,
-        tap: () => UrlLauncherHelper.launchUrlByType(url, LinkType.link),
+        tap: () => _launchSocialLink(
+          context: context,
+          ref: ref,
+          url: url,
+        ),
         child: Center(
           child: SvgPicture.asset(
             iconPath,
-            width: getProportionateScreenHeight(30),
-            height: getProportionateScreenHeight(30),
+            width: getProportionateScreenHeight(36),
+            height: getProportionateScreenHeight(36),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _launchSocialLink({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String url,
+  }) async {
+    final storage = ref.read(asyncInitProvider).localStorage;
+
+    if (!storage.isStudentAuth) {
+      final result = await loginAlertDialog(
+        context: context,
+        content: AppStrings.loginToAccessLinkStr,
+      );
+      if (result != null && result) {
+        ref.read(loginToContactWithTeacherAcademy.notifier).state = true;
+        Navigator.pushNamed(context, SignInSignupScreen.routeName);
+        return;
+      }
+    } else {
+      UrlLauncherHelper.launchUrlByType(url, LinkType.link);
+    }
   }
 }

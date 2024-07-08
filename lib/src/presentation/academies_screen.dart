@@ -13,6 +13,7 @@ import '../common_widgets/teacher_academy_small_card.dart';
 import '../common_widgets/search_filter_row.dart';
 import '../core/constants/app_sizes.dart';
 import '../data/visitor_repository.dart';
+import 'controllers/simple_state_controller.dart';
 
 class AcademiesScreen extends ConsumerWidget {
   const AcademiesScreen({super.key});
@@ -21,7 +22,6 @@ class AcademiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(academyControllerProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.academiesStr)),
@@ -33,25 +33,31 @@ class AcademiesScreen extends ConsumerWidget {
               hintText: AppStrings.searchOnAcademyStr,
               type: TeachingType.academy,
             ),
-            Expanded(
-              child: NotificationListener(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo is ScrollEndNotification &&
-                      scrollInfo.metrics.axisDirection == AxisDirection.down &&
-                      scrollInfo.metrics.pixels >=
-                          scrollInfo.metrics.maxScrollExtent) {
-                    final controller =
-                        ref.read(academyControllerProvider.notifier);
-                    if (controller.canLoadMore()) {
-                      controller.loadNextPage();
-                    }
-                  }
-                  return true;
-                },
-                child: CustomScrollView(
-                  slivers: [...repositories(context, state, ref)],
-                ),
-              ),
+            Consumer(
+              builder: (_, ref, child) {
+                final state = ref.watch(academyControllerProvider);
+                return Expanded(
+                  child: NotificationListener(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo is ScrollEndNotification &&
+                          scrollInfo.metrics.axisDirection ==
+                              AxisDirection.down &&
+                          scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent) {
+                        final controller =
+                            ref.read(academyControllerProvider.notifier);
+                        if (controller.canLoadMore()) {
+                          controller.loadNextPage();
+                        }
+                      }
+                      return true;
+                    },
+                    child: CustomScrollView(
+                      slivers: [...repositories(context, state, ref)],
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

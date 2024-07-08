@@ -20,7 +20,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/assets.dart';
-import '../../../controllers/sample_state_controller.dart';
+import '../../../controllers/simple_state_controller.dart';
 import 'account_card.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -40,7 +40,7 @@ class _AccountState extends ConsumerState<Account>
 
     ref.listen(
       accountControllerProvider,
-      (_, next) {
+          (_, next) {
         if (next.isLoading) {
           EasyLoading.show();
         } else if (next.hasError) {
@@ -63,12 +63,13 @@ class _AccountState extends ConsumerState<Account>
             return AccountCard(
               title: AppStrings.accountInfoStr,
               icon: Assets.icUserGray,
-              press: () => value.isLoading || value.hasError
+              press: () =>
+              value.isLoading || value.hasError
                   ? null
                   : Navigator.pushNamed(
-                      context,
-                      PersonalProfileScreen.routeName,
-                    ),
+                context,
+                PersonalProfileScreen.routeName,
+              ),
             );
           },
         ),
@@ -86,18 +87,19 @@ class _AccountState extends ConsumerState<Account>
         ),
         gap12,
         AccountCard(
-          title: AppStrings.privacyStr,
-          icon: Assets.icPrivacy,
-          press: () => UrlLauncherHelper.launchUrlByType(
-            ApiUrls.privacyUrl,
-            LinkType.link,
-          ),
-        ),
-        gap12,
-        AccountCard(
           title: AppStrings.aboutAppStr,
           icon: Assets.icInfo,
           press: () => Navigator.pushNamed(context, AboutUsScreen.routeName),
+        ),
+        gap12,
+        AccountCard(
+          title: AppStrings.privacyStr,
+          icon: Assets.icPrivacy,
+          press: () =>
+              UrlLauncherHelper.launchUrlByType(
+                ApiUrls.privacyUrl,
+                LinkType.link,
+              ),
         ),
         gap12,
         AccountCard(
@@ -131,55 +133,58 @@ class _AccountState extends ConsumerState<Account>
     );
     // if result true it mean user click confirm button
     if (result == true) {
-      ref.read(requestOtpAvailableProvider.notifier).state = true;
-      await Future.wait([
-        ref.read(asyncInitProvider).otpHelper.clearNextAttempt(),
-        ref.read(accountControllerProvider.notifier).logout(),
-      ]);
+      ref.read(accountControllerProvider.notifier).logout();
     }
-  }
-
-  Future<void> _deleteAccount({
-    required BuildContext context,
-    required WidgetRef ref,
-  }) async {
-    final result = await showAlertDialog(
-      context: context,
-      title: AppStrings.deleteAccountInDialogStr,
-      content: AppStrings.areYouSureToDeleteYourAccount,
-      defaultActionText: AppStrings.yesStr,
-      cancelActionText: AppStrings.cancelStr,
-      defaultActionBg: AppColors.red500,
-    );
-    // if result true it mean user click confirm button
-    if (result == true) {
-      ref.read(requestOtpAvailableProvider.notifier).state = true;
-      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
-      await ref.read(accountControllerProvider.notifier).deleteAccount();
-    }
-  }
-
-  // to show app rating bottom sheet
-  void _openAppReview() async {
-    final InAppReview inAppReview = InAppReview.instance;
-    if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
-    }
-  }
-
-  void _shareAppLink(WidgetRef ref) async {
-    final appInfo = ref.read(getHomeDataProvider).value?.updateInfo;
-    if (appInfo == null) {
-      return;
-    }
-    final appUrl =
-        Platform.isAndroid ? appInfo.playStoreUrl : appInfo.appStoreUrl;
-    final result = await Share.share(appUrl);
-    if (result.status == ShareResultStatus.success) {
-      debugPrint('Thank you for sharing my website!');
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
+
+Future<void> _deleteAccount({
+  required BuildContext context,
+  required WidgetRef ref,
+}) async {
+  final result = await showAlertDialog(
+    context: context,
+    title: AppStrings.deleteAccountInDialogStr,
+    content: AppStrings.areYouSureToDeleteYourAccount,
+    defaultActionText: AppStrings.yesStr,
+    cancelActionText: AppStrings.cancelStr,
+    defaultActionBg: AppColors.red500,
+  );
+  // if result true it mean user click confirm button
+  if (result == true) {
+    ref
+        .read(requestOtpAvailableProvider.notifier)
+        .state = true;
+    await ref
+        .read(asyncInitProvider)
+        .otpHelper
+        .clearNextAttempt();
+    await ref.read(accountControllerProvider.notifier).deleteAccount();
+  }
+}
+
+// to show app rating bottom sheet
+void _openAppReview() async {
+  final InAppReview inAppReview = InAppReview.instance;
+  if (await inAppReview.isAvailable()) {
+    inAppReview.requestReview();
+  }
+}
+
+void _shareAppLink(WidgetRef ref) async {
+  final appInfo = ref
+      .read(getHomeDataProvider)
+      .value
+      ?.updateInfo;
+  if (appInfo == null) {
+    return;
+  }
+  final appUrl =
+  Platform.isAndroid ? appInfo.playStoreUrl : appInfo.appStoreUrl;
+  final result = await Share.share(appUrl);
+  if (result.status == ShareResultStatus.success) {
+    debugPrint('Thank you for sharing my website!');
+  }
+}
+
+@override
+bool get wantKeepAlive => true;}

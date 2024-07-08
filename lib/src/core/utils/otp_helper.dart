@@ -5,7 +5,7 @@ class OtpHelper {
 
   final LocalStorage _storage;
 
-  incrementOtpReqCount() async {
+  Future<void> incrementOtpReqCount() async {
     int count = _storage.getOtpReqTimes;
     if (count == 6) {
       count = 0;
@@ -55,7 +55,7 @@ class OtpHelper {
     int count = _storage.getOtpReqTimes;
     String? nextAttemptTime = _storage.getNextOtpAttempt;
     bool isNextAttempt =
-        count == 0 ? true : DateTime.parse(nextAttemptTime!).isBefore(now);
+        count == 0 ? true :nextAttemptTime!=null ? DateTime.parse(nextAttemptTime).isBefore(now):true;
     if (count == 0) {
       return true;
     } else if (count <= 6 && isNextAttempt) {

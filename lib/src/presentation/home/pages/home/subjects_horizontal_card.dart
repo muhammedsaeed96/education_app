@@ -1,12 +1,9 @@
-import 'package:education_app/src/common_widgets/alert_dialogs.dart';
-import 'package:education_app/src/common_widgets/custom_network_image.dart';
 import 'package:education_app/src/common_widgets/empty_widget.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/subject_model.dart';
 import 'package:education_app/src/presentation/controllers/filter_controller.dart';
 import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../common_widgets/custom_inkwell.dart';
@@ -25,11 +22,14 @@ class SubjectsHorizontalList extends StatelessWidget {
         ? EmptyWidget(showTextOnly: true)
         : SizedBox(
             height: AppSizes.length126,
-            child: ListView.separated(
+            child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) => SubjectCard(subject: subjects[index]),
-              separatorBuilder: (_, __) => gapH8,
+              itemBuilder: (_, index) => Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: SubjectCard(subject: subjects[index]),
+              ),
+              itemExtent:AppSizes.length132,
               itemCount: subjects.length,
             ),
           );

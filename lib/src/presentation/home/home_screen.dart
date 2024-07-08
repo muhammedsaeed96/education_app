@@ -4,7 +4,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/data/home_repository.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/home/pages/account/account.dart';
 import 'package:education_app/src/presentation/home/pages/contact_us.dart';
 import 'package:education_app/src/presentation/home/pages/home/home.dart';
@@ -77,20 +77,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     });
 
-    ref.listen(logoutProvider, (_, next) {
-      debugPrint('logged out');
+    ref.listen(isAuthenticationProvider, (_, next) {
       if (_isAuthAndNotStudent && _pageViewPages.length < 4) {
         _pageViewPages.insert(
-            1, const VisitorsScreen(key: PageStorageKey('page4')));
-        setState(() {});
+          1,
+          const VisitorsScreen(key: PageStorageKey('page4')),
+        );
       }
-      if (next && _pageViewPages.length == 4) {
+      if (!next && _pageViewPages.length == 4) {
         _pageViewPages.removeAt(1);
-        setState(() {});
       }
 
       _changeNavBarIndex(
-        index: next
+        index: !next
             ? 0
             : _isAuthAndNotStudent
                 ? 3
@@ -115,7 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _bottomNavBar() {
     return Consumer(builder: (context, ref, child) {
-      ref.watch(logoutProvider);
+      ref.watch(isAuthenticationProvider);
       return Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.gray200)),
@@ -154,8 +153,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: SizedBox(
           width: (_isAuthAndNotStudent
-                  ? AppSizes.screenWidth / 4
-                  : AppSizes.screenWidth / 3) -
+                  ? MediaQuery.of(context).size.width / 4
+                  : MediaQuery.of(context).size.width / 3) -
               8,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,15 +219,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       Navigator.pushNamed(context, SignInSignupScreen.routeName);
       return;
     }
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.easeInOut,
-    );
-
-    // setState(() {
-    currentNavBarIndex = index;
-    // });
+    setState(() {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+      currentNavBarIndex = index;
+    });
   }
 
   bool get _isAuthAndNotStudent {

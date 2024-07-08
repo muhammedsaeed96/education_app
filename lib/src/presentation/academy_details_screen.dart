@@ -1,7 +1,6 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/call_btns.dart';
 import 'package:education_app/src/common_widgets/custom_network_image.dart';
-import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
@@ -13,6 +12,7 @@ import '../common_widgets/socials_row_widget.dart';
 import '../common_widgets/title_card.dart';
 import '../common_widgets/title_desc_widget.dart';
 import '../data/academey_repository.dart';
+import 'controllers/simple_state_controller.dart';
 
 class AcademyDetailsScreen extends ConsumerWidget {
   const AcademyDetailsScreen({super.key});
@@ -21,6 +21,9 @@ class AcademyDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+
+
     final id = ModalRoute.of(context)!.settings.arguments as String;
 
     final value = ref.watch(getAcademyByIdProvider(id));
@@ -50,17 +53,17 @@ class AcademyDetailsScreen extends ConsumerWidget {
                     academy.title,
                     style: AppTextStyles.textBoldStyle16,
                   ),
-                  gap2,
+                  /*gap2,
                   Text(
                     academy.phone,
                     style: AppTextStyles.textSemiBoldStyle14.copyWith(
                       color: AppColors.gray500,
                     ),
                     textDirection: TextDirection.ltr,
-                  ),
+                  ),*/
                 ],
               ),
-              gap24,
+              gap20,
               TitleDescWidget(
                 title: AppStrings.descriptionStr,
                 description: academy.description,

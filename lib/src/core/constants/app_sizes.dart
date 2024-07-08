@@ -41,6 +41,7 @@ class AppSizes {
   static double length40 = getProportionateScreenHeight(40);
   static double length42 = getProportionateScreenHeight(42);
   static double length44 = getProportionateScreenHeight(44);
+  static double length45 = getProportionateScreenHeight(45);
   static double length46 = getProportionateScreenHeight(46);
   static double length48 = getProportionateScreenHeight(48);
   static double length50 = getProportionateScreenHeight(50);
@@ -59,6 +60,7 @@ class AppSizes {
   static double length132 = getProportionateScreenHeight(132);
   static double length136 = getProportionateScreenHeight(136);
   static double length144 = getProportionateScreenHeight(144);
+  static double length148 = getProportionateScreenHeight(148);
   static double length180 = getProportionateScreenHeight(180);
   static double length200 = getProportionateScreenHeight(200);
   static double length204 = getProportionateScreenHeight(204);

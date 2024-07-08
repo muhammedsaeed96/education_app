@@ -58,11 +58,14 @@ class TitleFormFiledWidget extends StatelessWidget {
             suffixIcon: _buildSuffix(),
           ),
           onTapOutside: (_) => FocusManager.instance.primaryFocus!.unfocus(),
-          inputFormatters:
-              isPhone ? [FilteringTextInputFormatter.digitsOnly] : [],
+          inputFormatters: isPhone
+              ? [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ]
+              : [],
           keyboardType: isPhone ? TextInputType.phone : null,
           validator: validator,
-          maxLength: isPhone ? 11 : null,
         ),
       ],
     );

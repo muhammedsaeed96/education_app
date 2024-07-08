@@ -133,6 +133,7 @@ class AppStrings {
 
   static const loginToCommunicateWithTeacherStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع الاستاذ';
   static const loginToCommunicateWithAcademyStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع المعهد';
+  static const loginToAccessLinkStr = 'يرجى تسجيل الدخول حتى تتمكن من فتح الرابط';
 
   static const detailsStr = 'التفاصيل';
   static const statisticsStr = 'احصائيتي';

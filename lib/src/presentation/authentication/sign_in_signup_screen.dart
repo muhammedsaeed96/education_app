@@ -21,7 +21,7 @@ import '../../common_widgets/mutli_select_dialog_form_field.dart';
 import '../../common_widgets/primary_elevated_btn.dart';
 import '../../common_widgets/title_form_field_widget.dart';
 import '../../data/home_repository.dart';
-import '../controllers/sample_state_controller.dart';
+import '../controllers/simple_state_controller.dart';
 
 class SignInSignupScreen extends ConsumerStatefulWidget {
   static const routeName = 'signIn_signup_screen';
@@ -102,7 +102,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(signInSignupControllerProvider.select((state) => state.value),
-        (_, next) {
+        (prev, next) {
       if (next.isLoading) {
         EasyLoading.show();
       } else if (next.hasError) {
@@ -113,10 +113,8 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       }
     });
 
-    ref.watch(signInSignupControllerProvider);
+    final signInSignupState = ref.watch(signInSignupControllerProvider);
     final value = ref.watch(getHomeDataProvider);
-
-    final signInSignupState = ref.read(signInSignupControllerProvider);
 
     return Scaffold(
       appBar: AppBar(),
@@ -266,17 +264,19 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(132),
                                     child: DropDownFormFieldWidget(
-                                        title: AppStrings.provinceStr,
-                                        hintText: AppStrings.selectProvinceStr,
-                                        onChange: (id) {
-                                          ref
-                                              .read(provinceIdProvider.notifier)
-                                              .update((state) => id!);
-                                          _provinceId = id;
-                                        },
-                                        items: homeData.provinces),
+                                      title: AppStrings.provinceStr,
+                                      hintText: AppStrings.selectProvinceStr,
+                                      onChange: (id) {
+                                        ref
+                                            .read(provinceIdProvider.notifier)
+                                            .update((state) => id!);
+                                        _provinceId = id;
+                                      },
+                                      items: homeData.provinces,
+                                    ),
                                   ),
                                   gapH8,
                                   Expanded(

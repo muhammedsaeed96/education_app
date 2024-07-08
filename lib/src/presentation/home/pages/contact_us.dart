@@ -88,9 +88,7 @@ class SocialButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = getProportionateScreenHeight(
-      type == LinkType.whatsapp ? 30.5 : 32,
-    );
+
     return GestureDetector(
       onTap: () {
         type == LinkType.whatsapp
@@ -99,8 +97,11 @@ class SocialButton extends ConsumerWidget {
       },
       child: SvgPicture.asset(
         type == LinkType.whatsapp ? Assets.icWhatsappIcon : Assets.icFacebook,
-        width: size,
-        height: size,
+        width: getProportionateScreenHeight(40),
+        height:  getProportionateScreenHeight(40),
+        colorFilter: type == LinkType.whatsapp
+            ? ColorFilter.mode(AppColors.primaryColor400, BlendMode.srcIn)
+            : null,
       ),
     );
   }

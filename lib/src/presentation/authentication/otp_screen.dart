@@ -14,7 +14,7 @@ import '../../common_widgets/auth_title_desc_widget.dart';
 import '../../common_widgets/primary_elevated_btn.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/enum.dart';
-import '../controllers/sample_state_controller.dart';
+import '../controllers/simple_state_controller.dart';
 
 class OtpScreen extends ConsumerWidget {
   const OtpScreen({super.key});
@@ -65,7 +65,7 @@ class OtpScreen extends ConsumerWidget {
                         ref: ref,
                         code: otp,
                       ),
-                      text: AppStrings.nextStr,
+                      text: AppStrings.loginStr,
                     ),
                   );
                 },
@@ -123,19 +123,38 @@ class OtpScreen extends ConsumerWidget {
     final verifyType =
         await ref.read(signInSignupControllerProvider.notifier).verifyOtp(code);
     EasyLoading.dismiss();
-    ref.read(logoutProvider.notifier).state = false;
-    if (context.mounted) {
-      // if user complete signup process successfully i will navigate to select profile picture screen
-      if (verifyType == FormType.signup) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          SelectProfilePictureScreen.routeName,
-          (route) => route.settings.name == '/',
-        );
-      } else if (verifyType == FormType.signIn) {
-        // if user complete signIn process successfully i will navigate to select profile picture screen
-        Navigator.popUntil(context, (route) => route.settings.name == '/');
-      }
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if(verifyType != null){
+      ref.read(isAuthenticationProvider.notifier).state = true;
+    }
+
+    final contactWith = ref.read(loginToContactWithTeacherAcademy);
+
+    if (contactWith && verifyType == FormType.signup) {
+      ref.read(loginToContactWithTeacherAcademy.notifier).state = false;
+      Navigator.of(context)
+        ..pop()
+        ..pop()
+        ..pop();
+    } else if (contactWith && verifyType == FormType.signIn) {
+      ref.read(loginToContactWithTeacherAcademy.notifier).state = false;
+      Navigator.of(context)
+        ..pop()
+        ..pop();
+    } else if (verifyType == FormType.signup) {
+      // if user complete signup process successfully i will navigate him to select profile picture screen
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        SelectProfilePictureScreen.routeName,
+        (route) => route.settings.name == '/',
+      );
+    } else if (verifyType == FormType.signIn) {
+      // if user complete signIn process successfully i will navigate him to home screen
+      Navigator.popUntil(context, (route) => route.settings.name == '/');
     }
   }
 
@@ -159,6 +178,7 @@ class OtpScreen extends ConsumerWidget {
       context: context,
       title: AppStrings.warningStr,
       content: AppStrings.stopAuthProcessStr,
+      defaultActionText: AppStrings.yesStr,
       cancelActionText: AppStrings.noStr,
     );
     if (context.mounted) {

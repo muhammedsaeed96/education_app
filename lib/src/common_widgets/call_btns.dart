@@ -1,3 +1,5 @@
+import 'package:education_app/src/presentation/authentication/sign_in_signup_screen.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -117,24 +119,27 @@ class CallsBtns extends ConsumerWidget {
   }) async {
     final storage = ref.read(asyncInitProvider).localStorage;
 
-    final isAuth = storage.isStudentAuth;
-
-    if (!isAuth) {
-      showAlertDialog(
+    if (!storage.isStudentAuth) {
+      final result = await loginAlertDialog(
         context: context,
-        title: AppStrings.notifyStr,
-        content: AppStrings.loginToCommunicateWithTeacherStr,
+        content: teachingType == TeachingType.teacher
+            ? AppStrings.loginToCommunicateWithTeacherStr
+            : AppStrings.loginToCommunicateWithAcademyStr,
       );
-      return;
-    }
 
-    if (storage.getUserInfo()?.accountType == AccountType.STUDENT) {
-      ref.read(visitorRepositoryProvider).createVisitors(
-            id: id,
-            type: teachingType,
-          );
+      if (result != null && result) {
+        ref.read(loginToContactWithTeacherAcademy.notifier).state = true;
+        Navigator.pushNamed(context, SignInSignupScreen.routeName);
+        return;
+      }
+    } else {
+      UrlLauncherHelper.launchUrlByType(phone, type);
+      if (storage.getUserInfo()?.accountType == AccountType.STUDENT) {
+        ref.read(visitorRepositoryProvider).createVisitors(
+              id: id,
+              type: teachingType,
+            );
+      }
     }
-
-    UrlLauncherHelper.launchUrlByType(phone, type);
   }
 }

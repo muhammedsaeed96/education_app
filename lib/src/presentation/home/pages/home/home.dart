@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/home_repository.dart';
 import '../../../controllers/filter_controller.dart';
+import '../../../controllers/simple_state_controller.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -50,6 +51,7 @@ class _HomeState extends ConsumerState<Home>
                 child: TitleBtnWidget(
                   title: AppStrings.teachersStr,
                   onPress: () {
+                    ref.read(searchValProvider.notifier).state = null;
                     ref.read(filtersControllerProvider.notifier).clearFilters();
                     Navigator.pushNamed(context, TeachersScreen.routeName);
                   },
@@ -63,6 +65,7 @@ class _HomeState extends ConsumerState<Home>
                 child: TitleBtnWidget(
                   title: AppStrings.academiesStr,
                   onPress: () {
+                    ref.read(searchValProvider.notifier).state = null;
                     ref.read(filtersControllerProvider.notifier).clearFilters();
                     Navigator.pushNamed(context, AcademiesScreen.routeName);
                   },

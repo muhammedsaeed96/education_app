@@ -5,7 +5,6 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../core/constants/assets.dart';
 
 /// Generic function to show a platform-aware Material or Cupertino dialog
@@ -35,7 +34,7 @@ Future<bool?> showAlertDialog<T>({
         title,
         textAlign: TextAlign.center,
         style: AppTextStyles.textBoldStyle16.copyWith(
-          color: AppColors.gray600,
+          color: AppColors.black87,
         ),
       ),
       content: content != null
@@ -44,7 +43,7 @@ Future<bool?> showAlertDialog<T>({
                   textAlign: TextAlign.center,
                   content as String,
                   style: AppTextStyles.textRegularStyle14.copyWith(
-                    color: AppColors.gray500,
+                    color: AppColors.gray700,
                   ),
                 )
               : content as Widget
@@ -52,7 +51,7 @@ Future<bool?> showAlertDialog<T>({
       actions: <Widget>[
         cancelActionText == null
             ? Center(
-              child: PrimaryElevatedBtn(
+                child: PrimaryElevatedBtn(
                   background: defaultActionBg,
                   width: AppSizes.screenWidth > 800
                       ? AppSizes.screenWidth / 2
@@ -60,7 +59,7 @@ Future<bool?> showAlertDialog<T>({
                   text: defaultActionText,
                   press: () => Navigator.pop(context, true),
                 ),
-            )
+              )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -73,7 +72,7 @@ Future<bool?> showAlertDialog<T>({
                     text: cancelActionText,
                     press: () => Navigator.pop(context, false),
                   ),
-                  gapH16,
+                  gapH4,
                   PrimaryElevatedBtn(
                     radius: 16,
                     height: AppSizes.length46,
@@ -111,5 +110,61 @@ Future<void> showExceptionAlertDialog({
     title: title,
     content: exception.toString(),
     defaultActionText: AppStrings.okStr,
+  );
+}
+
+Future<bool?> loginAlertDialog<T>({
+  required BuildContext context,
+  required String content,
+}) async {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.white,
+      elevation: 1,
+      insetPadding: EdgeInsets.all(AppSizes.w26),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      title: Text(
+        AppStrings.notifyStr,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.textBoldStyle16.copyWith(
+          color: AppColors.black87,
+        ),
+      ),
+      content: Text(
+        textAlign: TextAlign.center,
+        content,
+        style: AppTextStyles.textRegularStyle12.copyWith(
+          color: AppColors.gray700,
+        ),
+      ),
+      actions: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            PrimaryElevatedBtn(
+              radius: 16,
+              height: AppSizes.length45,
+              background: AppColors.primaryColor400,
+              width: double.infinity,
+              text: AppStrings.loginStr,
+              press: () => Navigator.pop(context, true),
+            ),
+            gap12,
+            PrimaryElevatedBtn(
+              radius: 16,
+              height: AppSizes.length45,
+              background: AppColors.gray200,
+              textColor: AppColors.gray600,
+              width: double.infinity,
+              text: AppStrings.cancelStr,
+              press: () => Navigator.pop(context, false),
+            ),
+          ],
+        ),
+      ],
+    ),
   );
 }

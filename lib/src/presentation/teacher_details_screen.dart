@@ -2,7 +2,6 @@ import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/custom_network_image.dart';
 import 'package:education_app/src/common_widgets/socials_row_widget.dart';
 import 'package:education_app/src/common_widgets/title_card.dart';
-import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
@@ -47,17 +46,17 @@ class TeacherDetailsScreen extends ConsumerWidget {
                     teacher.name,
                     style: AppTextStyles.textBoldStyle16,
                   ),
-                  gap2,
+                /*  gap2,
                   Text(
                     teacher.phone,
                     style: AppTextStyles.textSemiBoldStyle14.copyWith(
                       color: AppColors.gray500,
                     ),
                     textDirection: TextDirection.ltr,
-                  ),
+                  ),*/
                 ],
               ),
-              gap24,
+              gap20,
               TitleDescWidget(
                 title: AppStrings.aboutTeacherStr,
                 description: teacher.description,

@@ -186,7 +186,7 @@ class AccountRepository {
     }
   }
 
-  Future<void> logout({required AccountType accountType}) async {
+/*  Future<void> logout({required AccountType accountType}) async {
     try {
       final res = await apiService.delete(
         url: '${ApiUrls.logoutUrl}/${accountType.name}',
@@ -201,7 +201,8 @@ class AccountRepository {
       }
       throw (error);
     }
-  }
+  }*/
+
 }
 
 final accountRepositoryProvider = Provider<AccountRepository>(

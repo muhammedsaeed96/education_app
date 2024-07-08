@@ -25,21 +25,9 @@ class Assets {
 
   static const String icEyeFill = "assets/icons/ic_eye_fill.svg";
 
-  static const String icMath = "assets/icons/ic_math.svg";
-
   static const String icProfile = "assets/icons/ic_profile.svg";
 
   static const String icFilter = "assets/icons/ic_filter.svg";
-
-  static const String icChemistry = "assets/icons/ic_chemistry.svg";
-
-  static const String icCells = "assets/icons/ic_cells.svg";
-
-  static const String icPhysics = "assets/icons/ic_physics.svg";
-
-  static const String icEnglish = "assets/icons/ic_english.svg";
-
-  static const String icArabic = "assets/icons/ic_arabic.svg";
 
   static const String icPrivacy = "assets/icons/ic_privacy.svg";
 

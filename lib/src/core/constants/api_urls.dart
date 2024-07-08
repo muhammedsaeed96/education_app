@@ -1,8 +1,7 @@
 class ApiUrls {
   ApiUrls._();
 
-  static const baseUrl = 'http://localhost';
-  // static const baseUrl = 'http://10.0.2.2:80';
+  static const baseUrl = 'https://tadrees.xyz:3000';
   static const getHomeUrl = '$baseUrl/home';
   static const teacherUrl = '$baseUrl/teacher';
   static const getTeacherPersonalAccountUrl =
@@ -23,7 +22,7 @@ class ApiUrls {
   static const deleteAccountUrl = '$baseUrl/authentication/deleteAccount';
   static const logoutUrl = '$baseUrl/authentication/logout';
   static const studentUrl = '$baseUrl/student';
-  static const privacyUrl = 'https://learning.opencode.iq/';
+  static const privacyUrl = '$baseUrl/privacy/privacy.html';
 
   //visitors
   static const getTeacherVisitorsUrl = '$baseUrl/teacher/visitors';

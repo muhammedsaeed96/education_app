@@ -12,7 +12,7 @@ import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/select_profile_picture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -212,10 +212,10 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
               gap8,
               Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSizes.length132 / 2),
+                  borderRadius: BorderRadius.circular(AppSizes.length148 / 2),
                   child: PrimaryElevatedBtn(
                     height: AppSizes.length40,
-                    width: AppSizes.length144,
+                    width: AppSizes.length148,
                     text: AppStrings.changeImageStr,
                     press: () {
                       ref.read(profileImageProvider.notifier).state = null;

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,7 +1,7 @@
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,7 +32,7 @@ class _OtpCountDownTimerState extends ConsumerState<OtpCountDownTimer>
       end: 0,
     ).animate(_animationController!)
       ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
+        if (_animationController?.isCompleted ?? false) {
           // to make request otp available when timer finished
           ref.read(requestOtpAvailableProvider.notifier).state = true;
         }

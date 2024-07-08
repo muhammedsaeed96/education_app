@@ -12,7 +12,7 @@ import '../common_widgets/bs_take_picture.dart';
 import '../common_widgets/primary_elevated_btn.dart';
 import '../common_widgets/profile_image.dart';
 import '../core/constants/app_sizes.dart';
-import 'controllers/sample_state_controller.dart';
+import 'controllers/simple_state_controller.dart';
 
 class SelectProfilePictureScreen extends ConsumerWidget {
   const SelectProfilePictureScreen({super.key});

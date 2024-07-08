@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
@@ -6,8 +7,7 @@ import 'package:education_app/src/data/authentication_repository.dart';
 import 'package:education_app/src/model/authentication_model.dart';
 import 'package:education_app/src/model/user_info_model.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
-import 'package:flutter/widgets.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/api_urls.dart';
 
@@ -83,8 +83,7 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
 
     final otpHelper = ref.read(asyncInitProvider).otpHelper;
 
-    // final bool canReqOtp = otpHelper.nextAttemptAvailable();
-    final bool canReqOtp = true;
+    final bool canReqOtp = otpHelper.nextAttemptAvailable();
 
     if (canReqOtp == false) {
       state = state.copyWith(
@@ -113,8 +112,8 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     final value = await AsyncValue.guard(() => _requestOtpByFormType());
     // to increment otp when user send one
     if (!value.hasError) {
-      otpHelper.incrementOtpReqCount();
-      ref.read(requestOtpAvailableProvider.notifier).state = false;
+     await otpHelper.incrementOtpReqCount();
+      ref.read(requestOtpAvailableProvider.notifier).state = otpHelper.nextAttemptAvailable();
     }
     state = state.copyWith(value: value);
     return !value.hasError;
@@ -122,7 +121,6 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
 
   Future<void> _requestOtpByFormType() async {
     if (state.formType == FormType.signIn) {
-      debugPrint('requestOtpForSignIn');
       await ref.read(authenticationRepositoryProvider).requestOtpForSignIn(
             phone: state.authentication!.phone,
             accountType: state.authentication!.accountType.name,
@@ -177,7 +175,7 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
           .read(asyncInitProvider)
           .localStorage
           .storeUserInfo(result.value!);
-      debugPrint(ref.read(asyncInitProvider).localStorage.getUserInfo()!.token);
+      // debugPrint(ref.read(asyncInitProvider).localStorage.getUserInfo()!.token);
       state = SignInSignupState(
         formType: FormType.signIn,
         accountType: AccountType.STUDENT,

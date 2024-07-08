@@ -6,6 +6,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,6 @@ class TeachersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(teacherControllerProvider);
-
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.teachersStr)),
       body: Padding(
@@ -33,25 +32,31 @@ class TeachersScreen extends ConsumerWidget {
               hintText: AppStrings.searchOnTeacherStr,
               type: TeachingType.teacher,
             ),
-            Expanded(
-              child: NotificationListener(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo is ScrollEndNotification &&
-                      scrollInfo.metrics.axisDirection == AxisDirection.down &&
-                      scrollInfo.metrics.pixels >=
-                          scrollInfo.metrics.maxScrollExtent) {
-                    final controller =
-                        ref.read(teacherControllerProvider.notifier);
-                    if (controller.canLoadMore()) {
-                      controller.loadNextPage();
-                    }
-                  }
-                  return true;
-                },
-                child: CustomScrollView(
-                  slivers: [...repositories(context, state, ref)],
-                ),
-              ),
+            Consumer(
+              builder: (_, ref, child) {
+                final state = ref.watch(teacherControllerProvider);
+                return Expanded(
+                  child: NotificationListener(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo is ScrollEndNotification &&
+                          scrollInfo.metrics.axisDirection ==
+                              AxisDirection.down &&
+                          scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent) {
+                        final controller =
+                            ref.read(teacherControllerProvider.notifier);
+                        if (controller.canLoadMore()) {
+                          controller.loadNextPage();
+                        }
+                      }
+                      return true;
+                    },
+                    child: CustomScrollView(
+                      slivers: [...repositories(context, state, ref)],
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

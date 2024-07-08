@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:education_app/src/presentation/controllers/filter_controller.dart';
 import 'package:education_app/src/presentation/controllers/pagination_controller.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/teachers_repository.dart';
 import '../../model/teacher_model.dart';

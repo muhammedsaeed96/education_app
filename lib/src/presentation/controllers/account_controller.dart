@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/data/account_repository.dart';
-import 'package:education_app/src/presentation/controllers/sample_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,7 +86,7 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
 
     if (!state.hasError) {
       await ref.read(asyncInitProvider).localStorage.removeUserInfo();
-      ref.read(logoutProvider.notifier).state = true;
+      ref.read(isAuthenticationProvider.notifier).state = false;
     }
   }
 
@@ -120,7 +120,7 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<void> logout() async {
+/*  Future<void> logout() async {
     final user = ref.read(asyncInitProvider).localStorage.getUserInfo();
 
     state = const AsyncLoading();
@@ -135,6 +135,17 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
       await ref.read(asyncInitProvider).localStorage.removeUserInfo();
       ref.read(logoutProvider.notifier).state = true;
     }
+  }*/
+
+  Future<void> logout() async {
+    state = const AsyncLoading();
+    ref.read(requestOtpAvailableProvider.notifier).state = true;
+    await Future.wait([
+      ref.read(asyncInitProvider).otpHelper.clearNextAttempt(),
+      ref.read(asyncInitProvider).localStorage.removeUserInfo()
+    ]);
+    ref.read(isAuthenticationProvider.notifier).state = false;
+    state = AsyncData(null);
   }
 }
 
