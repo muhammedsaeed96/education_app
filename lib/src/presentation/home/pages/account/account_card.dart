@@ -1,6 +1,8 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../common_widgets/custom_inkwell.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -9,12 +11,14 @@ class AccountCard extends StatelessWidget {
   const AccountCard({
     super.key,
     required this.title,
+    this.description,
     required this.icon,
     required this.press,
     this.redColor = false,
   });
 
   final String title;
+  final String? description;
   final String icon;
   final VoidCallback press;
   final bool redColor;
@@ -25,12 +29,10 @@ class AccountCard extends StatelessWidget {
       radius: 16,
       tap: press,
       child: Container(
-        height: AppSizes.length54,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.gray50,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.gray100),
+          border: Border.all(color: AppColors.gray300),
         ),
         child: Row(
           children: [
@@ -45,18 +47,40 @@ class AccountCard extends StatelessWidget {
                     )
                   : null,
             ),
-            gapH8,
-            Text(
-              title,
-              style: AppTextStyles.textMediumStyle14.copyWith(
-                color: redColor ? AppColors.red500 : AppColors.gray600,
-              ),
+            gapH12,
+            Expanded(
+              child: description == null
+                  ? Text(
+                      title,
+                      style: AppTextStyles.textMediumStyle14.copyWith(
+                        color: redColor ? AppColors.red500 : AppColors.gray600,
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: AppTextStyles.textMediumStyle14.copyWith(
+                            color:
+                                redColor ? AppColors.red500 : AppColors.gray600,
+                          ),
+                        ),
+                        Text(
+                          description!,
+                          style: AppTextStyles.textRegularStyle12.copyWith(
+                            color:
+                                redColor ? AppColors.red500 : AppColors.gray500,
+                          ),
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
             ),
-            Spacer(),
             Icon(
               Icons.arrow_forward_ios,
-              color: AppColors.gray600,
-              size: AppSizes.length12,
+              color: AppColors.black87,
+              size: AppSizes.length14,
             ),
           ],
         ),
