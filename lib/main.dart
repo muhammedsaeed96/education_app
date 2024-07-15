@@ -29,13 +29,18 @@ class MyApp extends StatelessWidget {
     initEasyLoading();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Education',
+      title: 'تدريس',
       theme: themeData,
       builder: EasyLoading.init(
         builder: (context, child) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: child!,
+          final mediaQuery = MediaQuery.of(context);
+          return MediaQuery(
+            //To make app font size independent from device settings
+            data: mediaQuery.copyWith(textScaler: const TextScaler.linear(1.0)),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: child!,
+            ),
           );
         },
       ),
