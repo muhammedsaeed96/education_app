@@ -31,9 +31,10 @@ class ErrorMessageWidget extends StatelessWidget {
             style: AppTextStyles.textMediumStyle16,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: getProportionateScreenHeight(12)),
+          SizedBox(height: getProportionateScreenHeight(16)),
           Center(
             child: PrimaryElevatedBtn(
+              height: getProportionateScreenHeight(48),
               text: AppStrings.retryStr,
               width: getProportionateScreenWidth(200),
               press: retry,

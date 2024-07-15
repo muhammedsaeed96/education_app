@@ -6,7 +6,6 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
-import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -75,12 +74,17 @@ class TeachersScreen extends ConsumerWidget {
     final loadingMore = state.isLoading && teachers.isNotEmpty;
     final loadingMoreError = state.hasError && teachers.isNotEmpty;
 
+    final controller = ref.read(teacherControllerProvider.notifier);
+
     return initialError
         ? [
             SliverToBoxAdapter(
-              child: ErrorMessageWidget(
-                errorMessage: 'errorMessage',
-                retry: () {},
+              child: Padding(
+                padding: const EdgeInsets.only(top: 48),
+                child: ErrorMessageWidget(
+                  errorMessage: state.error.toString(),
+                  retry: () => controller.applyFiltersAndSearch(),
+                ),
               ),
             ),
           ]
@@ -88,7 +92,7 @@ class TeachersScreen extends ConsumerWidget {
             ? [
                 const SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 32),
+                    padding: EdgeInsets.only(top: 48),
                     child: Loading(),
                   ),
                 )
@@ -97,7 +101,7 @@ class TeachersScreen extends ConsumerWidget {
                 ? [
                     const SliverToBoxAdapter(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 32),
+                        padding: EdgeInsets.only(top: 48),
                         child: EmptyWidget(),
                       ),
                     ),
@@ -149,9 +153,7 @@ class TeachersScreen extends ConsumerWidget {
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         sliver: SliverToBoxAdapter(
                           child: RetryBtn(
-                            press: () => ref
-                                .read(teacherControllerProvider.notifier)
-                                .loadNextPage(),
+                            press: () => controller.loadNextPage(),
                           ),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/constants/api_urls.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
@@ -33,22 +34,33 @@ class TeacherAcademySmallCard extends StatelessWidget {
           border: Border.all(color: AppColors.gray300),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: ListTile(
-          minVerticalPadding: 20,
-          leading: CustomNetworkImage(
-            imageUrl: '${ApiUrls.baseUrl}/$imageUrl',
-            height: AppSizes.length58,
-            width: AppSizes.length58,
-            radius:AppSizes.length58 / 2,
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Text(
-              title,
-              style: AppTextStyles.textSemiBoldStyle12,
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
+        child: Row(
+          children: [
+            CustomNetworkImage(
+              imageUrl: '${ApiUrls.baseUrl}/$imageUrl',
+              height: AppSizes.length58,
+              width: AppSizes.length58,
+              radius: AppSizes.length58 / 2,
             ),
-          ),
-          subtitle: AddressWidget(city: city, region: region),
+            gapH12,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: AppTextStyles.textSemiBoldStyle12,
+                  ),
+                  gap4,
+                  AddressWidget(city: city, region: region),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

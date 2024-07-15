@@ -64,8 +64,8 @@ class SubjectCard extends ConsumerWidget {
               children: [
                 subject.iconUrl != null && subject.iconUrl!.endsWith('.svg')
                     ? SvgPicture.network(
-                        height: AppSizes.length48,
-                        width: AppSizes.length48,
+                        height: AppSizes.length40,
+                        width: AppSizes.length40,
                         subject.iconUrl.getFullUrl!,
                         colorFilter: const ColorFilter.mode(
                           AppColors.gray100,
@@ -76,8 +76,8 @@ class SubjectCard extends ConsumerWidget {
                 gap12,
                 Text(
                   subject.name,
-                  style: AppTextStyles.textMediumStyle16.copyWith(
-                    color: AppColors.gray100,
+                  style: AppTextStyles.textSemiBoldStyle16.copyWith(
+                    color: AppColors.gray50,
                   ),
                 ),
               ],

@@ -1,8 +1,8 @@
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/model/academy_model.dart';
+import 'package:education_app/src/presentation/academy_details_screen.dart';
 import 'package:education_app/src/presentation/controllers/academy_controller.dart';
-import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/empty_widget.dart';
@@ -13,7 +13,6 @@ import '../common_widgets/teacher_academy_small_card.dart';
 import '../common_widgets/search_filter_row.dart';
 import '../core/constants/app_sizes.dart';
 import '../data/visitor_repository.dart';
-import 'controllers/simple_state_controller.dart';
 
 class AcademiesScreen extends ConsumerWidget {
   const AcademiesScreen({super.key});
@@ -22,7 +21,6 @@ class AcademiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.academiesStr)),
       body: Padding(
@@ -76,12 +74,17 @@ class AcademiesScreen extends ConsumerWidget {
     final loadingMore = state.isLoading && academies.isNotEmpty;
     final loadingMoreError = state.hasError && academies.isNotEmpty;
 
+    final controller = ref.read(academyControllerProvider.notifier);
+
     return initialError
         ? [
             SliverToBoxAdapter(
-              child: ErrorMessageWidget(
-                errorMessage: 'errorMessage',
-                retry: () {},
+              child: Padding(
+                padding: const EdgeInsets.only(top: 48),
+                child: ErrorMessageWidget(
+                  errorMessage: state.error.toString(),
+                  retry: () => controller.applyFiltersAndSearch(),
+                ),
               ),
             ),
           ]
@@ -89,7 +92,7 @@ class AcademiesScreen extends ConsumerWidget {
             ? [
                 const SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 32),
+                    padding: EdgeInsets.only(top: 48),
                     child: Loading(),
                   ),
                 )
@@ -98,7 +101,7 @@ class AcademiesScreen extends ConsumerWidget {
                 ? [
                     const SliverToBoxAdapter(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 32),
+                        padding: EdgeInsets.only(top: 48),
                         child: EmptyWidget(),
                       ),
                     ),
@@ -129,7 +132,7 @@ class AcademiesScreen extends ConsumerWidget {
                                       );
                                   Navigator.pushNamed(
                                     context,
-                                    TeacherDetailsScreen.routeName,
+                                    AcademyDetailsScreen.routeName,
                                     arguments: academy.id,
                                   );
                                 },
@@ -150,9 +153,7 @@ class AcademiesScreen extends ConsumerWidget {
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         sliver: SliverToBoxAdapter(
                           child: RetryBtn(
-                            press: () => ref
-                                .read(academyControllerProvider.notifier)
-                                .loadNextPage(),
+                            press: () => controller.loadNextPage(),
                           ),
                         ),
                       ),
