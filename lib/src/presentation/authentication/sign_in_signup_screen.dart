@@ -89,6 +89,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _phoneController.dispose();
     _locationDescriptionController.dispose();
     _descriptionController.dispose();
@@ -113,6 +114,8 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       }
     });
 
+    final controller = ref.read(signInSignupControllerProvider);
+
     final signInSignupState = ref.watch(signInSignupControllerProvider);
     final value = ref.watch(getHomeDataProvider);
 
@@ -125,9 +128,8 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
           children: [
             gap16,
             AuthTitleDescWidget(
-              title: ref.read(signInSignupControllerProvider).topTitleText,
-              description:
-                  ref.read(signInSignupControllerProvider).topDescriptionText,
+              title: controller.topTitleText,
+              description: controller.topDescriptionText,
             ),
             Expanded(
               child: Center(
@@ -160,7 +162,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                                     AccountType.ACADEMY
                                 ? AppStrings.academyNameStr
                                 : AppStrings.nameStr,
-                            hintText: '',
+                            hintText: AppStrings.nameExStr,
                             controller: _nameController,
                             validator: (val) => val.isValidText,
                           ),
@@ -190,19 +192,6 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             maxLines: 4,
                           ),
                           gap24,
-                          // TODO ENABLE IT LATER
-                          /*  TitleFormFiledWidget(
-                            title: AppStrings.facebookPageUrlStr,
-                            hintText: 'https://www.facebook.com',
-                            controller: _facebookPageUrlController,
-                          ),
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.youtubeChannelUrlStr,
-                            hintText: 'http://www.youtube.com',
-                            controller: _youtubeChannelUrl,
-                          ),
-                          gap24,*/
                           signInSignupState.accountType == AccountType.TEACHER
                               ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,8 +248,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                         ],
 
                         // to show these row if form type is signup
-                        ref.read(signInSignupControllerProvider).formType ==
-                                FormType.signup
+                        controller.formType == FormType.signup
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -348,30 +336,33 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             isRequired: false,
                           ),
                         ],
-                        gap32,
-                        PrimaryElevatedBtn(
-                          press: _submitForm,
-                          text: signInSignupState.isSignIn
-                              ? AppStrings.sendOnWhatsAppStr
-                              : AppStrings.nextStr,
-                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: PrimaryElevatedBtn(
+                press: _submitForm,
+                text: signInSignupState.isSignIn
+                    ? AppStrings.sendOnWhatsAppStr
+                    : AppStrings.nextStr,
+              ),
+            ),
+            gap16,
             TitleTextBtnRowWidget(
-              title: ref.read(signInSignupControllerProvider).bottomTitleText,
-              btnText:
-                  ref.read(signInSignupControllerProvider).bottomButtonText,
+              title: controller.bottomTitleText,
+              btnText: controller.bottomButtonText,
               press: () {
                 ref
                     .read(signInSignupControllerProvider.notifier)
                     .updateFormType();
+                _clearControllers();
               },
             ),
-            gap28,
+            gap32,
           ],
         ),
       ),
@@ -399,5 +390,22 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
         );
       },
     );
+  }
+
+
+  _clearControllers() {
+    _nameController.clear();
+    _phoneController.clear();
+    _descriptionController.clear();
+    _locationDescriptionController.clear();
+    _facebookController.clear();
+    _instagramController.clear();
+    _youtubeController.clear();
+    _telegramController.clear();
+    _provinceId = null;
+    _areaId = null;
+    _stageId = null;
+    _subjectsIds.clear();
+    _studyStagesIds.clear();
   }
 }
