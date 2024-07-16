@@ -48,7 +48,13 @@ class DropDownFormFieldWidget extends StatelessWidget {
         DropdownButtonFormField(
           menuMaxHeight: AppSizes.length204,
           elevation: 2,
-          decoration: InputDecoration(hintText: hintText),
+          // decoration: InputDecoration(hintText: hintText),
+          hint: Text(
+            hintText,
+            style: AppTextStyles.textRegularStyle14.copyWith(
+              color: AppColors.gray400,
+            ),
+          ),
           dropdownColor: Colors.white,
           value: needSetSelectedItem ? _getSelectedItems : selectedItem,
           validator: (val) {

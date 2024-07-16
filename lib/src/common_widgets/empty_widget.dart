@@ -29,13 +29,14 @@ class EmptyWidget extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   Assets.icEmpty,
-                  width: AppSizes.screenHeight * 0.18,
-                  height: AppSizes.screenHeight * 0.18,
+                  width: AppSizes.screenHeight * 0.12,
+                  height: AppSizes.screenHeight * 0.12,
                 ),
                 gap16,
                 Text(
                   text,
                   style: AppTextStyles.textMediumStyle16,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
