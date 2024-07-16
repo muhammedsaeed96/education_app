@@ -17,8 +17,6 @@ class StudentModel {
   final String? provinceId;
   final String? areaId;
   final String? stageId;
-  final List<ProvinceModel> provinces;
-  final List<StageModel> stages;
   final String? province;
   final String? area;
   final String? stage;
@@ -32,9 +30,7 @@ class StudentModel {
     this.image,
     this.provinceId,
     this.areaId,
-    this.provinces = const [],
     this.stageId,
-    this.stages = const [],
     this.province,
     this.area,
     this.stage,
@@ -64,8 +60,6 @@ class StudentModel {
       name: studentModel.name,
       phone: phone,
       imageUrl: imageUrl,
-      provinces: provinces,
-      stages: stages,
       stageId: studentModel.stageId,
       provinceId: studentModel.provinceId,
       areaId: studentModel.areaId,

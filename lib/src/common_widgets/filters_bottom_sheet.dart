@@ -14,7 +14,7 @@ import 'drop_down_menu_widget.dart';
 
 void filtersBottomSheet({
   required BuildContext context,
-  required TeachingType type,
+  required SearchType type,
 }) {
   showModalBottomSheet<void>(
     constraints: const BoxConstraints(minWidth: double.infinity),
@@ -26,7 +26,7 @@ void filtersBottomSheet({
 class BottomSheet extends ConsumerWidget {
   const BottomSheet({super.key, required this.type});
 
-  final TeachingType type;
+  final SearchType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -107,7 +107,7 @@ class BottomSheet extends ConsumerWidget {
                   ],
                 ),
                 gap20,
-                type == TeachingType.teacher
+                type == SearchType.teacher
                     ? Row(
                         children: [
                           // levels
@@ -156,7 +156,7 @@ class BottomSheet extends ConsumerWidget {
                             ref
                                 .read(filtersControllerProvider.notifier)
                                 .clearFilters();
-                            type == TeachingType.teacher
+                            type == SearchType.teacher
                                 ? ref
                                     .read(teacherControllerProvider.notifier)
                                     .applyFiltersAndSearch()
@@ -175,7 +175,7 @@ class BottomSheet extends ConsumerWidget {
                         child: PrimaryElevatedBtn(
                           text: AppStrings.applyStr,
                           press: () {
-                            type == TeachingType.teacher
+                            type == SearchType.teacher
                                 ? ref
                                     .read(teacherControllerProvider.notifier)
                                     .applyFiltersAndSearch()

@@ -6,6 +6,7 @@ class AppStrings {
   static const homeStr = 'الرئيسية';
   static const callUsStr = 'اتصل بنا';
   static const accountStr = 'الحساب';
+  static const pressHereToLoginOrCreateAccountStr = 'اضغط هنا لانشاء حساب او تسجيل الدخول';
   static const titleStr = 'العنوان';
   static const viewMoreStr = 'عرض الكل';
   static const teachersStr = 'الاساتذة';
@@ -23,6 +24,7 @@ class AppStrings {
   static const contactWithAcademy = 'تواصل مع المعهد';
   static const searchOnTeacherStr = 'ابحث عن استاذ';
   static const searchOnAcademyStr = 'ابحث عن المعهد';
+  static const searchStr = 'ابحث';
   static const provinceStr = 'المحافظة';
   static const areaStr = 'المدينة';
   static const subjectStr = 'المادة';
@@ -37,7 +39,7 @@ class AppStrings {
   static const successStr = 'نجحت العملية';
   static const notifyStr = 'تنويه';
   static const errorStr = 'حدث خطأ';
-  static const errorMessageStr = 'حدث خطأ معين يرجى اعادة المحاول';
+  static const errorMessageStr = 'لايمكن الاتصال بالسيرفر';
   static const yesStr = 'نعم';
   static const noStr = 'كلا';
   static const loginStr = 'تسجيل الدخول';
@@ -90,7 +92,7 @@ class AppStrings {
 
   static const nameStr = 'الاسم';
   static const academyNameStr = 'اسم المعهد';
-  static const nameExStr = 'محمد سعيد';
+  static const nameExStr = 'محمد ياسر';
   static const changeImageStr = 'تغيير الصورة';
 
   static const selectStagesStr = 'اختر المراحل';
@@ -102,10 +104,11 @@ class AppStrings {
   static const areYouSureToDeleteYourAccount =
       'هل انت متأكد من حذف حسابك؟, ستفقد جميع معلوماتك عند حذف الحساب ولايمكنك استرجاعها!';
 
-  static const somethingWentWrongStr = 'حدث خطأ معين يرجى اعادة المحاولة';
-  static const unexpectedErrorStr = 'حدث خطأ معين يرجى اعادة المحاولة';
+  static const somethingWentWrongStr = 'لايمكن الاتصال بالسيرفر';
+  static const unexpectedErrorStr = 'لايمكن الاتصال بالسيرفر';
   static const noInternetStr = 'لايتوفر اتصال بالانترنت يرجى اعادة المحاولة';
   static const noDataStr = 'لاتوجد بيانات';
+  static const noResultStr = 'لاتوجد نتائج';
   static const retryStr = 'اعادة المحاولة';
 
   static const visitStr = 'الزيارات';
@@ -147,4 +150,8 @@ class AppStrings {
   static const resendOtpStr = "اعادة ارسال الرمز";
   static const notValidUrlStr = "الرابط غير صحيح";
 
+  static const communicationStr = 'التواصل';
+  static const yourAcademiesAndTeachersStr = 'الاساتذة والمعاهد الذين قمت بالتواصل معهم';
+  static const notCommunicateWithAnyTeacherStr = 'لم تقم بالتواصل مع اي استاذ سابقا !';
+  static const notCommunicateWithAnyAcademyStr = 'لم تقم بالتواصل مع اي معهد سابقا !';
 }

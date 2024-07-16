@@ -1,7 +1,7 @@
 class ApiUrls {
   ApiUrls._();
 
-  static const baseUrl = 'https://tadrees.xyz:3000';
+  static const baseUrl = 'http://localhost';
   static const getHomeUrl = '$baseUrl/home';
   static const teacherUrl = '$baseUrl/teacher';
   static const getTeacherPersonalAccountUrl =
@@ -27,4 +27,9 @@ class ApiUrls {
   //visitors
   static const getTeacherVisitorsUrl = '$baseUrl/teacher/visitors';
   static const getAcademyVisitorsUrl = '$baseUrl/academy/visitors';
+
+  static const getStudentsTeachers = '$baseUrl/student/teachers';
+  static const getStudentsAcademies = '$baseUrl/student/academies';
+
+
 }

@@ -1,12 +1,8 @@
 import 'dart:io';
-
 import 'package:education_app/src/common_widgets/alert_dialogs.dart';
-import 'package:education_app/src/core/constants/api_urls.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
-import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
-import 'package:education_app/src/core/utils/url_launcher_helper.dart';
 import 'package:education_app/src/data/home_repository.dart';
 import 'package:education_app/src/presentation/about_us_screen.dart';
 import 'package:education_app/src/presentation/controllers/account_controller.dart';
@@ -20,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/assets.dart';
+import '../../../authentication/sign_in_signup_screen.dart';
 import '../../../controllers/simple_state_controller.dart';
 import 'account_card.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -36,11 +33,14 @@ class _AccountState extends ConsumerState<Account>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    debugPrint('Account Build');
+
+    final provider = ref.read(asyncInitProvider).localStorage;
+
+    final userInfo = provider.getUserInfo();
 
     ref.listen(
       accountControllerProvider,
-          (_, next) {
+      (_, next) {
         if (next.isLoading) {
           EasyLoading.show();
         } else if (next.hasError) {
@@ -51,29 +51,40 @@ class _AccountState extends ConsumerState<Account>
         }
       },
     );
-
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
       children: <Widget>[
-        const Header(),
-        Consumer(
-          builder: (context, ref, child) {
-            final value = ref.watch(getAccountDataProvider(true));
-
-            return AccountCard(
-              title: AppStrings.accountInfoStr,
-              icon: Assets.icUserGray,
-              press: () =>
-              value.isLoading || value.hasError
-                  ? null
-                  : Navigator.pushNamed(
-                context,
-                PersonalProfileScreen.routeName,
-              ),
-            );
-          },
-        ),
-        gap12,
+        if (userInfo != null) ...[
+          const Header(),
+          Consumer(
+            builder: (context, ref, child) {
+              final value = ref.watch(getAccountDataProvider(true));
+              return AccountCard(
+                title: AppStrings.accountInfoStr,
+                icon: Assets.icUserGray,
+                press: () => value.isLoading || value.hasError
+                    ? null
+                    : Navigator.pushNamed(
+                        context,
+                        PersonalProfileScreen.routeName,
+                      ),
+              );
+            },
+          ),
+          gap12,
+        ],
+        if (userInfo == null) ...[
+          AccountCard(
+            title: AppStrings.accountStr,
+            description: AppStrings.pressHereToLoginOrCreateAccountStr,
+            icon: Assets.icLogin,
+            press: () => Navigator.pushNamed(
+              context,
+              SignInSignupScreen.routeName,
+            ),
+          ),
+          gap12,
+        ],
         AccountCard(
           title: AppStrings.rateAppStr,
           icon: Assets.icStar,
@@ -91,16 +102,15 @@ class _AccountState extends ConsumerState<Account>
           icon: Assets.icInfo,
           press: () => Navigator.pushNamed(context, AboutUsScreen.routeName),
         ),
-        gap12,
+        /*gap12,
         AccountCard(
           title: AppStrings.privacyStr,
           icon: Assets.icPrivacy,
-          press: () =>
-              UrlLauncherHelper.launchUrlByType(
-                ApiUrls.privacyUrl,
-                LinkType.link,
-              ),
-        ),
+          press: () => UrlLauncherHelper.launchUrlByType(
+            ApiUrls.privacyUrl,
+            LinkType.link,
+          ),
+        ),*/
         gap12,
         AccountCard(
           title: AppStrings.logoutStr,
@@ -135,56 +145,49 @@ class _AccountState extends ConsumerState<Account>
     if (result == true) {
       ref.read(accountControllerProvider.notifier).logout();
     }
-}
-
-Future<void> _deleteAccount({
-  required BuildContext context,
-  required WidgetRef ref,
-}) async {
-  final result = await showAlertDialog(
-    context: context,
-    title: AppStrings.deleteAccountInDialogStr,
-    content: AppStrings.areYouSureToDeleteYourAccount,
-    defaultActionText: AppStrings.yesStr,
-    cancelActionText: AppStrings.cancelStr,
-    defaultActionBg: AppColors.red500,
-  );
-  // if result true it mean user click confirm button
-  if (result == true) {
-    ref
-        .read(requestOtpAvailableProvider.notifier)
-        .state = true;
-    await ref
-        .read(asyncInitProvider)
-        .otpHelper
-        .clearNextAttempt();
-    await ref.read(accountControllerProvider.notifier).deleteAccount();
   }
-}
+
+  Future<void> _deleteAccount({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    final result = await showAlertDialog(
+      context: context,
+      title: AppStrings.deleteAccountInDialogStr,
+      content: AppStrings.areYouSureToDeleteYourAccount,
+      defaultActionText: AppStrings.yesStr,
+      cancelActionText: AppStrings.cancelStr,
+      defaultActionBg: AppColors.red500,
+    );
+    // if result true it mean user click confirm button
+    if (result == true) {
+      ref.read(requestOtpAvailableProvider.notifier).state = true;
+      await ref.read(asyncInitProvider).otpHelper.clearNextAttempt();
+      await ref.read(accountControllerProvider.notifier).deleteAccount();
+    }
+  }
 
 // to show app rating bottom sheet
-void _openAppReview() async {
-  final InAppReview inAppReview = InAppReview.instance;
-  if (await inAppReview.isAvailable()) {
-    inAppReview.requestReview();
+  void _openAppReview() async {
+    final InAppReview inAppReview = InAppReview.instance;
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
   }
-}
 
-void _shareAppLink(WidgetRef ref) async {
-  final appInfo = ref
-      .read(getHomeDataProvider)
-      .value
-      ?.updateInfo;
-  if (appInfo == null) {
-    return;
+  void _shareAppLink(WidgetRef ref) async {
+    final appInfo = ref.read(getHomeDataProvider).value?.updateInfo;
+    if (appInfo == null) {
+      return;
+    }
+    final appUrl =
+        Platform.isAndroid ? appInfo.playStoreUrl : appInfo.appStoreUrl;
+    final result = await Share.share(appUrl);
+    if (result.status == ShareResultStatus.success) {
+      debugPrint('Thank you for sharing my website!');
+    }
   }
-  final appUrl =
-  Platform.isAndroid ? appInfo.playStoreUrl : appInfo.appStoreUrl;
-  final result = await Share.share(appUrl);
-  if (result.status == ShareResultStatus.success) {
-    debugPrint('Thank you for sharing my website!');
-  }
-}
 
-@override
-bool get wantKeepAlive => true;}
+  @override
+  bool get wantKeepAlive => true;
+}

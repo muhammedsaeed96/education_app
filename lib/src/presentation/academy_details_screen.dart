@@ -21,9 +21,6 @@ class AcademyDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-
-
     final id = ModalRoute.of(context)!.settings.arguments as String;
 
     final value = ref.watch(getAcademyByIdProvider(id));
@@ -66,7 +63,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
               gap20,
               TitleDescWidget(
                 title: AppStrings.descriptionStr,
-                description: academy.description,
+                description: academy.description!,
               ),
               gap16,
               Text(
@@ -96,7 +93,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
               gap16,
               TitleDescWidget(
                 title: AppStrings.locationDescriptionStr,
-                description: academy.locationDescription,
+                description: academy.locationDescription!,
               ),
               gap16,
               SocialsRowWidget(

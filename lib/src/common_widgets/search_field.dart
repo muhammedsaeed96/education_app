@@ -2,6 +2,8 @@ import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/presentation/controllers/academy_controller.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
+import 'package:education_app/src/presentation/controllers/student_academies_provider.dart';
+import 'package:education_app/src/presentation/controllers/student_teachers_provider.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +19,7 @@ class SearchField extends ConsumerStatefulWidget {
   });
 
   final String hintTextStr;
-  final TeachingType type;
+  final SearchType type;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -40,11 +42,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       controller: controller,
       onChanged: (val) {
         ref.read(searchValProvider.notifier).update((state) => val);
-        if (widget.type == TeachingType.teacher) {
-          ref.read(teacherControllerProvider.notifier).applyFiltersAndSearch();
-        } else {
-          ref.read(academyControllerProvider.notifier).applyFiltersAndSearch();
-        }
+        _applyFiltersByType();
       },
       decoration: InputDecoration(
         hintText: widget.hintTextStr,
@@ -58,5 +56,32 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         ),
       ),
     );
+  }
+
+  void _applyFiltersByType() {
+    switch (widget.type) {
+      case SearchType.teacher:
+        ref.read(teacherControllerProvider.notifier).applyFiltersAndSearch();
+        break;
+      case SearchType.academy:
+        ref.read(academyControllerProvider.notifier).applyFiltersAndSearch();
+        break;
+      case SearchType.studentTeachers:
+        ref
+            .read(studentTeachersControllerProvider.notifier)
+            .applyFiltersAndSearch();
+        break;
+      case SearchType.studentAcademies:
+        ref
+            .read(studentAcademiesControllerProvider.notifier)
+            .applyFiltersAndSearch();
+        break;
+      case SearchType.teacherStudents:
+        // TODO : later
+        break;
+      case SearchType.academyStudents:
+      // TODO : later
+        break;
+    }
   }
 }

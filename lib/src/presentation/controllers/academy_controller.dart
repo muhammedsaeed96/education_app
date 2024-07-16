@@ -34,8 +34,6 @@ class AcademyController extends AutoDisposeAsyncNotifier<List<AcademyModel>>
 
   @override
   FutureOr<List<AcademyModel>> loadPage(int page) async {
-    await Future.delayed(const Duration(seconds: 1));
-
     final searchVal = ref.read(searchValProvider);
     final filters = ref.read(filtersControllerProvider);
 

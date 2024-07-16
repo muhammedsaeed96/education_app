@@ -56,7 +56,7 @@ class AcademyCard extends ConsumerWidget {
       title: academy.title,
       city: academy.province?.name ?? '',
       region: academy.area?.name ?? '',
-      description: academy.description,
+      description: academy.description!,
       visitorsNum: academy.visitorsNumber,
     );
   }

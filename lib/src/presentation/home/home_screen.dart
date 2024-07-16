@@ -8,6 +8,7 @@ import 'package:education_app/src/presentation/controllers/simple_state_controll
 import 'package:education_app/src/presentation/home/pages/account/account.dart';
 import 'package:education_app/src/presentation/home/pages/contact_us.dart';
 import 'package:education_app/src/presentation/home/pages/home/home.dart';
+import 'package:education_app/src/presentation/home/pages/student_communications/communications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,7 +16,6 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
 import '../../core/utils/app_updater.dart';
-import '../authentication/sign_in_signup_screen.dart';
 import '../visitors_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -43,10 +43,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     _appUpdater = AppUpdater();
     _pageController = PageController(initialPage: 0);
-    if (_isAuthAndNotStudent) {
+    if (_isAuth) {
       _pageViewPages.insert(
         1,
-        const VisitorsScreen(key: PageStorageKey('page4')),
+        _isNotStudent
+            ? const VisitorsScreen(key: PageStorageKey('page4'))
+            : const CommunicationsPage(key: PageStorageKey('page4')),
       );
     }
     super.initState();
@@ -78,10 +80,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     ref.listen(isAuthenticationProvider, (_, next) {
-      if (_isAuthAndNotStudent && _pageViewPages.length < 4) {
+      if (_isAuth && _pageViewPages.length < 4) {
         _pageViewPages.insert(
           1,
-          const VisitorsScreen(key: PageStorageKey('page4')),
+          _isNotStudent
+              ? const VisitorsScreen(key: PageStorageKey('page4'))
+              : const CommunicationsPage(key: PageStorageKey('page4')),
         );
       }
       if (!next && _pageViewPages.length == 4) {
@@ -91,10 +95,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       _changeNavBarIndex(
         index: !next
             ? 0
-            : _isAuthAndNotStudent
+            : _isAuth
                 ? 3
                 : 2,
-        ref: ref,
+        // ref: ref,
       );
     });
 
@@ -113,6 +117,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _bottomNavBar() {
+    final isAuth = ref.read(asyncInitProvider).localStorage.isAuth;
+
     return Consumer(builder: (context, ref, child) {
       ref.watch(isAuthenticationProvider);
       return Container(
@@ -123,15 +129,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Row(
           children: [
             _navBarItem(index: 0, text: AppStrings.homeStr),
-            _isAuthAndNotStudent
-                ? _navBarItem(index: 1, text: AppStrings.visitStr)
+            isAuth
+                ? _navBarItem(
+                    index: 1,
+                    text: _isNotStudent
+                        ? AppStrings.visitStr
+                        : AppStrings.communicationStr,
+                  )
                 : const SizedBox.shrink(),
             _navBarItem(
-              index: _isAuthAndNotStudent ? 2 : 1,
+              index: isAuth ? 2 : 1,
               text: AppStrings.callUsStr,
             ),
             _navBarItem(
-              index: _isAuthAndNotStudent ? 3 : 2,
+              index: isAuth ? 3 : 2,
               text: AppStrings.accountStr,
             ),
           ],
@@ -148,11 +159,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       highlightColor: AppColors.gray50,
       focusColor: Colors.transparent,
       splashColor: AppColors.primaryColor50.withOpacity(0.2),
-      onTap: () => _changeNavBarIndex(index: index, ref: ref),
+      onTap: () => _changeNavBarIndex(index: index),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: SizedBox(
-          width: (_isAuthAndNotStudent
+          width: (_isAuth
                   ? MediaQuery.of(context).size.width / 4
                   : MediaQuery.of(context).size.width / 3) -
               8,
@@ -191,10 +202,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         icon = Assets.icHome;
         break;
       case 1:
-        icon = !_isAuthAndNotStudent ? Assets.icPhone : Assets.icEye;
+        icon = !_isAuth
+            ? Assets.icPhone
+            : _isNotStudent
+                ? Assets.icEye
+                : Assets.icUsers;
         break;
       case 2:
-        icon = !_isAuthAndNotStudent ? Assets.icUser : Assets.icPhone;
+        icon = !_isAuth ? Assets.icUser : Assets.icPhone;
         break;
       default:
         icon = Assets.icUser;
@@ -204,21 +219,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         : icon;
   }
 
-  void _changeNavBarIndex({required int index, required WidgetRef ref}) {
-    final provider = ref.read(asyncInitProvider).localStorage;
-
-    final userInfo = provider.getUserInfo();
-
-    int accountPageIndex = 2;
-
-    if (_isAuthAndNotStudent) {
-      accountPageIndex = 3;
-    }
-
-    if (index == accountPageIndex && userInfo == null) {
-      Navigator.pushNamed(context, SignInSignupScreen.routeName);
-      return;
-    }
+  void _changeNavBarIndex({required int index}) {
     setState(() {
       _pageController.animateToPage(
         index,
@@ -229,7 +230,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  bool get _isAuthAndNotStudent {
-    return ref.read(asyncInitProvider).localStorage.isAuthAndNotStudent();
+  bool get _isAuth {
+    return ref.read(asyncInitProvider).localStorage.isAuth;
+  }
+
+  bool get _isNotStudent {
+    return ref.read(asyncInitProvider).localStorage.isNotStudent();
   }
 }

@@ -16,7 +16,7 @@ class SearchFilterRow extends ConsumerWidget {
     required this.type,
   });
 
-  final TeachingType type;
+  final SearchType type;
   final String hintText;
 
   @override

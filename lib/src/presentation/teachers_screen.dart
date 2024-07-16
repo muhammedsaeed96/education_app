@@ -6,6 +6,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
+import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class TeachersScreen extends ConsumerWidget {
           children: [
             const SearchFilterRow(
               hintText: AppStrings.searchOnTeacherStr,
-              type: TeachingType.teacher,
+              type: SearchType.teacher,
             ),
             Consumer(
               builder: (_, ref, child) {
@@ -76,6 +77,8 @@ class TeachersScreen extends ConsumerWidget {
 
     final controller = ref.read(teacherControllerProvider.notifier);
 
+    final searchText = ref.read(searchValProvider);
+
     return initialError
         ? [
             SliverToBoxAdapter(
@@ -99,17 +102,21 @@ class TeachersScreen extends ConsumerWidget {
               ]
             : teachers.isEmpty
                 ? [
-                    const SliverToBoxAdapter(
+                    SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(top: 48),
-                        child: EmptyWidget(),
+                        child: EmptyWidget(
+                          text: searchText == null || searchText.isEmpty
+                              ? AppStrings.noDataStr
+                              : AppStrings.noResultStr,
+                        ),
                       ),
                     ),
                   ]
                 : [
                     SliverPadding(
                       padding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenHeight(16),
+                        vertical: getProportionateScreenHeight(32),
                       ),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(

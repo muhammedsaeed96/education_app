@@ -56,7 +56,7 @@ class TeacherCard extends ConsumerWidget {
       title: teacher.name,
       city: teacher.province!.name,
       region: teacher.area!.name,
-      description: teacher.description,
+      description: teacher.description!,
       visitorsNum: teacher.visitorsNumber,
     );
   }

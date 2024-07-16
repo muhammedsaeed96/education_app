@@ -13,6 +13,7 @@ import '../common_widgets/teacher_academy_small_card.dart';
 import '../common_widgets/search_filter_row.dart';
 import '../core/constants/app_sizes.dart';
 import '../data/visitor_repository.dart';
+import 'controllers/simple_state_controller.dart';
 
 class AcademiesScreen extends ConsumerWidget {
   const AcademiesScreen({super.key});
@@ -29,7 +30,7 @@ class AcademiesScreen extends ConsumerWidget {
           children: [
             const SearchFilterRow(
               hintText: AppStrings.searchOnAcademyStr,
-              type: TeachingType.academy,
+              type: SearchType.academy,
             ),
             Consumer(
               builder: (_, ref, child) {
@@ -75,6 +76,7 @@ class AcademiesScreen extends ConsumerWidget {
     final loadingMoreError = state.hasError && academies.isNotEmpty;
 
     final controller = ref.read(academyControllerProvider.notifier);
+    final searchText = ref.read(searchValProvider);
 
     return initialError
         ? [
@@ -99,17 +101,21 @@ class AcademiesScreen extends ConsumerWidget {
               ]
             : academies.isEmpty
                 ? [
-                    const SliverToBoxAdapter(
+                    SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(top: 48),
-                        child: EmptyWidget(),
+                        child: EmptyWidget(
+                          text: searchText == null || searchText.isEmpty
+                              ? AppStrings.noDataStr
+                              : AppStrings.noResultStr,
+                        ),
                       ),
                     ),
                   ]
                 : [
                     SliverPadding(
                       padding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenHeight(16),
+                        vertical: getProportionateScreenHeight(32),
                       ),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(

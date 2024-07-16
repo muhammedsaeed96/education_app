@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../constants/api_urls.dart';
 import 'local_storage.dart';
@@ -36,6 +37,9 @@ class ApiService {
         ) async {
           await Future.delayed(const Duration(milliseconds: 250));
           final user = localStorage!.getUserInfo();
+
+          debugPrint(user?.token);
+
           // to get unique device id
           // Add the access token to the request header
           if (user != null) {

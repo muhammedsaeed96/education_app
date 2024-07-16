@@ -123,7 +123,7 @@ class SocialButtonWidget extends ConsumerWidget {
   }) async {
     final storage = ref.read(asyncInitProvider).localStorage;
 
-    if (!storage.isStudentAuth) {
+    if (!storage.isAuth) {
       final result = await loginAlertDialog(
         context: context,
         content: AppStrings.loginToAccessLinkStr,

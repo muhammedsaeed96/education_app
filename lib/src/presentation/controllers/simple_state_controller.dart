@@ -14,7 +14,7 @@ final otpValueProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final profileImageProvider = StateProvider.autoDispose<File?>((ref) => null);
 
-final isAuthenticationProvider = StateProvider.autoDispose<bool>((ref) => false);
+final isAuthenticationProvider = StateProvider<bool>((ref) => false);
 
 final searchValProvider = StateProvider<String?>((ref) => null);
 

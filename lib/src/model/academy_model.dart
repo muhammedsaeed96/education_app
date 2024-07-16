@@ -15,16 +15,16 @@ class AcademyModel {
   final String id;
   @JsonKey(name: 'name')
   final String title;
-  final String phone;
+  final String? phone;
   final String? imageUrl;
   @CustomFileConverter()
   final File? image;
-  final String description;
+  final String? description;
   @JsonKey(name: 'Province')
   final ProvinceModel? province;
   @JsonKey(name: 'Area')
   final AreaModel? area;
-  final String locationDescription;
+  final String? locationDescription;
   @JsonKey(name: 'Stages')
   final List<StageModel> stages;
   final int visitorsNumber;
@@ -41,13 +41,13 @@ class AcademyModel {
   AcademyModel({
     required this.id,
     required this.title,
-    required this.phone,
+    this.phone,
     this.imageUrl,
     this.image,
-    required this.description,
+    this.description,
     this.province,
     this.area,
-    required this.locationDescription,
+     this.locationDescription,
     this.stages = const [],
     this.visitorsNumber = 0,
     this.stagesIds = const [],

@@ -17,12 +17,12 @@ typedef TeacherID = String;
 class TeacherModel {
   final String id;
   final String name;
-  final String phone;
+  final String? phone;
   final String? imageUrl;
   @CustomFileConverter()
   final File? image;
-  final String description;
-  final String locationDescription;
+  final String? description;
+  final String? locationDescription;
   @JsonKey(name: 'Subjects')
   final List<SubjectModel> subjects;
   final String? provinceId;
@@ -47,13 +47,13 @@ class TeacherModel {
   TeacherModel({
     required this.id,
     required this.name,
-    required this.phone,
+    this.phone,
     this.imageUrl,
     this.image,
-    required this.description,
+    this.description,
     this.province,
     this.area,
-    required this.locationDescription,
+    this.locationDescription,
     this.subjects = const [],
     this.stages = const [],
     this.visitorsNumber = 0,

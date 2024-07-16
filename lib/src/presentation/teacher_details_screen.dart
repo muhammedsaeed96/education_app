@@ -59,7 +59,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
               gap20,
               TitleDescWidget(
                 title: AppStrings.aboutTeacherStr,
-                description: teacher.description,
+                description: teacher.description!,
               ),
               gap16,
               Text(
@@ -108,7 +108,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
               gap16,
               TitleDescWidget(
                 title: AppStrings.locationDescriptionStr,
-                description: teacher.locationDescription,
+                description: teacher.locationDescription!,
               ),
               gap16,
               SocialsRowWidget(
