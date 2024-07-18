@@ -249,49 +249,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
 
                         // to show these row if form type is signup
                         controller.formType == FormType.signup
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: getProportionateScreenWidth(132),
-                                    child: DropDownFormFieldWidget(
-                                      title: AppStrings.provinceStr,
-                                      hintText: AppStrings.selectProvinceStr,
-                                      onChange: (id) {
-                                        ref
-                                            .read(provinceIdProvider.notifier)
-                                            .update((state) => id!);
-                                        _provinceId = id;
-                                      },
-                                      items: homeData.provinces,
-                                    ),
-                                  ),
-                                  gapH8,
-                                  Expanded(
-                                    child: Consumer(
-                                      builder: (context, ref, child) {
-                                        ref.watch(provinceIdProvider);
-                                        List<AreaModel> areas =
-                                            AreaModel.getAreasByProvinceId(
-                                          provinces: homeData.provinces,
-                                          provinceId: _provinceId,
-                                        );
-                                        if (areas.isNotEmpty &&
-                                            _areaId == null) {
-                                          _areaId = areas[0].id;
-                                        }
-                                        return DropDownFormFieldWidget(
-                                          title: AppStrings.areaStr,
-                                          hintText: AppStrings.selectAreaStr,
-                                          onChange: (id) => _areaId = id,
-                                          items: areas,
-                                          needSetSelectedItem: true,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
+                            ? _buildProvinceArea(homeData, signInSignupState)
                             : const SizedBox.shrink(),
 
                         if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
@@ -392,6 +350,57 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
     );
   }
 
+  Widget _buildProvinceArea(
+      MainModel homeData,
+      SignInSignupState signInSignupState,
+      ) {
+    final provinceWidget = DropDownFormFieldWidget(
+      title: AppStrings.provinceStr,
+      hintText: AppStrings.selectProvinceStr,
+      onChange: (id) {
+        ref.read(provinceIdProvider.notifier).update((state) => id!);
+        _provinceId = id;
+      },
+      items: homeData.provinces,
+    );
+
+    final areaWidget = Expanded(
+      child: Consumer(
+        builder: (context, ref, child) {
+          ref.watch(provinceIdProvider);
+          List<AreaModel> areas = AreaModel.getAreasByProvinceId(
+            provinces: homeData.provinces,
+            provinceId: _provinceId,
+          );
+          if (areas.isNotEmpty && _areaId == null) {
+            _areaId = areas[0].id;
+          }
+          return DropDownFormFieldWidget(
+            title: AppStrings.areaStr,
+            hintText: AppStrings.selectAreaStr,
+            onChange: (id) => _areaId = id,
+            items: areas,
+            needSetSelectedItem: true,
+          );
+        },
+      ),
+    );
+
+    if (signInSignupState.isTeacherOrAcademyAndSignup) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: getProportionateScreenWidth(132),
+            child: provinceWidget,
+          ),
+          gapH8,
+          areaWidget
+        ],
+      );
+    }
+    return provinceWidget;
+  }
 
   _clearControllers() {
     _nameController.clear();

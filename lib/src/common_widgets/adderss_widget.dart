@@ -26,7 +26,7 @@ class AddressWidget extends StatelessWidget {
         gapH6,
         Expanded(
           child: Text(
-            '$city / $region',
+            region.isEmpty ? city : '$city / $region',
             style: AppTextStyles.textMediumStyle12.copyWith(
               color: AppColors.gray600,
             ),

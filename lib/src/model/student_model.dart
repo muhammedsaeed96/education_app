@@ -4,6 +4,7 @@ import 'package:education_app/src/model/stage_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'area_model.dart';
 import 'custom_file_converter.dart';
+
 part 'student_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
@@ -15,12 +16,11 @@ class StudentModel {
   @CustomFileConverter()
   final File? image;
   final String? provinceId;
-  final String? areaId;
   final String? stageId;
   final String? province;
-  final String? area;
   final String? stage;
-
+  final List<StageModel> stages;
+  final List<ProvinceModel> provinces;
 
   StudentModel({
     required this.id,
@@ -29,19 +29,18 @@ class StudentModel {
     this.imageUrl,
     this.image,
     this.provinceId,
-    this.areaId,
     this.stageId,
     this.province,
-    this.area,
     this.stage,
+    this.stages = const [],
+    this.provinces = const [],
   });
 
   @override
   int get hashCode => Object.hash(
         name.hashCode,
-         provinceId?.hashCode,
-         areaId?.hashCode,
-         stageId?.hashCode,
+        provinceId?.hashCode,
+        stageId?.hashCode,
       );
 
   @override
@@ -49,9 +48,10 @@ class StudentModel {
     return identical(this, other) ||
         other is StudentModel &&
             runtimeType == other.runtimeType &&
-            hashCode == other.hashCode;
+            name == other.name &&
+            stageId == other.stageId &&
+            provinceId == other.provinceId;
   }
-
 
   StudentModel copyWithNewAccountData(Object studentModel) {
     studentModel as StudentModel;
@@ -62,7 +62,6 @@ class StudentModel {
       imageUrl: imageUrl,
       stageId: studentModel.stageId,
       provinceId: studentModel.provinceId,
-      areaId: studentModel.areaId,
     );
   }
 

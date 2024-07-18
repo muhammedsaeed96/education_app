@@ -63,7 +63,6 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     _userInfo = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
 
     _provinceId = _accountData.provinceId;
-    _areaId = _accountData.areaId;
     _imageUrl = _accountData.imageUrl;
 
     if (_accountData is StudentModel) {
@@ -71,6 +70,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       _stageId = _accountData.stageId;
     } else if (_accountData is TeacherModel) {
       _nameController.text = _accountData.name;
+      _areaId = _accountData.areaId;
       _stagesIds.addAll(_accountData.stagesIds);
       _subjectsIds.addAll(_accountData.subjectsIds);
       _locationDescriptionController.text = _accountData.locationDescription;
@@ -82,6 +82,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     } else {
       _accountData as AcademyModel;
       _nameController.text = _accountData.title;
+      _areaId = _accountData.areaId;
       _stagesIds.addAll(_accountData.stagesIds);
       _locationDescriptionController.text = _accountData.locationDescription;
       _descriptionController.text = _accountData.description;
@@ -119,7 +120,6 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
         id: _userInfo.userId,
         name: _nameController.text,
         provinceId: _provinceId!,
-        areaId: _areaId!,
         stageId: _stageId!,
       ) as T;
     } else if (_accountData is TeacherModel) {
@@ -253,7 +253,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 DropDownFormFieldWidget(
                   title: AppStrings.stageStr,
                   hintText: AppStrings.stageExStr,
-                  onChange: (stageId) => _stageId = _stageId,
+                  onChange: (stageId) => _stageId = stageId,
                   items: _accountData.stages,
                   selectedItem: _stageId!,
                 ),
@@ -299,49 +299,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                     : _buildStagesMultiSelectDialogFromField(),
                 gap24,
               ],
-              Row(
-                children: [
-                  Expanded(
-                    child: DropDownFormFieldWidget(
-                      title: AppStrings.provinceStr,
-                      hintText: AppStrings.selectProvinceStr,
-                      onChange: (provinceId) {
-                        _areaId = null;
-                        // to update province
-                        _provinceId = provinceId;
-                        ref
-                            .read(provinceIdProvider.notifier)
-                            .update((state) => provinceId!);
-                      },
-                      items: _accountData.provinces,
-                      selectedItem: _provinceId!,
-                    ),
-                  ),
-                  gapH8,
-                  Expanded(
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        ref.watch(provinceIdProvider);
-                        List<AreaModel> areas = AreaModel.getAreasByProvinceId(
-                          provinces: _accountData.provinces,
-                          provinceId: _provinceId,
-                        );
-                        if (areas.isNotEmpty && _areaId == null) {
-                          _areaId = areas[0].id;
-                        }
-                        return DropDownFormFieldWidget(
-                          title: AppStrings.areaStr,
-                          hintText: AppStrings.selectAreaStr,
-                          onChange: (id) => _areaId = id,
-                          items: areas,
-                          selectedItem: _areaId,
-                          needSetSelectedItem: true,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              _buildProvinceArea(),
               if (_userInfo.accountType != AccountType.STUDENT) ...[
                 gap24,
                 TitleFormFiledWidget(
@@ -400,6 +358,56 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildProvinceArea() {
+    final provinceWidget = DropDownFormFieldWidget(
+      title: AppStrings.provinceStr,
+      hintText: AppStrings.selectProvinceStr,
+      onChange: (provinceId) {
+        _areaId = null;
+        // to update province
+        _provinceId = provinceId;
+        ref.read(provinceIdProvider.notifier).update((state) => provinceId!);
+      },
+      items: _accountData.provinces,
+      selectedItem: _provinceId!,
+    );
+
+    final areaWidget = Expanded(
+      child: Consumer(
+        builder: (context, ref, child) {
+          ref.watch(provinceIdProvider);
+          List<AreaModel> areas = AreaModel.getAreasByProvinceId(
+            provinces: _accountData.provinces,
+            provinceId: _provinceId,
+          );
+          if (areas.isNotEmpty && _areaId == null) {
+            _areaId = areas[0].id;
+          }
+          return DropDownFormFieldWidget(
+            title: AppStrings.areaStr,
+            hintText: AppStrings.selectAreaStr,
+            onChange: (id) => _areaId = id,
+            items: areas,
+            selectedItem: _areaId,
+            needSetSelectedItem: true,
+          );
+        },
+      ),
+    );
+
+    if (_userInfo.accountType != AccountType.STUDENT) {
+      return Row(
+        children: [
+          SizedBox(
+              width: getProportionateScreenWidth(132), child: provinceWidget),
+          gapH8,
+          areaWidget
+        ],
+      );
+    }
+    return provinceWidget;
   }
 
   Widget _buildStagesMultiSelectDialogFromField() {
