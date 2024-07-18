@@ -20,7 +20,7 @@ class VisitorRepository {
   Future<void> createVisitors({
     required String id,
     required TeachingType type,
-    bool increaseVisitorsNumber = false,
+    bool increaseVisitorsNumber = true,
   }) async {
     final url =
         type == TeachingType.teacher ? ApiUrls.teacherUrl : ApiUrls.academyUrl;

@@ -36,7 +36,10 @@ class BottomSheet extends ConsumerWidget {
     final width = (AppSizes.screenWidth / 2) - 4 - 24;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(32),
+        topRight: Radius.circular(32),
+      ),
       child: ColoredBox(
         color: Colors.white,
         child: SizedBox(
