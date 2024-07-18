@@ -39,10 +39,10 @@ class DropDownMenuWidget extends StatelessWidget {
 
     return DropdownMenu(
       initialSelection: currentVal,
-      menuHeight: AppSizes.length204,
       width: width,
       hintText: hintText,
       textStyle: AppTextStyles.textMediumStyle14,
+      menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.9 :null,
       selectedTrailingIcon: Icon(
         Icons.keyboard_arrow_down,
         size: AppSizes.length20,
@@ -52,9 +52,9 @@ class DropDownMenuWidget extends StatelessWidget {
         size: AppSizes.length20,
       ),
       menuStyle: MenuStyle(
-        backgroundColor: const MaterialStatePropertyAll(Colors.white),
-        surfaceTintColor: const MaterialStatePropertyAll(Colors.white),
-        shape: MaterialStatePropertyAll(
+        backgroundColor: const WidgetStatePropertyAll(Colors.white),
+        surfaceTintColor: const WidgetStatePropertyAll(Colors.white),
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
