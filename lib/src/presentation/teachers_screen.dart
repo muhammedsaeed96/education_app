@@ -136,6 +136,7 @@ class TeachersScreen extends ConsumerWidget {
                                       .createVisitors(
                                         id: teacher.id,
                                         type: TeachingType.teacher,
+                                    increaseVisitorsNumber: true
                                       );
                                   Navigator.pushNamed(
                                     context,

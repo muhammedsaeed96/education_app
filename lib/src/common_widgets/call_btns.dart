@@ -138,6 +138,7 @@ class CallsBtns extends ConsumerWidget {
         ref.read(visitorRepositoryProvider).createVisitors(
               id: id,
               type: teachingType,
+              increaseVisitorsNumber: false,
             );
       }
     }

@@ -16,7 +16,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
 import '../../core/utils/app_updater.dart';
-import '../visitors_screen.dart';
+import 'visitors_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

@@ -22,4 +22,5 @@ class AppKeys{
   static const userInfoKey = 'userInfoKey';
   static const otpRequestTimesKey = 'times';
   static const nextOtpPermittedTimeKey = 'nextOtpTime';
+  static const increaseVisitorsNumberKey = 'increaseVisitorsNumber';
 }

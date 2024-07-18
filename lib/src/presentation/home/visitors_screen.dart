@@ -9,18 +9,19 @@ import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../common_widgets/adderss_widget.dart';
-import '../core/constants/app_text_styles.dart';
-import '../model/student_model.dart';
+import '../../common_widgets/adderss_widget.dart';
+import '../../core/constants/app_text_styles.dart';
+import '../../model/student_model.dart';
 
-class VisitorsScreen extends ConsumerStatefulWidget{
+class VisitorsScreen extends ConsumerStatefulWidget {
   const VisitorsScreen({super.key});
 
   @override
   ConsumerState<VisitorsScreen> createState() => _VisitorsScreenState();
 }
 
-class _VisitorsScreenState extends ConsumerState<VisitorsScreen> with AutomaticKeepAliveClientMixin{
+class _VisitorsScreenState extends ConsumerState<VisitorsScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -100,9 +101,7 @@ class _VisitorsScreenState extends ConsumerState<VisitorsScreen> with AutomaticK
                       separatorBuilder: (_, __) => gap16,
                       itemCount: data.students.length,
                     )
-                  : const EmptyWidget(
-                      text: AppStrings.youDontHaveStudentStr,
-                    ),
+                  : const EmptyWidget(text: AppStrings.youDontHaveStudentStr),
             ),
           ],
         ),
@@ -138,7 +137,7 @@ class VisitorCard extends StatelessWidget {
         ),
         subtitle: AddressWidget(
           city: student.province ?? '',
-          region: student.area ?? '',
+          region: '',
         ),
         trailing: Container(
           padding: const EdgeInsets.all(12),

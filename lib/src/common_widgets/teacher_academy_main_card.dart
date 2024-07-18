@@ -58,21 +58,27 @@ class TeacherAcademyMainCard extends StatelessWidget {
                   width: AppSizes.length64,
                   radius: AppSizes.length64 / 2,
                 ),
-            visitorsNum > 0 ?    Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.gray50,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.gray300,
-                      width: 0.5,
-                    ),
-                  ),
-                  child: Text(
-                    '${AppStrings.visitNumbersStr} $visitorsNum',
-                    style: AppTextStyles.textRegularStyle10,
-                  ),
-                ) : const SizedBox.shrink(),
+                gapH12,
+                visitorsNum > 0
+                    ? Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.gray50,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: AppColors.gray300,
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Text(
+                            '${AppStrings.visitStr} : $visitorsNum',
+                            style: AppTextStyles.textRegularStyle10,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
             gap12,

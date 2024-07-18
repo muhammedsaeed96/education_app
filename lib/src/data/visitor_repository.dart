@@ -20,17 +20,20 @@ class VisitorRepository {
   Future<void> createVisitors({
     required String id,
     required TeachingType type,
+    bool increaseVisitorsNumber = false,
   }) async {
     final url =
         type == TeachingType.teacher ? ApiUrls.teacherUrl : ApiUrls.academyUrl;
 
     try {
-      final res = await apiService.post(url: '$url/$id');
+      final res = await apiService.post(url: '$url/$id', body: {
+        AppKeys.increaseVisitorsNumberKey: increaseVisitorsNumber,
+      });
       if (res.statusCode != 200 && res.statusCode != 201) {
         throw (AppStrings.unexpectedErrorStr);
       }
     } catch (e) {
-     /* var error = e.toString();
+      /* var error = e.toString();
       if (e is DioException) {
         error = ServerFailure.fromDioError(e).message;
       }
@@ -39,7 +42,6 @@ class VisitorRepository {
   }
 
   Future<VisitorModel> getVisitors({required AccountType type}) async {
-    debugPrint("getVisitors");
     final url = type == AccountType.TEACHER
         ? ApiUrls.getTeacherVisitorsUrl
         : ApiUrls.getAcademyVisitorsUrl;
