@@ -16,10 +16,11 @@ class CurrentFiltersModel {
     String? areaId,
     String? stageId,
     String? subjectId,
+    bool clearArea = false,
   }) {
     return CurrentFiltersModel(
       provinceId: provinceId ?? this.provinceId,
-      areaId: areaId ?? this.areaId,
+      areaId: clearArea ? null : areaId ?? this.areaId,
       stageId: stageId ?? this.stageId,
       subjectId: subjectId ?? this.subjectId,
     );

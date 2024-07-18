@@ -10,7 +10,7 @@ class FiltersController extends Notifier<CurrentFiltersModel> {
   }
 
   void updateSelectedProvince(String provinceId) {
-    state = state.copyWith(provinceId: provinceId);
+    state = state.copyWith(provinceId: provinceId,clearArea: true);
   }
 
   void updateSelectedArea(String areaId) {

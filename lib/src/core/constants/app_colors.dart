@@ -1,23 +1,18 @@
-import 'dart:ui';
-
 import 'package:flutter/widgets.dart';
 
 class AppColors {
 
-  static const Color primaryColor100 = Color(0xFF5fd1d1);
-  static const Color primaryColor200 = Color(0xFF4bcbcb);
-  static const Color primaryColor300 = Color(0xFF39c4c4);
+  // static const Color primaryColor100 = Color(0xFF5fd1d1);
+  // static const Color primaryColor200 = Color(0xFF4bcbcb);
+  // static const Color primaryColor300 = Color(0xFF39c4c4);
   static const Color primaryColor400 = Color(0xFF33b0b0);
   static const Color primaryColor500 = Color(0xFF2d9c9c);
-  static const Color primaryColor600 = Color(0xFF288888);
-  static const Color primaryColor700 = Color(0xFF227575);
+  // static const Color primaryColor600 = Color(0xFF288888);
+  // static const Color primaryColor700 = Color(0xFF227575);
   static Color primaryColor50 = const Color(0xFFd0f7f3);
 
   ///black with opacity
   static Color black87 = const Color(0x00000000).withOpacity(0.87);
-  static Color black60 = const Color(0x00000000).withOpacity(0.6);
-  static Color black37 = const Color(0x00000000).withOpacity(0.37);
-  static Color black14 = const Color(0x00000000).withOpacity(0.14);
 
   ///gray
   static const gray50 = Color(0xFFFAFAFA);
@@ -29,7 +24,6 @@ class AppColors {
   static const gray600 = Color(0xFF4B4B4B);
   static const gray700 = Color(0xFF1F1F1F);
 
-  static const Color red100 = Color(0xFFE39386);
   static const Color red500 = Color(0xFFDE271A);
 
   static LinearGradient tealGradient = const LinearGradient(
