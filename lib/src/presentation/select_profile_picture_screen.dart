@@ -111,7 +111,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
   Future<void> takePicture({
     required BuildContext context,
     required ImageSource source,
-    int imageQuality = 50,
+    int imageQuality = 40,
     required WidgetRef ref,
   }) async {
     try {
@@ -131,7 +131,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
       CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: image.path,
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        compressQuality: 50,
+        compressQuality: 40,
         maxWidth: 150,
         maxHeight: 150,
         uiSettings: [
