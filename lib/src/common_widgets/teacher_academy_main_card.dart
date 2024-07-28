@@ -33,7 +33,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomInkwell(
       tap: press,
-      radius: 12,
+      radius: 16,
       child: Container(
         alignment: Alignment.bottomCenter,
         constraints: BoxConstraints(
