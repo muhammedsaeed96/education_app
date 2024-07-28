@@ -5,11 +5,21 @@ import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/init_easy_loading.dart';
 import 'package:education_app/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+      statusBarBrightness: Brightness.light, // For iOS (dark icons)
+    ),
+  );
+
   final providerContainer = ProviderContainer();
   providerContainer.read(asyncInitProvider);
   runApp(
