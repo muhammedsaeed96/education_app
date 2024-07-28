@@ -111,20 +111,23 @@ class _AccountState extends ConsumerState<Account>
             LinkType.link,
           ),
         ),*/
-        gap12,
-        AccountCard(
-          title: AppStrings.logoutStr,
-          icon: Assets.icLogout,
-          redColor: true,
-          press: () => _logout(context: context, ref: ref),
-        ),
-        gap12,
-        AccountCard(
-          title: AppStrings.deleteAccountStr,
-          icon: Assets.icTrash,
-          redColor: true,
-          press: () => _deleteAccount(context: context, ref: ref),
-        ),
+
+        if (userInfo != null) ...[
+          gap12,
+          AccountCard(
+            title: AppStrings.logoutStr,
+            icon: Assets.icLogout,
+            redColor: true,
+            press: () => _logout(context: context, ref: ref),
+          ),
+          gap12,
+          AccountCard(
+            title: AppStrings.deleteAccountStr,
+            icon: Assets.icTrash,
+            redColor: true,
+            press: () => _deleteAccount(context: context, ref: ref),
+          ),
+        ],
       ],
     );
   }
