@@ -29,20 +29,33 @@ class SearchFilterRow extends ConsumerWidget {
             type: type,
           ),
         ),
-        gapH6,
-        IconButton(
-          style: IconButton.styleFrom(padding: EdgeInsets.zero),
-          onPressed: () {
-            filtersBottomSheet(context: context, type: type);
-          },
-          icon: SvgPicture.asset(
+        gapH10,
+        ElevatedButton(
+          onPressed: () => filtersBottomSheet(context: context, type: type),
+          child: SvgPicture.asset(
             Assets.icFilter,
-            colorFilter: ref.watch(filtersControllerProvider).hasValue
-                ? const ColorFilter.mode(
-                    AppColors.primaryColor400,
+            colorFilter: ColorFilter.mode(
+                    ref.watch(filtersControllerProvider).hasValue
+                        ? AppColors.primaryColor400
+                        : AppColors.gray500,
                     BlendMode.srcIn,
-                  )
-                : null,
+                  ),
+            width: 24,
+            height: 24,
+          ), // icon of the button
+          style: ElevatedButton.styleFrom(
+            // styling the button
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(
+                color:
+                ref.watch(filtersControllerProvider).hasValue
+                    ? AppColors.primaryColor400
+                    : AppColors.gray400,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 16),
+            backgroundColor: Colors.white, // Button color
           ),
         ),
       ],
