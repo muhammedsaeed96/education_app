@@ -12,8 +12,8 @@ void initEasyLoading(){
     ..backgroundColor = AppColors.gray100
     ..indicatorColor = AppColors.primaryColor400
     ..indicatorWidget = const SizedBox(
-      height: 100,
-      width: 100,
+      height: 48,
+      width: 48,
       child: Center(child: CircularProgressIndicator()),
     )
     ..textColor = Colors.black87
