@@ -29,10 +29,10 @@ class UrlLauncherHelper {
 
   //to launch url
   static Future<void> _launchUrl(Uri uri) async {
-    if (await canLaunchUrl(uri)) {
+    // if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      debugPrint('Could not launch $uri');
-    }
-  }
+    // } else {
+    //   debugPrint('Could not launch $uri');
+    // }
+  // }
 }
