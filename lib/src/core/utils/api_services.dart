@@ -38,7 +38,7 @@ class ApiService {
           await Future.delayed(const Duration(milliseconds: 250));
           final user = localStorage!.getUserInfo();
 
-          debugPrint(user?.token);
+          // debugPrint(user?.token);
 
           // to get unique device id
           // Add the access token to the request header
