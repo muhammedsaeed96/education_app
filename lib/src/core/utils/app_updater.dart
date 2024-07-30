@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:education_app/src/model/update_info_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppUpdater {
@@ -37,7 +36,7 @@ class AppUpdater {
     //is update available to current platform (ios or android)
     final versionName =
         Platform.isAndroid ? updateInfo.versionAndroid : updateInfo.versionIos;
-    debugPrint(versionName);
+    // debugPrint(versionName);
     return _isNewVersion(appVersionCode, versionName);
   }
 }
