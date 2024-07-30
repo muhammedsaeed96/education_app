@@ -34,5 +34,5 @@ class UrlLauncherHelper {
     // } else {
     //   debugPrint('Could not launch $uri');
     // }
-  // }
+  }
 }

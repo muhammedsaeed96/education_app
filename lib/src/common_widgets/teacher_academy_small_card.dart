@@ -1,4 +1,5 @@
 import 'package:education_app/src/core/constants/api_urls.dart';
+import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
@@ -41,7 +42,7 @@ class TeacherAcademySmallCard extends StatelessWidget {
         child: Row(
           children: [
             CustomNetworkImage(
-              imageUrl: '${ApiUrls.baseUrl}/$imageUrl',
+              imageUrl: imageUrl.getFullUrl,
               height: AppSizes.length58,
               width: AppSizes.length58,
               radius: AppSizes.length58 / 2,
