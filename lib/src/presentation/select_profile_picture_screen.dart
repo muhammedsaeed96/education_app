@@ -111,7 +111,6 @@ class SelectProfilePictureScreen extends ConsumerWidget {
   Future<void> takePicture({
     required BuildContext context,
     required ImageSource source,
-    int imageQuality = 40,
     required WidgetRef ref,
   }) async {
     try {
@@ -119,9 +118,6 @@ class SelectProfilePictureScreen extends ConsumerWidget {
       EasyLoading.show();
       final image = await imagePicker.pickImage(
         source: source,
-        imageQuality: imageQuality,
-        maxWidth: 150,
-        maxHeight: 150,
       );
 
       if (image == null) {
@@ -131,7 +127,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
       CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: image.path,
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        compressQuality: 40,
+        compressQuality: 80,
         maxWidth: 150,
         maxHeight: 150,
         uiSettings: [
