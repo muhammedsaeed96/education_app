@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/search_filter_row.dart';
 import '../common_widgets/teacher_academy_small_card.dart';
 import '../core/enum.dart';
+import '../core/utils/async_init.dart';
 
 class TeachersScreen extends ConsumerWidget {
   const TeachersScreen({super.key});
@@ -76,9 +77,7 @@ class TeachersScreen extends ConsumerWidget {
     final loadingMoreError = state.hasError && teachers.isNotEmpty;
 
     final controller = ref.read(teacherControllerProvider.notifier);
-
     final searchText = ref.read(searchValProvider);
-
     return initialError
         ? [
             SliverToBoxAdapter(
@@ -130,14 +129,18 @@ class TeachersScreen extends ConsumerWidget {
                                 city: teacher.province!.name,
                                 region: teacher.area!.name,
                                 press: () {
-                                  // to add visitor to teacher
-                                  ref
-                                      .read(visitorRepositoryProvider)
-                                      .createVisitors(
-                                        id: teacher.id,
-                                        type: TeachingType.teacher,
-                                    increaseVisitorsNumber: true
-                                      );
+                                  final storage =
+                                      ref.read(asyncInitProvider).localStorage;
+                                  if (storage.getUserInfo()?.userId !=
+                                      teacher.id) {
+                                    ref
+                                        .read(visitorRepositoryProvider)
+                                        .createVisitors(
+                                          id: teacher.id,
+                                          type: TeachingType.teacher,
+                                          increaseVisitorsNumber: true,
+                                        );
+                                  }
                                   Navigator.pushNamed(
                                     context,
                                     TeacherDetailsScreen.routeName,

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/empty_widget.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/enum.dart';
+import '../../../../core/utils/async_init.dart';
 import '../../../../data/visitor_repository.dart';
 import '../../../teacher_details_screen.dart';
 
@@ -41,11 +42,13 @@ class TeacherCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TeacherAcademyMainCard(
       press: () {
-        // to add visitor to teacher
-        ref.read(visitorRepositoryProvider).createVisitors(
-              id: teacher.id,
-              type: TeachingType.teacher,
-            );
+        final storage = ref.read(asyncInitProvider).localStorage;
+        if (storage.getUserInfo()?.userId != teacher.id) {
+          ref.read(visitorRepositoryProvider).createVisitors(
+                id: teacher.id,
+                type: TeachingType.teacher,
+              );
+        }
         Navigator.pushNamed(
           context,
           TeacherDetailsScreen.routeName,

@@ -32,9 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int currentNavBarIndex = 0;
 
   final List<Widget> _pageViewPages = [
-    const Home(
-      key: PageStorageKey('page1'),
-    ),
+    const Home(key: PageStorageKey('page1')),
     const ContactUs(key: PageStorageKey('page2')),
     const Account(key: PageStorageKey('page3')),
   ];

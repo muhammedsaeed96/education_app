@@ -34,6 +34,14 @@ class LocalStorage {
     return false;
   }
 
+  bool isTeacher() {
+    final user = getUserInfo();
+    if (user?.accountType == AccountType.TEACHER) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> removeUserInfo() async {
     await sharedPreferences.remove(AppKeys.userInfoKey);
   }

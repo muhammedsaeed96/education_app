@@ -1,5 +1,6 @@
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
+import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/presentation/academy_details_screen.dart';
 import 'package:education_app/src/presentation/controllers/academy_controller.dart';
@@ -129,13 +130,17 @@ class AcademiesScreen extends ConsumerWidget {
                                 city: academy.province!.name,
                                 region: academy.area!.name,
                                 press: () {
-                                  // to add visitor to teacher
-                                  ref
-                                      .read(visitorRepositoryProvider)
-                                      .createVisitors(
-                                        id: academy.id,
-                                        type: TeachingType.academy,
-                                      );
+                                  final storage =
+                                      ref.read(asyncInitProvider).localStorage;
+                                  if (storage.getUserInfo()?.userId !=
+                                      academy.id) {
+                                    ref
+                                        .read(visitorRepositoryProvider)
+                                        .createVisitors(
+                                          id: academy.id,
+                                          type: TeachingType.academy,
+                                        );
+                                  }
                                   Navigator.pushNamed(
                                     context,
                                     AcademyDetailsScreen.routeName,
