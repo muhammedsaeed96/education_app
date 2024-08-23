@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/call_btns.dart';
 import '../common_widgets/title_desc_widget.dart';
+import '../core/utils/async_init.dart';
 import '../data/teachers_repository.dart';
+import '../model/teacher_model.dart';
 
 class TeacherDetailsScreen extends ConsumerWidget {
   const TeacherDetailsScreen({super.key});
@@ -23,6 +25,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
     final id = ModalRoute.of(context)!.settings.arguments as String;
 
     final value = ref.watch(getTeacherByIdProvider(id));
+    final storage = ref.read(asyncInitProvider).localStorage;
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.teacherDetailsStr)),
@@ -46,7 +49,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
                     teacher.name,
                     style: AppTextStyles.textBoldStyle16,
                   ),
-                /*  gap2,
+                  /*  gap2,
                   Text(
                     teacher.phone,
                     style: AppTextStyles.textSemiBoldStyle14.copyWith(
@@ -121,7 +124,10 @@ class TeacherDetailsScreen extends ConsumerWidget {
           );
         },
       ),
-      bottomNavigationBar: value.hasError || value.isLoading
+      bottomNavigationBar: _notShowCallsBtns(
+              value: value,
+              isAuth: storage.isAuth,
+              isTeacher: storage.isTeacher())
           ? const SizedBox.shrink()
           : CallsBtns(
               phone: value.value?.phone,
@@ -129,5 +135,13 @@ class TeacherDetailsScreen extends ConsumerWidget {
               type: TeachingType.teacher,
             ),
     );
+  }
+
+  bool _notShowCallsBtns({
+    required AsyncValue<TeacherModel> value,
+    required bool isAuth,
+    required bool isTeacher,
+  }) {
+    return value.hasError || value.isLoading || (isAuth && isTeacher);
   }
 }
