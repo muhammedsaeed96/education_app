@@ -62,6 +62,7 @@ class AppSizes {
   static double length144 = getProportionateScreenHeight(144);
   static double length148 = getProportionateScreenHeight(148);
   static double length180 = getProportionateScreenHeight(180);
+  static double length184 = getProportionateScreenHeight(184);
   static double length200 = getProportionateScreenHeight(200);
   static double length204 = getProportionateScreenHeight(204);
 
@@ -71,6 +72,18 @@ class AppSizes {
   static double w28 = getProportionateScreenWidth(28);
   static double w98 = getProportionateScreenWidth(98);
   static double w58 = getProportionateScreenWidth(58);
+
+  static double calTeacherAcademyMainCardHeight() {
+    var screenHeight = AppSizes.screenHeight;
+    // debugPrint(screenHeight.toString());
+    if (screenHeight <= 800) {
+      return AppSizes.screenHeight * 0.26;
+    } else if (screenHeight > 800 && screenHeight < 900) {
+      return AppSizes.screenHeight * 0.22;
+    } else {
+      return AppSizes.screenHeight * 0.20;
+    }
+  }
 }
 
 // Get the proportionate height as per screen size
@@ -79,6 +92,7 @@ double getProportionateScreenHeight(double inputHeight) {
   // 844 is the layout height that designer used
   return (inputHeight / 844.0) * screenHeight;
 }
+
 // Get the proportionate width as per screen size
 double getProportionateScreenWidth(double inputWidth) {
   double screenWidth = AppSizes.screenWidth;

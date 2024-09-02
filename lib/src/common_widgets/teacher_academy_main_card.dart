@@ -84,6 +84,8 @@ class TeacherAcademyMainCard extends StatelessWidget {
             gap12,
             Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: AppTextStyles.textSemiBoldStyle12,
             ),
             gap6,
