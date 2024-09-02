@@ -75,7 +75,7 @@ class AppSizes {
 
   static double calTeacherAcademyMainCardHeight() {
     var screenHeight = AppSizes.screenHeight;
-    // debugPrint(screenHeight.toString());
+    debugPrint(screenHeight.toString());
     if (screenHeight <= 800) {
       return AppSizes.screenHeight * 0.26;
     } else if (screenHeight > 800 && screenHeight < 900) {

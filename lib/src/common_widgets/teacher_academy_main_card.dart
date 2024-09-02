@@ -97,7 +97,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
                 style: AppTextStyles.textRegularStyle12.copyWith(
                   color: AppColors.gray500,
                 ),
-                maxLines: 2,
+                maxLines:AppSizes.screenHeight <= 640 ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
