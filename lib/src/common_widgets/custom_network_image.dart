@@ -67,6 +67,7 @@ class CustomNetworkImage extends StatelessWidget {
                       child: Center(
                         child: CircularProgressIndicator(
                           color: AppColors.primaryColor400,
+                          strokeWidth: 3.0,
                         ),
                       ),
                     ),

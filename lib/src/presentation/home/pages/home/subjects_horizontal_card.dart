@@ -71,6 +71,18 @@ class SubjectCard extends ConsumerWidget {
                           AppColors.gray100,
                           BlendMode.srcIn,
                         ),
+                        placeholderBuilder: (_) {
+                          return SizedBox(
+                            height: AppSizes.length32,
+                            width: AppSizes.length32,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3.0,
+                              ),
+                            ),
+                          );
+                        },
                       )
                     : const SizedBox.shrink(),
                 gap12,
