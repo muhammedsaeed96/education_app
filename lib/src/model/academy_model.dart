@@ -20,9 +20,9 @@ class AcademyModel {
   @CustomFileConverter()
   final File? image;
   final String? description;
-  @JsonKey(name: 'province')
+  @JsonKey(name: 'Province')
   final ProvinceModel? province;
-  @JsonKey(name: 'area')
+  @JsonKey(name: 'Area')
   final AreaModel? area;
   final String? locationDescription;
   @JsonKey(name: 'Stages')
