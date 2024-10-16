@@ -1,6 +1,6 @@
 import 'package:education_app/src/core/constants/app_strings.dart';
 
-extension FromValidators on String? {
+extension FormValidators on String? {
   String? get isValidPhone {
     if (this != null &&
         this!.isNotEmpty &&

@@ -1,6 +1,7 @@
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/assets.dart';
+import 'package:education_app/src/presentation/academies_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class SplashScreen extends StatelessWidget {
             const Duration(milliseconds: 500),
             () => Future.delayed(const Duration(milliseconds: 5), () {
               if (context.mounted) {
-                return Navigator.pushReplacementNamed(context, '/');
+                return Navigator.pushReplacementNamed(context, AcademiesScreen.routeName);
               }
             }),
           );

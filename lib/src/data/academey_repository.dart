@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/api_services.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
-import 'package:education_app/src/model/visitor_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';

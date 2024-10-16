@@ -6,8 +6,8 @@ import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
 import 'adderss_widget.dart';
+import 'custom_cached_network_image.dart';
 import 'custom_inkwell.dart';
-import 'custom_network_image.dart';
 
 class TeacherAcademyMainCard extends StatelessWidget {
   const TeacherAcademyMainCard({
@@ -52,7 +52,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomNetworkImage(
+                CustomCachedNetworkImage(
                   imageUrl: imageUrl.getFullUrl,
                   height: AppSizes.length64,
                   width: AppSizes.length64,
@@ -97,7 +97,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
                 style: AppTextStyles.textRegularStyle12.copyWith(
                   color: AppColors.gray500,
                 ),
-                maxLines:AppSizes.screenHeight <= 640 ? 1 : 2,
+                maxLines: AppSizes.screenHeight <= 640 ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

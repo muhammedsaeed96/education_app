@@ -4,7 +4,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
-import 'package:education_app/src/core/utils/from_validators.dart';
+import 'package:education_app/src/core/utils/form_validators.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
