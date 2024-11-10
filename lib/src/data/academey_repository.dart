@@ -45,7 +45,7 @@ class AcademyRepository {
           AppKeys.nameKey: searchValue,
         },
       );
-      final data = res.data[AppKeys.dataKey];
+      final data = res.data;
       // set courses and seasons list to home model
       return List<AcademyModel>.from(
         data.map((e) => AcademyModel.fromJson(e)),
