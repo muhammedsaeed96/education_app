@@ -17,6 +17,9 @@ void filtersBottomSheet({
   required SearchType type,
 }) {
   showModalBottomSheet<void>(
+    isScrollControlled: true,
+    showDragHandle: true,
+    isDismissible: false,
     constraints: const BoxConstraints(minWidth: double.infinity),
     context: context,
     builder: (_) => BottomSheet(type: type),
@@ -35,166 +38,157 @@ class BottomSheet extends ConsumerWidget {
     // DropDownMenuWidget width
     final width = (AppSizes.screenWidth / 2) - 4 - 24;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(32),
-        topRight: Radius.circular(32),
-      ),
-      child: ColoredBox(
-        color: Colors.white,
-        child: SizedBox(
-          height: AppSizes.screenHeight * 0.5,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 24,
-              right: 24,
-              bottom: 32,
-              top: 16,
+    return SizedBox(
+      height: AppSizes.screenHeight * 0.68,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 24,
+          right: 24,
+          bottom: 32,
+          top: 16,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                AppStrings.advancedSearchStr,
+                style: AppTextStyles.textSemiBoldStyle16,
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            gap32,
+            Row(
               children: [
-                Center(
-                  child: Text(
-                    AppStrings.advancedSearchStr,
-                    style: AppTextStyles.textSemiBoldStyle16,
-                  ),
+                // provinces
+                DropDownMenuWidget(
+                  currentVal:
+                      ref.read(filtersControllerProvider).provinceId,
+                  width: width,
+                  hintText: AppStrings.provinceStr,
+                  items: data.provinces,
+                  onItemSelected: (val) {
+                    ref
+                        .read(filtersControllerProvider.notifier)
+                        .updateSelectedProvince(val);
+                  },
                 ),
-                gap32,
-                Row(
-                  children: [
-                    // provinces
-                    DropDownMenuWidget(
-                      currentVal:
-                          ref.read(filtersControllerProvider).provinceId,
-                      width: width,
-                      hintText: AppStrings.provinceStr,
-                      items: data.provinces,
-                      onItemSelected: (val) {
-                        ref
-                            .read(filtersControllerProvider.notifier)
-                            .updateSelectedProvince(val);
-                      },
-                    ),
-                    gapH8,
-                    // areas
-                    Consumer(
-                      builder: (_, ref, child) {
-                        ref.watch(filtersControllerProvider);
+                gapH8,
+                // areas
+                Consumer(
+                  builder: (_, ref, child) {
+                    ref.watch(filtersControllerProvider);
 
-                        final areas = ref
-                            .read(filtersControllerProvider.notifier)
-                            .getAreasByProvinceId();
+                    final areas = ref
+                        .read(filtersControllerProvider.notifier)
+                        .getAreasByProvinceId();
 
-                        return IgnorePointer(
-                          ignoring: areas.isEmpty,
-                          child: Opacity(
-                            opacity: areas.isEmpty ? 0.5 : 1,
-                            child: DropDownMenuWidget(
-                              currentVal:
-                                  ref.read(filtersControllerProvider).areaId,
-                              width: width,
-                              hintText: AppStrings.areaStr,
-                              items: areas,
-                              onItemSelected: (val) {
-                                ref
-                                    .read(filtersControllerProvider.notifier)
-                                    .updateSelectedArea(val);
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                    return IgnorePointer(
+                      ignoring: areas.isEmpty,
+                      child: Opacity(
+                        opacity: areas.isEmpty ? 0.5 : 1,
+                        child: DropDownMenuWidget(
+                          currentVal:
+                              ref.read(filtersControllerProvider).areaId,
+                          width: width,
+                          hintText: AppStrings.areaStr,
+                          items: areas,
+                          onItemSelected: (val) {
+                            ref
+                                .read(filtersControllerProvider.notifier)
+                                .updateSelectedArea(val);
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                gap20,
-                type == SearchType.teacher
-                    ? Row(
-                        children: [
-                          // levels
-                          DropDownMenuWidget(
-                            currentVal:
-                                ref.read(filtersControllerProvider).stageId,
-                            width: width,
-                            hintText: AppStrings.stageStr,
-                            items: data.stages,
-                            onItemSelected: (val) => ref
-                                .read(filtersControllerProvider.notifier)
-                                .updateSelectedStage(val),
-                          ),
-                          gapH8,
-                          // subjects
-                          DropDownMenuWidget(
-                            currentVal:
-                                ref.read(filtersControllerProvider).subjectId,
-                            width: width,
-                            hintText: AppStrings.subjectStr,
-                            items: data.subjects,
-                            onItemSelected: (val) => ref
-                                .read(filtersControllerProvider.notifier)
-                                .updateSelectedSubject(val),
-                          ),
-                        ],
-                      )
-                    : DropDownMenuWidget(
-                        currentVal: ref.read(filtersControllerProvider).stageId,
-                        width: AppSizes.screenWidth - 24 - 24,
+              ],
+            ),
+            gap20,
+            type == SearchType.teacher
+                ? Row(
+                    children: [
+                      // levels
+                      DropDownMenuWidget(
+                        currentVal:
+                            ref.read(filtersControllerProvider).stageId,
+                        width: width,
                         hintText: AppStrings.stageStr,
                         items: data.stages,
                         onItemSelected: (val) => ref
                             .read(filtersControllerProvider.notifier)
                             .updateSelectedStage(val),
                       ),
-                const Spacer(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: AppSizes.length48,
-                        child: PrimaryOutlinedBtn(
-                          text: AppStrings.cancelStr,
-                          press: () {
-                            ref
-                                .read(filtersControllerProvider.notifier)
-                                .clearFilters();
-                            type == SearchType.teacher
-                                ? ref
-                                    .read(teacherControllerProvider.notifier)
-                                    .applyFiltersAndSearch()
-                                : ref
-                                    .read(academyControllerProvider.notifier)
-                                    .applyFiltersAndSearch();
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                      gapH8,
+                      // subjects
+                      DropDownMenuWidget(
+                        currentVal:
+                            ref.read(filtersControllerProvider).subjectId,
+                        width: width,
+                        hintText: AppStrings.subjectStr,
+                        items: data.subjects,
+                        onItemSelected: (val) => ref
+                            .read(filtersControllerProvider.notifier)
+                            .updateSelectedSubject(val),
                       ),
+                    ],
+                  )
+                : DropDownMenuWidget(
+                    currentVal: ref.read(filtersControllerProvider).stageId,
+                    width: AppSizes.screenWidth - 24 - 24,
+                    hintText: AppStrings.stageStr,
+                    items: data.stages,
+                    onItemSelected: (val) => ref
+                        .read(filtersControllerProvider.notifier)
+                        .updateSelectedStage(val),
+                  ),
+            const Spacer(),
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: AppSizes.length48,
+                    child: PrimaryOutlinedBtn(
+                      text: AppStrings.cancelStr,
+                      press: () {
+                        ref
+                            .read(filtersControllerProvider.notifier)
+                            .clearFilters();
+                        type == SearchType.teacher
+                            ? ref
+                                .read(teacherControllerProvider.notifier)
+                                .applyFiltersAndSearch()
+                            : ref
+                                .read(academyControllerProvider.notifier)
+                                .applyFiltersAndSearch();
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    gapH8,
-                    Expanded(
-                      child: SizedBox(
-                        height: AppSizes.length48,
-                        child: PrimaryElevatedBtn(
-                          text: AppStrings.applyStr,
-                          press: () {
-                            type == SearchType.teacher
-                                ? ref
-                                    .read(teacherControllerProvider.notifier)
-                                    .applyFiltersAndSearch()
-                                : ref
-                                    .read(academyControllerProvider.notifier)
-                                    .applyFiltersAndSearch();
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
+                  ),
+                ),
+                gapH8,
+                Expanded(
+                  child: SizedBox(
+                    height: AppSizes.length48,
+                    child: PrimaryElevatedBtn(
+                      text: AppStrings.applyStr,
+                      press: () {
+                        type == SearchType.teacher
+                            ? ref
+                                .read(teacherControllerProvider.notifier)
+                                .applyFiltersAndSearch()
+                            : ref
+                                .read(academyControllerProvider.notifier)
+                                .applyFiltersAndSearch();
+                        Navigator.pop(context);
+                      },
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

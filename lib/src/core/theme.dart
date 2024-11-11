@@ -12,7 +12,7 @@ final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
 final themeData = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     seedColor: AppColors.primaryColor400,
-    background: Colors.white,
+    surface: Colors.white,
     // onPrimary: AppColors.primaryColor400,
     // onSecondary: AppColors.primaryColor400,
   ),
@@ -71,4 +71,10 @@ final themeData = ThemeData(
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: AppColors.primaryColor400,
   ),
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: Colors.white,
+    showDragHandle: true,
+    dragHandleColor: AppColors.gray400,
+    dragHandleSize: Size(312, 5)
+  )
 );
