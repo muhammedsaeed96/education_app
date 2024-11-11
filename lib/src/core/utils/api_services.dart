@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../constants/api_urls.dart';
 import 'local_storage.dart';
@@ -25,8 +24,8 @@ class ApiService {
       BaseOptions(
         baseUrl: ApiUrls.baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 90), // 60 seconds
-        receiveTimeout: const Duration(seconds: 90), // 60 seconds
+        connectTimeout: const Duration(seconds: 90), // 90 seconds
+        receiveTimeout: const Duration(seconds: 90), // 90 seconds
       ),
     );
     dio.interceptors.add(
