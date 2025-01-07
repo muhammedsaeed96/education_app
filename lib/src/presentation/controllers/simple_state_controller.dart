@@ -21,3 +21,7 @@ final searchValProvider = StateProvider<String?>((ref) => null);
 final requestOtpAvailableProvider = StateProvider<bool>((ref) => false);
 
 final loginToContactWithTeacherAcademy = StateProvider<bool>((ref) => false);
+
+final isTeacherTeachingOutstanding = StateProvider<bool>((ref) => false);
+
+final isTeacherTeachingOnStudentHome = StateProvider<bool>((ref) => false);

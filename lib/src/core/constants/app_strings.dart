@@ -1,12 +1,14 @@
-class AppStrings {
+import 'package:education_app/src/core/enum.dart';
 
+class AppStrings {
   AppStrings._();
 
   static const subjectsStr = 'المواد الدراسية';
   static const homeStr = 'الرئيسية';
   static const callUsStr = 'اتصل بنا';
   static const accountStr = 'الحساب';
-  static const pressHereToLoginOrCreateAccountStr = 'اضغط هنا لانشاء حساب او تسجيل الدخول';
+  static const pressHereToLoginOrCreateAccountStr =
+      'اضغط هنا لانشاء حساب او تسجيل الدخول';
   static const titleStr = 'العنوان';
   static const viewMoreStr = 'عرض الكل';
   static const teachersStr = 'الاساتذة';
@@ -53,7 +55,8 @@ class AppStrings {
   static const createAcademyAccountStr = 'انشاء حساب معهد';
   static const createStudentAccountStr = 'انشاء حساب طالب ';
   static const enterPhoneNumber = 'ادخل رقم الهاتف';
-  static const enterPhoneDescNumber = 'الرجاء ادخال رقم هاتفك أدناه. بمجرد تاكيد رقمك سيتم ارسال رمز التحقق عبر الواتساب.';
+  static const enterPhoneDescNumber =
+      'الرجاء ادخال رقم هاتفك أدناه. بمجرد تاكيد رقمك سيتم ارسال رمز التحقق عبر الواتساب.';
   static const nextStr = 'التالي';
   static const editStr = 'تحديث';
   static const phoneStr = 'رقم الهاتف ';
@@ -127,16 +130,20 @@ class AppStrings {
   static const cameraStr = 'التقاط صورة';
   static const galleryStr = 'اختيار من المعرض';
 
-  static const accountUpdateMessageStr = 'يمكنك اجراء عملية التحديث في حال قمت بالتعديل على معلومات الحساب.';
+  static const accountUpdateMessageStr =
+      'يمكنك اجراء عملية التحديث في حال قمت بالتعديل على معلومات الحساب.';
 
   //app update strings
   static const updateStr = 'تحديث';
   static const newUpdateStr = 'تحديث جديد للتطبيق';
   static const findOutUpdateStr = 'استكشف الإضافات و الميزات الجديدة';
 
-  static const loginToCommunicateWithTeacherStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع الاستاذ';
-  static const loginToCommunicateWithAcademyStr = 'يرجى تسجيل الدخول حتى تتمكن من التواصل مع المعهد';
-  static const loginToAccessLinkStr = 'يرجى تسجيل الدخول حتى تتمكن من فتح الرابط';
+  static const loginToCommunicateWithTeacherStr =
+      'يرجى تسجيل الدخول حتى تتمكن من التواصل مع الاستاذ';
+  static const loginToCommunicateWithAcademyStr =
+      'يرجى تسجيل الدخول حتى تتمكن من التواصل مع المعهد';
+  static const loginToAccessLinkStr =
+      'يرجى تسجيل الدخول حتى تتمكن من فتح الرابط';
 
   static const detailsStr = 'التفاصيل';
   static const statisticsStr = 'احصائيتي';
@@ -151,7 +158,13 @@ class AppStrings {
   static const notValidUrlStr = "الرابط غير صحيح";
 
   static const communicationStr = 'التواصل';
-  static const yourAcademiesAndTeachersStr = 'الاساتذة والمعاهد الذين قمت بالتواصل معهم';
-  static const notCommunicateWithAnyTeacherStr = 'لم تقم بالتواصل مع اي استاذ سابقا !';
-  static const notCommunicateWithAnyAcademyStr = 'لم تقم بالتواصل مع اي معهد سابقا !';
+  static const yourAcademiesAndTeachersStr =
+      'الاساتذة والمعاهد الذين قمت بالتواصل معهم';
+  static const notCommunicateWithAnyTeacherStr =
+      'لم تقم بالتواصل مع اي استاذ سابقا !';
+  static const notCommunicateWithAnyAcademyStr =
+      'لم تقم بالتواصل مع اي معهد سابقا !';
+  static const teachingTypeStr = 'نوع التدريس';
+  static const teachingOutstandingStr = 'تدريس منهاج متميزين';
+  static const teachingOnStudentHome = 'تدريس في منزل الطالب';
 }

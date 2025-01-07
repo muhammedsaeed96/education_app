@@ -28,10 +28,19 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
     if (accountType == AccountType.STUDENT.name) {
       return await _accountRepository.getStudentAccount(id: id!) as T;
     } else if (accountType == AccountType.TEACHER.name) {
-      return await _accountRepository.getTeacherAccount(
+      final accountData = await _accountRepository.getTeacherAccount(
         id: id,
         isPersonalAccount: isPersonalAccount,
       ) as T;
+
+      accountData as TeacherModel;
+
+      ref.read(isTeacherTeachingOutstanding.notifier).state =
+          accountData.outstandingTeaching;
+      ref.read(isTeacherTeachingOnStudentHome.notifier).state =
+          accountData.teachingOnStudentHome;
+
+      return accountData;
     } else {
       return await _accountRepository.getAcademyAccount(
         id: id,

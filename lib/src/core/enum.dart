@@ -16,3 +16,5 @@ enum SearchType {
   teacherStudents,
   academyStudents,
 }
+
+enum TeacherTeachingType { ALL, ONSITE, ONLINE }

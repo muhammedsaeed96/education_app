@@ -78,10 +78,14 @@ class _AccountState extends ConsumerState<Account>
             title: AppStrings.accountStr,
             description: AppStrings.pressHereToLoginOrCreateAccountStr,
             icon: Assets.icLogin,
-            press: () => Navigator.pushNamed(
-              context,
-              SignInSignupScreen.routeName,
-            ),
+            press: () {
+              ref.read(isTeacherTeachingOutstanding.notifier).state = false;
+              ref.read(isTeacherTeachingOnStudentHome.notifier).state = false;
+              Navigator.pushNamed(
+                context,
+                SignInSignupScreen.routeName,
+              );
+            },
           ),
           gap12,
         ],

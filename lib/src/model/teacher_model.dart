@@ -5,12 +5,12 @@ import 'package:education_app/src/model/subject_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../core/enum.dart';
 import 'area_model.dart';
 import 'custom_file_converter.dart';
 
 part 'teacher_model.g.dart';
 
-/// * The product identifier is an important concept and can have its own type.
 typedef TeacherID = String;
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
@@ -43,6 +43,10 @@ class TeacherModel {
   final String? youtubeUrl;
   final String? instagramUrl;
   final String? telegramUrl;
+  final String teachingType;
+  final bool outstandingTeaching;
+  final bool teachingOnStudentHome;
+  final double discount;
 
   TeacherModel({
     required this.id,
@@ -68,6 +72,10 @@ class TeacherModel {
     this.youtubeUrl,
     this.instagramUrl,
     this.telegramUrl,
+    required this.teachingType,
+    this.outstandingTeaching = false,
+    this.teachingOnStudentHome = false,
+    this.discount = 0.0,
   });
 
   @override
@@ -81,6 +89,9 @@ class TeacherModel {
         youtubeUrl.hashCode,
         instagramUrl.hashCode,
         telegramUrl.hashCode,
+        teachingType.hashCode,
+        outstandingTeaching.hashCode,
+        teachingOnStudentHome.hashCode,
       );
 
   @override
@@ -111,7 +122,10 @@ class TeacherModel {
       youtubeUrl: teacherModel.youtubeUrl,
       instagramUrl: teacherModel.instagramUrl,
       telegramUrl: teacherModel.telegramUrl,
-
+      teachingType: teacherModel.teachingType,
+      outstandingTeaching: teacherModel.outstandingTeaching,
+      teachingOnStudentHome: teacherModel.teachingOnStudentHome,
+      discount: teacherModel.discount,
     );
   }
 
@@ -119,4 +133,25 @@ class TeacherModel {
       _$TeacherModelFromJson(data);
 
   Map<String, dynamic> toJson() => _$TeacherModelToJson(this);
+
+  static Map<String, TeacherTeachingType> teacherTeachingTypesMap = {
+    'الكل': TeacherTeachingType.ALL,
+    'حضوري': TeacherTeachingType.ONSITE,
+    'الكتروني': TeacherTeachingType.ONLINE,
+  };
+
+  static String getTeacherTeachingTypeKey(String val) {
+    return teacherTeachingTypesMap.keys.firstWhere(
+      (k) {
+        print(k);
+        return teacherTeachingTypesMap[k]?.name == val;
+      },
+      orElse: () => '',
+    );
+  }
+
+  static String getTeacherTeachingTypeVal(String key) {
+    return teacherTeachingTypesMap[key]?.name ??
+        TeacherTeachingType.ONSITE.name;
+  }
 }

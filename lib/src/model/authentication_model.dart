@@ -20,6 +20,9 @@ class AuthenticationModel {
   final String? youtubeUrl;
   final String? instagramUrl;
   final String? telegramUrl;
+  final String? teachingType;
+  final bool? outstandingTeaching;
+  final bool? teachingOnStudentHome;
 
   AuthenticationModel({
     this.name,
@@ -37,6 +40,9 @@ class AuthenticationModel {
     this.youtubeUrl,
     this.instagramUrl,
     this.telegramUrl,
+    this.teachingType,
+    this.outstandingTeaching,
+    this.teachingOnStudentHome,
   });
 
   factory AuthenticationModel.fromJson(Map<String, dynamic> data) =>
@@ -60,6 +66,10 @@ class AuthenticationModel {
       facebookUrl: facebookUrl,
       youtubeUrl: youtubeUrl,
       instagramUrl: instagramUrl,
+      telegramUrl: telegramUrl,
+      teachingType: teachingType,
+      outstandingTeaching: outstandingTeaching,
+      teachingOnStudentHome: teachingOnStudentHome,
     );
   }
 
@@ -82,6 +92,10 @@ class AuthenticationModel {
       facebookUrl: facebookUrl,
       youtubeUrl: youtubeUrl,
       instagramUrl: instagramUrl,
+      telegramUrl: telegramUrl,
+      teachingType: teachingType,
+      outstandingTeaching: outstandingTeaching,
+      teachingOnStudentHome: teachingOnStudentHome,
     );
   }
 }

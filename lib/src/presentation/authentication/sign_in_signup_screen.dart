@@ -8,6 +8,7 @@ import 'package:education_app/src/core/utils/form_validators.dart';
 import 'package:education_app/src/core/utils/string_extension.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
+import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/presentation/authentication/enter_phone_screen.dart';
 import 'package:education_app/src/presentation/authentication/otp_screen.dart';
 import 'package:education_app/src/presentation/authentication/sign_in_signup_state.dart';
@@ -18,7 +19,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../common_widgets/auth_title_desc_widget.dart';
 import '../../common_widgets/drop_down_form_field_widget.dart';
 import '../../common_widgets/mutli_select_dialog_form_field.dart';
+import '../../common_widgets/outstanding_teaching_checkbox.dart';
 import '../../common_widgets/primary_elevated_btn.dart';
+import '../../common_widgets/teaching_on_student_home_checkbox.dart';
 import '../../common_widgets/title_form_field_widget.dart';
 import '../../data/home_repository.dart';
 import '../controllers/simple_state_controller.dart';
@@ -49,6 +52,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
   String? _stageId;
   String? _provinceId;
   String? _areaId;
+  String? _teachingType;
 
   Future<void> _submitForm() async {
     if (formKey.currentState != null && formKey.currentState!.validate()) {
@@ -81,6 +85,9 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
           youtubeUrl: _youtubeController.text.trim(),
           telegramUrl: _telegramController.text.trim(),
           instagramUrl: _instagramController.text.trim(),
+          teachingType: TeacherModel.getTeacherTeachingTypeVal(_teachingType!),
+          outstandingTeaching: ref.read(isTeacherTeachingOutstanding),
+          teachingOnStudentHome: ref.read(isTeacherTeachingOnStudentHome),
         );
         Navigator.pushNamed(context, EnterPhoneScreen.routeName);
       }
@@ -131,6 +138,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
               title: controller.topTitleText,
               description: controller.topDescriptionText,
             ),
+            gap12,
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
@@ -172,7 +180,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                           gap24,
                           TitleFormFiledWidget(
                             title: AppStrings.phoneStr,
-                            hintText: '07717665121',
+                            hintText: '07xxxxxxxxx',
                             controller: _phoneController,
                             validator: (val) => val.isValidPhone,
                             isPhone: true,
@@ -237,6 +245,17 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                           gap24,
                         ],
 
+                        if (signInSignupState.isTeacherSignup) ...[
+                          DropDownFormFieldWidget(
+                            title: AppStrings.teachingTypeStr,
+                            hintText: AppStrings.teachingTypeStr,
+                            onChange: (val) => _teachingType = val,
+                            items: TeacherModel.teacherTeachingTypesMap.keys
+                                .toList(),
+                          ),
+                          gap24,
+                        ],
+
                         if (signInSignupState.isStudentAndSignup) ...[
                           DropDownFormFieldWidget(
                             title: AppStrings.stageStr,
@@ -293,6 +312,11 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                             validator: (val) => val.isValidUrl,
                             isRequired: false,
                           ),
+                          if (signInSignupState.isTeacherSignup) ...[
+                            gap4,
+                            OutstandingTeachingCheckbox(),
+                            TeachingOnStudentHomeCheckbox(),
+                          ]
                         ],
                       ],
                     ),
@@ -351,9 +375,9 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
   }
 
   Widget _buildProvinceArea(
-      MainModel homeData,
-      SignInSignupState signInSignupState,
-      ) {
+    MainModel homeData,
+    SignInSignupState signInSignupState,
+  ) {
     final provinceWidget = DropDownFormFieldWidget(
       title: AppStrings.provinceStr,
       hintText: AppStrings.selectProvinceStr,
@@ -402,7 +426,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
     return provinceWidget;
   }
 
-  _clearControllers() {
+  void _clearControllers() {
     _nameController.clear();
     _phoneController.clear();
     _descriptionController.clear();

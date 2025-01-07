@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'area_model.dart';
 import 'custom_file_converter.dart';
 
 part 'student_model.g.dart';

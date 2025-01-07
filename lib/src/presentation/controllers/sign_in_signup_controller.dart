@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
@@ -48,24 +47,31 @@ class SignInSignupController extends AutoDisposeNotifier<SignInSignupState> {
     String? youtubeUrl,
     String? instagramUrl,
     String? telegramUrl,
+    String? teachingType,
+    bool? outstandingTeaching,
+    bool? teachingOnStudentHome,
   }) {
     state = state.copyWith(
-     authentication: AuthenticationModel(
-      name: name,
-      accountType: state.accountType,
-      phone: '',
-      description: description,
-      stageId: stageId,
-      provinceId: provinceId,
-      areaId: areaId,
-      subjectsIds: subjectsIds,
-      stagesIds: stagesIds,
-      locationDescription: locationDescription,
-      facebookUrl: facebookUrl,
-      youtubeUrl: youtubeUrl,
-      instagramUrl: instagramUrl,
-      telegramUrl: telegramUrl,
-    ));
+      authentication: AuthenticationModel(
+        name: name,
+        accountType: state.accountType,
+        phone: '',
+        description: description,
+        stageId: stageId,
+        provinceId: provinceId,
+        areaId: areaId,
+        subjectsIds: subjectsIds,
+        stagesIds: stagesIds,
+        locationDescription: locationDescription,
+        facebookUrl: facebookUrl,
+        youtubeUrl: youtubeUrl,
+        instagramUrl: instagramUrl,
+        telegramUrl: telegramUrl,
+        teachingType: teachingType,
+        outstandingTeaching: outstandingTeaching,
+        teachingOnStudentHome: teachingOnStudentHome,
+      ),
+    );
   }
 
   Future<bool> requestOtp({

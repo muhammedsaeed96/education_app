@@ -59,6 +59,10 @@ extension SignInSignupStateX on SignInSignupState {
     return accountType != AccountType.STUDENT && formType == FormType.signup;
   }
 
+  bool get isTeacherSignup {
+    return accountType == AccountType.TEACHER && formType == FormType.signup;
+  }
+
   bool get isSignIn => formType == FormType.signIn;
 
   String get topTitleText {

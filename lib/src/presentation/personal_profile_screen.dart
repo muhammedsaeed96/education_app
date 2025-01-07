@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/drop_down_form_field_widget.dart';
 import '../common_widgets/mutli_select_dialog_form_field.dart';
+import '../common_widgets/outstanding_teaching_checkbox.dart';
+import '../common_widgets/teaching_on_student_home_checkbox.dart';
 import '../common_widgets/title_form_field_widget.dart';
 import 'controllers/account_controller.dart';
 
@@ -49,6 +51,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
   String? _stageId;
   String? _provinceId;
   String? _areaId;
+  String? _teachingType;
 
   // teacher , student or academy data
   dynamic _accountData;
@@ -79,6 +82,8 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       _youtubeController.text = _accountData.youtubeUrl ?? '';
       _telegramController.text = _accountData.telegramUrl ?? '';
       _instagramController.text = _accountData.instagramUrl ?? '';
+      _teachingType =
+          TeacherModel.getTeacherTeachingTypeKey(_accountData.teachingType);
     } else {
       _accountData as AcademyModel;
       _nameController.text = _accountData.title;
@@ -137,6 +142,9 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
         youtubeUrl: _youtubeController.text.trim(),
         telegramUrl: _telegramController.text.trim(),
         instagramUrl: _instagramController.text.trim(),
+        teachingType: TeacherModel.getTeacherTeachingTypeVal(_teachingType!),
+        outstandingTeaching: ref.read(isTeacherTeachingOutstanding),
+        teachingOnStudentHome: ref.read(isTeacherTeachingOnStudentHome),
       ) as T;
     } else {
       _accountData as AcademyModel;
@@ -249,7 +257,6 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 gap24,
               ],
               if (_userInfo.accountType == AccountType.STUDENT) ...[
-                gap24,
                 DropDownFormFieldWidget(
                   title: AppStrings.stageStr,
                   hintText: AppStrings.stageExStr,
@@ -277,7 +284,8 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                                   title: AppStrings.subjectsStr,
                                   confirm: (ids) {
                                     final controller = ref.read(
-                                        subjectsIdsChangesProvider.notifier);
+                                      subjectsIdsChangesProvider.notifier,
+                                    );
                                     controller.state = 0;
                                     _subjectsIds.clear();
                                     if (ids.isNotEmpty) {
@@ -297,6 +305,16 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                         ],
                       )
                     : _buildStagesMultiSelectDialogFromField(),
+                gap24,
+              ],
+              if (_userInfo.accountType == AccountType.TEACHER) ...[
+                DropDownFormFieldWidget(
+                  title: AppStrings.teachingTypeStr,
+                  hintText: AppStrings.teachingTypeStr,
+                  selectedItem: _teachingType,
+                  onChange: (val) => _teachingType = val,
+                  items: TeacherModel.teacherTeachingTypesMap.keys.toList(),
+                ),
                 gap24,
               ],
               _buildProvinceArea(),
@@ -341,6 +359,11 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                   validator: (val) => val.isValidUrl,
                   isRequired: false,
                 ),
+                if (_userInfo.accountType == AccountType.TEACHER) ...[
+                  gap4,
+                  OutstandingTeachingCheckbox(),
+                  TeachingOnStudentHomeCheckbox(),
+                ]
               ],
             ],
           ),
@@ -401,7 +424,9 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
       return Row(
         children: [
           SizedBox(
-              width: getProportionateScreenWidth(132), child: provinceWidget),
+            width: getProportionateScreenWidth(132),
+            child: provinceWidget,
+          ),
           gapH8,
           areaWidget
         ],
