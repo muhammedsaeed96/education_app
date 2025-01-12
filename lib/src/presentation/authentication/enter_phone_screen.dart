@@ -1,4 +1,4 @@
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:education_app/src/core/utils/form_validators.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

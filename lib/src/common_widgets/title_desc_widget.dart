@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
@@ -25,11 +26,7 @@ class TitleDescWidget extends StatelessWidget {
         gap4,
         Container(
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: AppColors.gray50,
-            border: Border.all(color: AppColors.gray100, width: 0.5),
-            borderRadius: BorderRadius.circular(12),
-          ),
+          decoration: AppTheme.customDecoration(12),
           child: Text(
             description,
             style: AppTextStyles.textRegularStyle12

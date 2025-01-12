@@ -1,7 +1,7 @@
-import 'package:education_app/src/common_widgets/filters_bottom_sheet.dart';
 import 'package:education_app/src/common_widgets/search_field.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/presentation/controllers/filter_controller.dart';
+import 'package:education_app/src/presentation/filter_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,15 +31,20 @@ class SearchFilterRow extends ConsumerWidget {
         ),
         gapH10,
         ElevatedButton(
-          onPressed: () => filtersBottomSheet(context: context, type: type),
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              FilterScreen.routeName,
+              arguments: type,
+            );
+          },
           child: SvgPicture.asset(
             Assets.icFilter,
             colorFilter: ColorFilter.mode(
-                    ref.watch(filtersControllerProvider).hasValue
-                        ? AppColors.primaryColor400
-                        : AppColors.gray500,
-                    BlendMode.srcIn,
-                  ),
+              ref.watch(filtersControllerProvider).hasValue
+                  ? AppColors.primaryColor400
+                  : AppColors.gray500,
+              BlendMode.srcIn,
+            ),
             width: 24,
             height: 24,
           ), // icon of the button
@@ -48,8 +53,7 @@ class SearchFilterRow extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
               side: BorderSide(
-                color:
-                ref.watch(filtersControllerProvider).hasValue
+                color: ref.watch(filtersControllerProvider).hasValue
                     ? AppColors.primaryColor400
                     : AppColors.gray400,
               ),

@@ -40,6 +40,10 @@ class AcademyRepository {
           AppKeys.provinceIdKey: filters?.provinceId,
           AppKeys.areaIdKey: filters?.areaId,
           AppKeys.stageIdKey: filters?.stageId,
+/*          AppKeys.teachingTypeKey: filters?.getTeachingType,
+          AppKeys.outstandingTeachingKey: filters?.isOutstandingTeaching,
+          AppKeys.teachingOnStudentHomeKey: filters?.isTeachingOnStudentHome,
+          AppKeys.discountsOnlyKey: filters?.discountsOnly,*/
           AppKeys.skipKey: skip,
           AppKeys.takeKey: 10,
           AppKeys.nameKey: searchValue,

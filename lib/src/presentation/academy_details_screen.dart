@@ -5,14 +5,13 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/enum.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/socials_row_widget.dart';
 import '../common_widgets/title_card.dart';
 import '../common_widgets/title_desc_widget.dart';
 import '../data/academey_repository.dart';
-import 'controllers/simple_state_controller.dart';
 
 class AcademyDetailsScreen extends ConsumerWidget {
   const AcademyDetailsScreen({super.key});
@@ -43,6 +42,7 @@ class AcademyDetailsScreen extends ConsumerWidget {
                     imageUrl: academy.imageUrl.getFullUrl,
                     height: AppSizes.length96,
                     width: AppSizes.length96,
+                    iconSize: AppSizes.length96,
                     radius: AppSizes.length96 / 2,
                   ),
                   gap4,

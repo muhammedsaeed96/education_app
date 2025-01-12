@@ -5,7 +5,7 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/core/utils/form_validators.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/main_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
@@ -85,7 +85,9 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
           youtubeUrl: _youtubeController.text.trim(),
           telegramUrl: _telegramController.text.trim(),
           instagramUrl: _instagramController.text.trim(),
-          teachingType: TeacherModel.getTeacherTeachingTypeVal(_teachingType!),
+          teachingType: _teachingType != null
+              ? TeacherModel.getTeacherTeachingTypeVal(_teachingType!)
+              : null,
           outstandingTeaching: ref.read(isTeacherTeachingOutstanding),
           teachingOnStudentHome: ref.read(isTeacherTeachingOnStudentHome),
         );

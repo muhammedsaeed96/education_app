@@ -43,7 +43,7 @@ class TeacherModel {
   final String? youtubeUrl;
   final String? instagramUrl;
   final String? telegramUrl;
-  final String teachingType;
+  final String? teachingType;
   final bool outstandingTeaching;
   final bool teachingOnStudentHome;
   final double discount;

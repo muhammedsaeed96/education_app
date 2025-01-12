@@ -5,6 +5,8 @@ class Assets {
 
   static const String icHomeFill = "assets/icons/ic_home_fill.svg";
 
+  static const String icHomeFill2 = "assets/icons/ic_home_fill_2.svg";
+
   static const String icMapFill = "assets/icons/ic_map_fill.svg";
 
   static const String icPhone = "assets/icons/ic_phone.svg";
@@ -55,7 +57,7 @@ class Assets {
 
   static const String icSuccess = "assets/icons/ic_success.svg";
 
-  static const String icEmpty = "assets/icons/ic_empty.svg";
+  // static const String icEmpty = "assets/icons/ic_empty.svg";
 
   static const String icLogo = "assets/icons/logo.png";
 
@@ -64,4 +66,18 @@ class Assets {
   static const String icUsers = "assets/icons/ic_users.svg";
 
   static const String icUsersFill = "assets/icons/ic_users_fill.svg";
+
+  static const String icStarFill = "assets/icons/ic_star_fill.svg";
+
+  static const String icSale = "assets/icons/ic_sale.svg";
+
+  static const String icDisplay = "assets/icons/ic_display.svg";
+
+  static const String loading = "assets/lotties/loading.json";
+
+  static const String icNoSearchResults = "assets/icons/ic_no_search_result.svg";
+
+  static const String icError = "assets/icons/ic_error.svg";
+
+  static const String icImageNotFound = "assets/icons/ic_image_not_found.svg";
 }

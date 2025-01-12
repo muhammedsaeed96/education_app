@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:education_app/src/core/enum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // to listen to province value change
@@ -25,3 +26,5 @@ final loginToContactWithTeacherAcademy = StateProvider<bool>((ref) => false);
 final isTeacherTeachingOutstanding = StateProvider<bool>((ref) => false);
 
 final isTeacherTeachingOnStudentHome = StateProvider<bool>((ref) => false);
+
+final selectedHighlight = StateProvider<HighlightType?>((ref) => null);

@@ -14,7 +14,9 @@ class AppColors {
   ///black with opacity
   static Color black87 = const Color(0x00000000).withOpacity(0.87);
 
-  ///gray
+
+  // new gray
+  static const bg = Color(0xFFF1F1F1);
   static const gray50 = Color(0xFFFAFAFA);
   static const gray100 = Color(0xFFF5F5F5);
   static const gray200 = Color(0xFFEEEEEE);
@@ -24,6 +26,8 @@ class AppColors {
   static const gray600 = Color(0xFF4B4B4B);
   static const gray700 = Color(0xFF1F1F1F);
 
+
+  static const Color red400 = Color(0xFFef4444);
   static const Color red500 = Color(0xFFDE271A);
 
   static LinearGradient tealGradient = const LinearGradient(

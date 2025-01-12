@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/current_filters_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,9 +27,13 @@ class TeachersRepository {
           AppKeys.areaIdKey: filters?.areaId,
           AppKeys.stageIdKey: filters?.stageId,
           AppKeys.subjectIdKey: filters?.subjectId,
+          AppKeys.outstandingTeachingKey: filters?.isOutstandingTeaching,
+          AppKeys.teachingOnStudentHomeKey: filters?.isTeachingOnStudentHome,
+          AppKeys.teachingTypeKey: filters?.getTeachingType,
+          AppKeys.discountsOnlyKey: filters?.discountsOnly,
           AppKeys.skipKey: skip,
           AppKeys.takeKey: 10,
-          AppKeys.nameKey : searchValue,
+          AppKeys.nameKey: searchValue,
         },
       );
       final data = res.data[AppKeys.dataKey];
@@ -68,6 +73,6 @@ final teacherRepositoryProvider = Provider.autoDispose<TeachersRepository>(
 );
 
 final getTeacherByIdProvider =
-FutureProvider.autoDispose.family<TeacherModel, TeacherID>(
-      (ref, id) => ref.read(teacherRepositoryProvider).getTeacher(id),
+    FutureProvider.autoDispose.family<TeacherModel, TeacherID>(
+  (ref, id) => ref.read(teacherRepositoryProvider).getTeacher(id),
 );

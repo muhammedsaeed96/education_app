@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'subject_model.g.dart';

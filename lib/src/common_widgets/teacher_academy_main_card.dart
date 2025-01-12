@@ -1,13 +1,14 @@
-import 'package:education_app/src/core/constants/app_strings.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:education_app/src/core/app_theme.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
+import '../core/constants/assets.dart';
 import 'adderss_widget.dart';
-import 'custom_cached_network_image.dart';
-import 'custom_inkwell.dart';
+import 'custom_network_image.dart';
 
 class TeacherAcademyMainCard extends StatelessWidget {
   const TeacherAcademyMainCard({
@@ -31,74 +32,89 @@ class TeacherAcademyMainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomInkwell(
-      tap: press,
-      radius: 16,
+    return ZoomTapAnimation(
+      end: 0.97,
+      onTap: press,
       child: Container(
         alignment: Alignment.bottomCenter,
         constraints: BoxConstraints(
-          minWidth: AppSizes.length120,
-          maxWidth: AppSizes.screenWidth * 0.5,
+          maxWidth: AppSizes.screenWidth * 0.62,
         ),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.gray300),
-          borderRadius: BorderRadius.circular(16),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: AppTheme.customDecoration(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 12,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomCachedNetworkImage(
-                  imageUrl: imageUrl.getFullUrl,
-                  height: AppSizes.length64,
-                  width: AppSizes.length64,
-                  radius: AppSizes.length64 / 2,
+            ListTile(
+              minVerticalPadding: 0,
+              visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+              leading: SizedBox.fromSize(
+                size: Size(AppSizes.length58, AppSizes.length58),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor50,
+                    borderRadius: BorderRadius.circular(AppSizes.length58 / 2),
+                  ),
+                  child: CustomNetworkImage(
+                    imageUrl: imageUrl.getFullUrl,
+                    height: AppSizes.length58,
+                    width: AppSizes.length58,
+                    iconSize: AppSizes.length58,
+                    radius: AppSizes.length58 / 2,
+                  ),
                 ),
-                gapH12,
-                visitorsNum > 0
-                    ? Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppColors.gray50,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: AppColors.gray300,
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Text(
-                            '${AppStrings.visitStr} : $visitorsNum',
-                            style: AppTextStyles.textRegularStyle10,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ],
-            ),
-            gap12,
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.textSemiBoldStyle12,
-            ),
-            gap6,
-            AddressWidget(city: city, region: region),
-            gap4,
-            Expanded(
-              child: Text(
-                description,
-                style: AppTextStyles.textRegularStyle12.copyWith(
-                  color: AppColors.gray500,
-                ),
-                maxLines: AppSizes.screenHeight <= 640 ? 1 : 2,
+              ),
+              title: Text(
+                title,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.textSemiBoldStyle12,
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  description,
+                  style: AppTextStyles.textRegularStyle12.copyWith(
+                    color: AppColors.gray600,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            Spacer(),
+            Divider(
+              color: AppColors.gray200,
+              thickness: 0.68,
+              height: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(child: AddressWidget(city: city, region: region)),
+                  visitorsNum > 0
+                      ? Row(
+                          spacing: 4,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.icEyeFill,
+                              height: AppSizes.length16,
+                              width: AppSizes.length16,
+                            ),
+                            Text(
+                              '$visitorsNum',
+                              style: AppTextStyles.textMediumStyle12.copyWith(
+                                color: AppColors.gray600,
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox.shrink()
+                ],
               ),
             ),
           ],

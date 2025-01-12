@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/app_theme.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,10 +31,7 @@ class AccountCard extends StatelessWidget {
       tap: press,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.gray300),
-        ),
+        decoration: AppTheme.customDecoration(),
         child: Row(
           children: [
             SvgPicture.asset(

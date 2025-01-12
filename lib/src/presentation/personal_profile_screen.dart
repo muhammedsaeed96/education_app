@@ -6,7 +6,7 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/form_validators.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/student_model.dart';

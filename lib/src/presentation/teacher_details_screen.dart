@@ -6,7 +6,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:education_app/src/core/enum.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common_widgets/call_btns.dart';
@@ -42,6 +42,7 @@ class TeacherDetailsScreen extends ConsumerWidget {
                     imageUrl: teacher.imageUrl.getFullUrl,
                     height: AppSizes.length96,
                     width: AppSizes.length96,
+                    iconSize: AppSizes.length96,
                     radius: AppSizes.length96 / 2,
                   ),
                   gap4,

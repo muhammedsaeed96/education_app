@@ -1,6 +1,7 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/common_widgets/empty_widget.dart';
 import 'package:education_app/src/common_widgets/title_widget.dart';
+import 'package:education_app/src/core/app_theme.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
@@ -43,12 +44,7 @@ class _VisitorsScreenState extends ConsumerState<VisitorsScreen>
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: AppColors.primaryColor500,
-                ),
-              ),
+              decoration: AppTheme.customDecoration(),
               child: Column(
                 children: [
                   Row(
@@ -122,10 +118,7 @@ class VisitorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.gray300),
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: AppTheme.customDecoration(),
       child: ListTile(
         minVerticalPadding: 20,
         title: Padding(
@@ -142,7 +135,9 @@ class VisitorCard extends StatelessWidget {
         trailing: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-              color: AppColors.gray50, borderRadius: BorderRadius.circular(20)),
+            color: AppColors.gray50,
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Text(
             student.stage ?? '',
             style: AppTextStyles.textSemiBoldStyle10.copyWith(

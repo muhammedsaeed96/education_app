@@ -122,6 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: AppColors.gray200)),
+          color: Colors.white
         ),
         height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
         child: Row(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 abstract class AppTextStyles {
- 
   static TextStyle textBoldStyle16 = TextStyle(
     color: AppColors.black87,
     fontSize: _getFontSize(16),
@@ -15,27 +14,6 @@ abstract class AppTextStyles {
     fontSize: _getFontSize(18),
     fontWeight: FontWeight.w700,
   );
-
-/*  static TextStyle textBoldStyle20 = TextStyle(
-    color: AppColors.black87,
-    fontSize: AppSizes.length20,
-    fontWeight: FontWeight.w700,
-
-  );*/
-
-/*  static TextStyle textBoldStyle22 = TextStyle(
-    color: AppColors.black87,
-    fontSize: AppSizes.length22,
-    fontWeight: FontWeight.w700,
-  );*/
-
-/*
-  static TextStyle textBoldStyle24 = TextStyle(
-    color: AppColors.black87,
-    fontSize: AppSizes.length24,
-    fontWeight: FontWeight.w700,
-  );
-*/
 
   // Text semi bold styles
 
@@ -101,7 +79,7 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
-  static TextStyle textMediumStyle20= TextStyle(
+  static TextStyle textMediumStyle20 = TextStyle(
     color: AppColors.black87,
     fontSize: _getFontSize(20),
     fontWeight: FontWeight.w500,
@@ -139,9 +117,8 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w400,
   );
 
-
   static double _getFontSize(double textSize) {
-    final width = AppSizes.screenWidth;
+/*    final width = AppSizes.screenWidth;
     var fontSize = textSize;
     if (width <= 480) {
       fontSize = textSize;
@@ -149,9 +126,12 @@ abstract class AppTextStyles {
       fontSize = textSize + 3;
     } else {
       fontSize = textSize + 4 ;
-    }
-    return fontSize;
+    }*/
+
+  if(textSize <= 14){
+    textSize += 1.25;
   }
 
-
+    return textSize;
+  }
 }

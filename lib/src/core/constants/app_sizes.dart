@@ -74,7 +74,7 @@ class AppSizes {
   static double w58 = getProportionateScreenWidth(58);
 
   static double calTeacherAcademyMainCardHeight() {
-    var screenHeight = AppSizes.screenHeight;
+/*    var screenHeight = AppSizes.screenHeight;
     debugPrint(screenHeight.toString());
     if (screenHeight <= 800) {
       return AppSizes.screenHeight * 0.26;
@@ -82,7 +82,8 @@ class AppSizes {
       return AppSizes.screenHeight * 0.22;
     } else {
       return AppSizes.screenHeight * 0.20;
-    }
+    }*/
+    return 180;
   }
 }
 
@@ -104,6 +105,7 @@ const gap2 = SizedBox(height: 2);
 const gap4 = SizedBox(height: 4);
 const gap6 = SizedBox(height: 6);
 const gap8 = SizedBox(height: 8);
+const gap10 = SizedBox(height: 10);
 const gap12 = SizedBox(height: 12);
 const gap16 = SizedBox(height: 16);
 const gap20 = SizedBox(height: 20);

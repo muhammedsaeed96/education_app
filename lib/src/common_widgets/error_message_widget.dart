@@ -3,15 +3,19 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import '../core/constants/assets.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
   const ErrorMessageWidget({
     super.key,
     required this.errorMessage,
     required this.retry,
+    this.showOnlyText = true,
   });
 
   final String errorMessage;
+  final bool showOnlyText;
   final VoidCallback retry;
 
   @override
@@ -26,15 +30,20 @@ class ErrorMessageWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          SvgPicture.asset(
+            Assets.icError,
+            width: AppSizes.screenHeight * 0.16,
+            height: AppSizes.screenHeight * 0.16,
+          ),
           Text(
             errorMessage,
             style: AppTextStyles.textMediumStyle16,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: getProportionateScreenHeight(16)),
+          gap16,
           Center(
             child: PrimaryElevatedBtn(
-              height: getProportionateScreenHeight(48),
+              height: getProportionateScreenHeight(40),
               text: AppStrings.retryStr,
               width: getProportionateScreenWidth(200),
               press: retry,

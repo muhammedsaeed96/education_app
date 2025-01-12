@@ -50,9 +50,11 @@ class MultiSelectDialogFormField extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.gray400),
+            border: Border.all(color: AppColors.gray300),
+            color: Colors.white
           ),
           child: MultiSelectDialogField(
+            backgroundColor: Colors.white,
             title: const SizedBox.shrink(),
             initialValue: initialValue,
             items: items.map((val) => MultiSelectItem(val.id, val.name)).toList(),

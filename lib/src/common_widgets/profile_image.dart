@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,6 +34,7 @@ class ProfileImage extends StatelessWidget {
         radius: AppSizes.length96 / 2,
         width: AppSizes.length96,
         height: AppSizes.length96,
+        iconSize: AppSizes.length96,
       );
     } else {
       return SvgPicture.asset(

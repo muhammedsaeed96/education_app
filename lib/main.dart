@@ -1,6 +1,6 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/app_router.dart';
-import 'package:education_app/src/core/theme.dart';
+import 'package:education_app/src/core/app_theme.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/init_easy_loading.dart';
 import 'package:education_app/src/presentation/splash_screen.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'تدريس',
-      theme: themeData,
+      theme: AppTheme.themeData,
       builder: EasyLoading.init(
         builder: (context, child) {
           final mediaQuery = MediaQuery.of(context);

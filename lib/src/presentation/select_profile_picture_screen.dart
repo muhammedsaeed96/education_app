@@ -82,7 +82,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
                     text: AppStrings.skipStr,
                     press: () => Navigator.pop(context),
                     width: AppSizes.length180,
-                    background: AppColors.gray200,
+                    background: Colors.white,
                     textColor: AppColors.gray600,
                   ),
                 ),

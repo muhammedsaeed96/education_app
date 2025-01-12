@@ -4,6 +4,7 @@ import 'package:education_app/src/common_widgets/loading.dart';
 import 'package:education_app/src/common_widgets/retry_btn.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
@@ -23,13 +24,16 @@ class TeachersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final highlightType =
+        ModalRoute.of(context)?.settings.arguments as HighlightType?;
+
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.teachersStr)),
+      appBar: AppBar(title: Text(highlightType.getTeachersScreenAppbarTitle)),
       body: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
         child: Column(
           children: [
-            const SearchFilterRow(
+            SearchFilterRow(
               hintText: AppStrings.searchOnTeacherStr,
               type: SearchType.teacher,
             ),
@@ -104,11 +108,7 @@ class TeachersScreen extends ConsumerWidget {
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(top: 48),
-                        child: EmptyWidget(
-                          text: searchText == null || searchText.isEmpty
-                              ? AppStrings.noDataStr
-                              : AppStrings.noResultStr,
-                        ),
+                        child: EmptyWidget(text: AppStrings.noResultStr),
                       ),
                     ),
                   ]
@@ -128,6 +128,7 @@ class TeachersScreen extends ConsumerWidget {
                                 imageUrl: teacher.imageUrl,
                                 city: teacher.province!.name,
                                 region: teacher.area!.name,
+                                discount: teacher.discount,
                                 press: () {
                                   final storage =
                                       ref.read(asyncInitProvider).localStorage;

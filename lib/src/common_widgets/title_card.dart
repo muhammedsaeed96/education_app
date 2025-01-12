@@ -1,3 +1,4 @@
+import 'package:education_app/src/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
@@ -12,11 +13,7 @@ class TitleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: AppColors.gray50,
-        border: Border.all(color: AppColors.gray100),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      decoration: AppTheme.customDecoration(12),
       child: Center(
         child: Text(
           title,

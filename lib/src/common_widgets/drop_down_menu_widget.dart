@@ -7,29 +7,29 @@ class DropDownMenuWidget extends StatelessWidget {
   const DropDownMenuWidget({
     super.key,
     this.currentVal,
-    required this.hintText,
+    this.hintText,
     required this.items,
     required this.onItemSelected,
     this.width,
   });
 
   final String? currentVal;
-  final String hintText;
+  final String? hintText;
   final List<dynamic> items;
   final void Function(String val) onItemSelected;
   final double? width;
 
   @override
   Widget build(BuildContext context) {
-
     final entry = items.map<DropdownMenuEntry>(
       (value) {
         return DropdownMenuEntry<String>(
           value: value.id,
           label: value.name,
           style: MenuItemButton.styleFrom(
-            textStyle:
-                AppTextStyles.textRegularStyle16.copyWith(color: Colors.black),
+            textStyle: AppTextStyles.textRegularStyle16.copyWith(
+              color: Colors.black,
+            ),
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 12),
           ),
@@ -42,7 +42,7 @@ class DropDownMenuWidget extends StatelessWidget {
       width: width,
       hintText: hintText,
       textStyle: AppTextStyles.textMediumStyle14,
-      menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.9 :null,
+      menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.9 : null,
       selectedTrailingIcon: Icon(
         Icons.keyboard_arrow_down,
         size: AppSizes.length20,
@@ -59,6 +59,11 @@ class DropDownMenuWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        constraints: BoxConstraints.tight(const Size.fromHeight(48)),
       ),
       onSelected: (val) => onItemSelected(val),
       dropdownMenuEntries: entry,

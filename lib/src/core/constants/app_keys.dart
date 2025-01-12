@@ -18,6 +18,11 @@ class AppKeys{
   static const accountTypeKey = 'accountType';
   static const codeKey = 'code';
 
+  static const outstandingTeachingKey = 'outstandingTeaching';
+  static const teachingTypeKey = 'teachingType';
+  static const teachingOnStudentHomeKey = 'teachingOnStudentHome';
+  static const discountsOnlyKey = 'discountsOnly';
+
   // local storages keys
   static const userInfoKey = 'userInfoKey';
   static const otpRequestTimesKey = 'times';

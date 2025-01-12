@@ -105,11 +105,7 @@ class AcademiesScreen extends ConsumerWidget {
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(top: 48),
-                        child: EmptyWidget(
-                          text: searchText == null || searchText.isEmpty
-                              ? AppStrings.noDataStr
-                              : AppStrings.noResultStr,
-                        ),
+                        child: EmptyWidget(text: AppStrings.noResultStr),
                       ),
                     ),
                   ]

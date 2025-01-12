@@ -18,3 +18,9 @@ enum SearchType {
 }
 
 enum TeacherTeachingType { ALL, ONSITE, ONLINE }
+
+enum TeachingPlace { all, studentHome, teacherLocation }
+
+enum CurriculumType { all, outstanding, ordinary }
+
+enum HighlightType { all, discount, online, onsite, outstanding }

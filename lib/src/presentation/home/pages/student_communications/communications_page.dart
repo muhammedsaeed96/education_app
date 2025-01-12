@@ -43,7 +43,7 @@ class _CommunicationsPageState extends ConsumerState<CommunicationsPage> with Au
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
-                  color: AppColors.gray100,
+                  color: Colors.white,
                 ),
                 child: TabBar(
                   indicatorSize: TabBarIndicatorSize.tab,

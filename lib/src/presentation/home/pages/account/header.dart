@@ -1,7 +1,7 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
-import 'package:education_app/src/core/utils/string_extension.dart';
+import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/student_model.dart';
 import 'package:education_app/src/model/teacher_model.dart';
@@ -34,7 +34,7 @@ class Header extends ConsumerWidget {
               Text(
                 data.phone,
                 style: AppTextStyles.textRegularStyle14.copyWith(
-                  color: AppColors.gray500,
+                  color: AppColors.gray600,
                 ),
                 textDirection: TextDirection.ltr,
               ),

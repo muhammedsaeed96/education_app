@@ -1,6 +1,9 @@
 import 'package:education_app/src/common_widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+
+import '../core/constants/assets.dart';
 
 class AsyncWidget<T> extends StatelessWidget {
   const AsyncWidget({
@@ -22,10 +25,10 @@ class AsyncWidget<T> extends StatelessWidget {
         errorMessage: err is String ? err : '',
         retry: retry,
       ),
-      loading: () => const Center(
+      loading: () => Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12),
-          child: CircularProgressIndicator(),
+          child: Lottie.asset(Assets.loading, width: 132, height: 132),
         ),
       ),
     );
@@ -45,9 +48,9 @@ class AsyncSliverWidget<T> extends StatelessWidget {
       error: (err, _) => SliverToBoxAdapter(
         child: Text(err as String),
       ),
-      loading: () => const SliverToBoxAdapter(
+      loading: () => SliverToBoxAdapter(
         child: Center(
-          child: SizedBox(height: 100, child: CircularProgressIndicator()),
+          child: Lottie.asset(Assets.loading, width: 132, height: 132),
         ),
       ),
     );

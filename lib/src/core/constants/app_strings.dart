@@ -1,8 +1,11 @@
 import 'package:education_app/src/core/enum.dart';
 
+import 'assets.dart';
+
 class AppStrings {
   AppStrings._();
 
+  static const all = 'الكل';
   static const subjectsStr = 'المواد الدراسية';
   static const homeStr = 'الرئيسية';
   static const callUsStr = 'اتصل بنا';
@@ -32,7 +35,7 @@ class AppStrings {
   static const subjectStr = 'المادة';
   static const stageStr = 'المرحلة';
   static const stageExStr = 'متوسطة';
-  static const advancedSearchStr = 'بحث مخصص';
+  static const advancedSearchStr = 'الفلتر';
   static const applyStr = 'تطبيق';
   static const cancelStr = 'الغاء';
   static const studyStagesStr = 'المراحل الدراسية';
@@ -51,7 +54,7 @@ class AppStrings {
   static const donNotHaveAccountStr = 'ليس لديك حساب؟ ';
   static const haveAccountStr = 'لديك حساب؟ ';
   static const createAccountStr = 'انشاء حساب';
-  static const createTeacherAccountStr = 'انشاء حساب معلم';
+  static const createTeacherAccountStr = 'انشاء حساب استاذ';
   static const createAcademyAccountStr = 'انشاء حساب معهد';
   static const createStudentAccountStr = 'انشاء حساب طالب ';
   static const enterPhoneNumber = 'ادخل رقم الهاتف';
@@ -167,4 +170,29 @@ class AppStrings {
   static const teachingTypeStr = 'نوع التدريس';
   static const teachingOutstandingStr = 'تدريس منهاج متميزين';
   static const teachingOnStudentHome = 'تدريس في منزل الطالب';
+
+  static const curriculumType = 'نوع المنهج';
+  static const outstandingCurriculum = 'منهج متميزين';
+  static const ordinaryCurriculum = 'منهج عادي';
+
+  static const teachingPlace = 'مكان التدريس';
+  static const studentHome = 'منزل الطالب';
+  static const teacherLocation = 'موقع الاستاذ';
+
+
+  static const homeTeaching = 'تدريس منزلي';
+  static const online = 'الكتروني';
+  static const onsite = 'حضوري';
+  static const onlineTeaching = 'تدريس الكتروني';
+  static const discounts = 'خصومات';
+  static const discount = 'تخفيض';
+
+
+  static final List<(String title, String iconPath, HighlightType type)>
+      highlights = [
+    (outstandingCurriculum, Assets.icStarFill, HighlightType.outstanding),
+    (onlineTeaching, Assets.icDisplay, HighlightType.online),
+    (homeTeaching, Assets.icHomeFill2, HighlightType.onsite),
+    (discount, Assets.icSale, HighlightType.discount),
+  ];
 }

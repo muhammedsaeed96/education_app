@@ -12,29 +12,29 @@ class CustomNetworkImage extends StatelessWidget {
     this.height,
     this.width,
     this.radius,
-    this.iconHeight,
-    this.iconWidth,
     this.fit = BoxFit.cover,
-    this.assetImage = Assets.icProfile,
-    this.assetImageBg = AppColors.gray200,
+    this.iconPath = Assets.icProfile,
+    required this.iconSize,
   });
 
   final String? imageUrl;
   final File? file;
   final double? height;
   final double? width;
-  final double? iconHeight;
-  final double? iconWidth;
   final BoxFit fit;
   final double? radius;
-  final String assetImage;
-  final Color assetImageBg;
+  final String iconPath;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(radius ?? 0),
-      child: _renderImage(),
+    return SizedBox(
+      height: height,
+      width: width,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius ?? 16),
+        child: ColoredBox(color: AppColors.gray50, child: _renderImage()),
+      ),
     );
   }
 
@@ -55,21 +55,14 @@ class CustomNetworkImage extends StatelessWidget {
           height: height,
           width: width,
           fit: fit,
-          errorBuilder: (context, _, stackTrace) => _notLoadImage(),
+          errorBuilder: (context, _, stackTrace) => _imageNotLoaded(),
           loadingBuilder: (context, child, loadingProgress) {
             return loadingProgress == null
                 ? child
-                : SizedBox(
-                    height: height,
-                    width: width,
-                    child: const ColoredBox(
-                      color: AppColors.gray200,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryColor400,
-                          strokeWidth: 3.0,
-                        ),
-                      ),
+                : Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor400,
+                      strokeWidth: 3.0,
                     ),
                   );
           },
@@ -77,10 +70,17 @@ class CustomNetworkImage extends StatelessWidget {
       );
     }
 
-    return _notLoadImage();
+    return _imageNotLoaded();
   }
 
-  Widget _notLoadImage() {
-    return SvgPicture.asset(assetImage, height: height, width: width);
+  Widget _imageNotLoaded() {
+    return Center(
+      child: SvgPicture.asset(
+        iconPath,
+        height: iconSize,
+        width: iconSize,
+        // fit: BoxFit.none,
+      ),
+    );
   }
 }

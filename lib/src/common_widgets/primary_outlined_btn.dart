@@ -42,7 +42,7 @@ class PrimaryOutlinedBtn extends StatelessWidget {
         child: Text(
           text,
           style: AppTextStyles.textSemiBoldStyle14.copyWith(
-            color: AppColors.gray500,
+            color: AppColors.gray600,
           ),
         ),
       ),

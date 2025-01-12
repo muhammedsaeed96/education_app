@@ -39,6 +39,8 @@ class TeacherController extends AutoDisposeAsyncNotifier<List<TeacherModel>>
     final searchVal = ref.read(searchValProvider);
     final filters = ref.read(filtersControllerProvider);
 
+    
+
     final items = await ref.read(teacherRepositoryProvider).getTeachers(
           skip: currentPage,
           filters: filters,

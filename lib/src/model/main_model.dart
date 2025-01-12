@@ -1,3 +1,4 @@
+import 'package:education_app/src/model/advertisement_model.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/province_model.dart';
 import 'package:education_app/src/model/stage_model.dart';
@@ -22,6 +23,7 @@ class MainModel {
   final List<AreaModel> areas;
   final List<StageModel> stages;
   final UpdateInfoModel updateInfo;
+  final List<AdvertisementModel> advertisements;
 
   MainModel({
     this.subjects = const [],
@@ -31,6 +33,7 @@ class MainModel {
     this.areas = const [],
     this.stages = const [],
     required this.updateInfo,
+    this.advertisements = const [],
   });
 
   factory MainModel.fromJson(Map<String, dynamic> data) =>
