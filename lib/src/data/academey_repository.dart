@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:education_app/src/core/utils/api_services.dart';
+import 'package:education_app/src/core/utils/api_service.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/app_keys.dart';

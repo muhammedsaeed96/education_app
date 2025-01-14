@@ -9,7 +9,7 @@ import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/constants/app_strings.dart';
 import '../core/failures.dart';
-import '../core/utils/api_services.dart';
+import '../core/utils/api_service.dart';
 import '../model/visitor_model.dart';
 
 class VisitorRepository {

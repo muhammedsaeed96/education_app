@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/constants/app_keys.dart';
 import '../core/constants/api_urls.dart';
 import '../core/failures.dart';
-import '../core/utils/api_services.dart';
+import '../core/utils/api_service.dart';
 import '../model/academy_model.dart';
 import '../model/teacher_model.dart';
 

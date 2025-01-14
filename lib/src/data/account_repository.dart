@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
-import 'package:education_app/src/core/utils/api_services.dart';
+import 'package:education_app/src/core/utils/api_service.dart';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/model/academy_model.dart';
 import 'package:education_app/src/model/student_model.dart';

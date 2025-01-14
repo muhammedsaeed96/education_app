@@ -193,6 +193,6 @@ class AppStrings {
     (outstandingCurriculum, Assets.icStarFill, HighlightType.outstanding),
     (onlineTeaching, Assets.icDisplay, HighlightType.online),
     (homeTeaching, Assets.icHomeFill2, HighlightType.onsite),
-    (discount, Assets.icSale, HighlightType.discount),
+    (discounts, Assets.icSale, HighlightType.discount),
   ];
 }

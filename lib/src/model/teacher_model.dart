@@ -47,6 +47,7 @@ class TeacherModel {
   final bool outstandingTeaching;
   final bool teachingOnStudentHome;
   final double discount;
+  final DateTime? discountEndDate;
 
   TeacherModel({
     required this.id,
@@ -76,6 +77,7 @@ class TeacherModel {
     this.outstandingTeaching = false,
     this.teachingOnStudentHome = false,
     this.discount = 0.0,
+    this.discountEndDate,
   });
 
   @override

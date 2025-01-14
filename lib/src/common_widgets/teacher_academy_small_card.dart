@@ -1,8 +1,6 @@
 import 'package:education_app/src/core/app_theme.dart';
 import 'package:education_app/src/core/constants/app_colors.dart';
-import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/app_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -19,6 +17,7 @@ class TeacherAcademySmallCard extends StatelessWidget {
     required this.city,
     required this.region,
     this.discount,
+    this.discountEndDate,
     required this.press,
   });
 
@@ -27,13 +26,11 @@ class TeacherAcademySmallCard extends StatelessWidget {
   final String city;
   final String region;
   final double? discount;
+  final DateTime? discountEndDate;
   final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
-
-    final formattedDiscount = _formatDiscount();
-
     return ZoomTapAnimation(
       end: 0.97,
       onTap: press,
@@ -64,7 +61,7 @@ class TeacherAcademySmallCard extends StatelessWidget {
                 ],
               ),
             ),
-            formattedDiscount != null
+            _formattedDiscount != null && _discountNotExpired
                 ? Container(
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                     decoration: BoxDecoration(
@@ -72,7 +69,7 @@ class TeacherAcademySmallCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Text(
-                      '% $formattedDiscount',
+                      '% $_formattedDiscount',
                       style: AppTextStyles.textSemiBoldStyle12.copyWith(
                         color: Colors.white,
                       ),
@@ -85,10 +82,20 @@ class TeacherAcademySmallCard extends StatelessWidget {
     );
   }
 
-  String? _formatDiscount() {
+  String? get _formattedDiscount {
     final formattedDiscount = discount != null && discount! > 0
         ? NumberFormat('#,###', 'en_US').format(discount?.round())
         : null;
     return formattedDiscount;
+  }
+
+  bool get _discountNotExpired {
+    if (discountEndDate == null) {
+      return false;
+    }
+
+    final now = DateTime.now().subtract(Duration(days: 1));
+
+    return now.isBefore(discountEndDate!);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:education_app/src/core/utils/api_services.dart';
+import 'package:education_app/src/core/utils/api_service.dart';
 import 'package:education_app/src/core/utils/otp_helper.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -7,7 +7,6 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/teacher_model.dart';
-import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:education_app/src/presentation/controllers/teacher_controller.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +80,7 @@ class TeachersScreen extends ConsumerWidget {
     final loadingMoreError = state.hasError && teachers.isNotEmpty;
 
     final controller = ref.read(teacherControllerProvider.notifier);
-    final searchText = ref.read(searchValProvider);
+    // final searchText = ref.read(searchValProvider);
     return initialError
         ? [
             SliverToBoxAdapter(
@@ -129,6 +128,7 @@ class TeachersScreen extends ConsumerWidget {
                                 city: teacher.province!.name,
                                 region: teacher.area!.name,
                                 discount: teacher.discount,
+                                discountEndDate: teacher.discountEndDate,
                                 press: () {
                                   final storage =
                                       ref.read(asyncInitProvider).localStorage;

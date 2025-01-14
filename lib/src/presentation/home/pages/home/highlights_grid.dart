@@ -30,6 +30,7 @@ class HighlightsGrid extends ConsumerWidget {
         final (title, iconPath, type) = AppStrings.highlights[i];
 
         return ZoomTapAnimation(
+          end: 0.97,
           onTap: () {
             ref.read(selectedHighlight.notifier).state = type;
             ref

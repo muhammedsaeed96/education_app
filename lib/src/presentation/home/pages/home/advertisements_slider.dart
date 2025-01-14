@@ -26,6 +26,7 @@ class AdvertisementsSlider extends StatelessWidget {
           builder: (BuildContext context) {
             final url = advertisement.imageUrl.getFullUrl;
             return ZoomTapAnimation(
+              end: 0.97,
               onTap: () {
                 Navigator.of(context).pushNamed(
                   TeacherDetailsScreen.routeName,

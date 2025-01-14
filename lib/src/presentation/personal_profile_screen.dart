@@ -193,7 +193,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     });
 
     return PopScope(
-      onPopInvoked: (canPop) {
+      onPopInvokedWithResult: (canPop,_) {
         // if user updated i will fetch account data again to update previous screen
         if (_isFormDataUpdated) {
           ref.invalidate(getAccountDataProvider);
@@ -257,6 +257,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
                 gap24,
               ],
               if (_userInfo.accountType == AccountType.STUDENT) ...[
+                gap24,
                 DropDownFormFieldWidget(
                   title: AppStrings.stageStr,
                   hintText: AppStrings.stageExStr,

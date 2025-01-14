@@ -12,6 +12,7 @@ import 'package:education_app/src/presentation/home/pages/student_communications
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
@@ -121,11 +122,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ref.watch(isAuthenticationProvider);
       return Container(
         decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: AppColors.gray200)),
-          color: Colors.white
-        ),
+            border: Border(top: BorderSide(color: AppColors.gray200)),
+            color: Colors.white),
         height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _navBarItem(index: 0, text: AppStrings.homeStr),
             isAuth
@@ -154,41 +155,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     required int index,
     required String text,
   }) {
-    return InkWell(
-      highlightColor: AppColors.gray50,
-      focusColor: Colors.transparent,
-      splashColor: AppColors.primaryColor50.withOpacity(0.2),
+    return ZoomTapAnimation(
+      end: 0.94,
       onTap: () => _changeNavBarIndex(index: index),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: SizedBox(
-          width: (_isAuth
-                  ? MediaQuery.of(context).size.width / 4
-                  : MediaQuery.of(context).size.width / 3) -
-              8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150),
-                child: SvgPicture.asset(
-                  key: ValueKey(_getImageUrlByIndex(index)),
-                  _getImageUrlByIndex(index),
-                  width: AppSizes.length24,
-                  height: AppSizes.length24,
-                ),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 1),
+        color: Colors.white,
+        height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
+        width: (_isAuth
+            ? MediaQuery.of(context).size.width / 4
+            : MediaQuery.of(context).size.width / 3)  - 2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 150),
+              child: SvgPicture.asset(
+                key: ValueKey(_getImageUrlByIndex(index)),
+                _getImageUrlByIndex(index),
+                width: AppSizes.length22,
+                height: AppSizes.length22,
               ),
-              const SizedBox(height: 2),
-              Text(
-                text,
-                style: AppTextStyles.textSemiBoldStyle12.copyWith(
-                  color: index == currentNavBarIndex
-                      ? AppColors.primaryColor400
-                      : AppColors.gray500,
-                ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              text,
+              style: AppTextStyles.textSemiBoldStyle12.copyWith(
+                color: index == currentNavBarIndex
+                    ? AppColors.primaryColor400
+                    : AppColors.gray500,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

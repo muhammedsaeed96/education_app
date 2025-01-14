@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../../../common_widgets/custom_inkwell.dart';
 import '../../../../core/constants/app_colors.dart';
 
@@ -26,9 +27,9 @@ class AccountCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomInkwell(
-      radius: 16,
-      tap: press,
+    return ZoomTapAnimation(
+      end: 0.97,
+      onTap: press,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: AppTheme.customDecoration(),

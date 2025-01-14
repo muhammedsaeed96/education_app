@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import 'constants/app_keys.dart';
 import 'constants/app_strings.dart';
 
@@ -11,15 +10,6 @@ abstract class Failure {
 
 class ServerFailure extends Failure {
   ServerFailure(super.errMessage);
-
-  //to get error message from response data when an error occur
-  static String _getErrorMessageFromResponse(Map<String, dynamic> data) {
-    String errorMsg = AppStrings.unexpectedErrorStr;
-    if (data.containsKey(AppKeys.messageKey)) {
-      errorMsg = data[AppKeys.messageKey];
-    }
-    return errorMsg;
-  }
 
   factory ServerFailure.fromDioError(DioException dioError) {
     switch (dioError.type) {
@@ -34,9 +24,8 @@ class ServerFailure extends Failure {
       case DioExceptionType.cancel:
         return ServerFailure(AppStrings.unexpectedErrorStr);
       case DioExceptionType.connectionError:
-        final message = dioError.message ?? '';
-        if (message.contains('SocketException') ||
-            message.contains('Network is unreachable')) {
+        final noInternetConnection = _noInternetConnection(dioError);
+        if (noInternetConnection) {
           return ServerFailure(AppStrings.noInternetStr);
         }
         return ServerFailure(AppStrings.unexpectedErrorStr);
@@ -47,17 +36,32 @@ class ServerFailure extends Failure {
 
   factory ServerFailure.fromResponse(DioException error) {
     if (error.response?.data is Map) {
-      //get the response status code
+      // get the response status code
       // final statusCode = error.response?.statusCode ?? 0;
-      //to get the error message from server
+      // to get the error message from server
       final errorMsg = _getErrorMessageFromResponse(error.response?.data);
       return ServerFailure(errorMsg);
     } else {
       return ServerFailure(AppStrings.unexpectedErrorStr);
     }
   }
-}
 
-class GeneralFailure extends Failure {
-  GeneralFailure(super.message);
+  //to get error message from response data when an error occur
+  static String _getErrorMessageFromResponse(Map<String, dynamic> data) {
+    String errorMsg = AppStrings.unexpectedErrorStr;
+    if (data.containsKey(AppKeys.messageKey)) {
+      errorMsg = data[AppKeys.messageKey];
+    }
+    return errorMsg;
+  }
+
+  static bool _noInternetConnection(DioException exception) {
+    final msg = exception.message ?? '';
+    if (msg.contains('SocketException') ||
+        msg.contains('Network is unreachable')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -44,6 +44,7 @@ class SubjectCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ZoomTapAnimation(
+      end: 0.97,
       onTap: () {
         ref.read(filtersControllerProvider.notifier).clearFilters();
         ref
