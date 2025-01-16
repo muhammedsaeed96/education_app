@@ -130,11 +130,9 @@ class FilterScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-          if (highlight != HighlightType.online && type.isSearchOnTeacher) ...[
+          if (highlight != HighlightType.online && highlight != HighlightType.onsite && type.isSearchOnTeacher) ...[
             gap20,
             SelectTeachingType(),
-          ],
-          if (highlight != HighlightType.onsite && type.isSearchOnTeacher) ...[
             gap20,
             SelectTeachingPlace(),
           ],
