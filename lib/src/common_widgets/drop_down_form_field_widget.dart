@@ -56,7 +56,7 @@ class DropDownFormFieldWidget extends StatelessWidget {
           ),
           dropdownColor: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          value: needSetSelectedItem ? _getSelectedItems : selectedItem,
+          value: needSetSelectedItem ? _getSelectedItem : selectedItem,
           validator: (val) {
             final String? text = val as String?;
             return text.isValidText;
@@ -86,7 +86,7 @@ class DropDownFormFieldWidget extends StatelessWidget {
     );
   }
 
-  String? get _getSelectedItems {
+  String? get _getSelectedItem {
     if (selectedItem != null) {
       return selectedItem;
     } else {

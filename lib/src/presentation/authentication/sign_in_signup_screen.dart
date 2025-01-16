@@ -1,5 +1,4 @@
 import 'package:education_app/src/common_widgets/async_widget.dart';
-import 'package:education_app/src/common_widgets/title_text_btn_row_widget.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/enum.dart';
@@ -25,6 +24,7 @@ import '../../common_widgets/teaching_on_student_home_checkbox.dart';
 import '../../common_widgets/title_form_field_widget.dart';
 import '../../data/home_repository.dart';
 import '../controllers/simple_state_controller.dart';
+import 'form_type_switcher.dart';
 
 class SignInSignupScreen extends ConsumerStatefulWidget {
   static const routeName = 'signIn_signup_screen';
@@ -133,223 +133,232 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       body: AsyncWidget(
         value: value,
         retry: () => ref.invalidate(getHomeDataProvider),
-        data: (homeData) => Column(
-          children: [
-            gap16,
-            AuthTitleDescWidget(
-              title: controller.topTitleText,
-              description: controller.topDescriptionText,
-            ),
-            gap12,
-            Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 24,
-                  ),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        DropDownFormFieldWidget(
-                          title: AppStrings.accountTypeStr,
-                          hintText: AppStrings.selectRegistrationTypeStr,
-                          onChange: (accountType) {
-                            _accountType = accountType;
-                            ref
-                                .read(signInSignupControllerProvider.notifier)
-                                .updateRegistrationType(accountType!);
-                          },
-                          items: AppStrings.accountTypes,
-                        ),
-                        if (signInSignupState.formType == FormType.signup) ...[
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: ref
-                                        .read(signInSignupControllerProvider)
-                                        .accountType ==
-                                    AccountType.ACADEMY
-                                ? AppStrings.academyNameStr
-                                : AppStrings.nameStr,
-                            hintText: AppStrings.nameExStr,
-                            controller: _nameController,
-                            validator: (val) => val.isValidText,
-                          ),
-                        ],
-
-                        if (signInSignupState.formType == FormType.signIn) ...[
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.phoneStr,
-                            hintText: '07xxxxxxxxx',
-                            controller: _phoneController,
-                            validator: (val) => val.isValidPhone,
-                            isPhone: true,
-                          ),
-                        ],
-                        gap24,
-                        // to show these widgets if account type not student
-                        if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
-                          TitleFormFiledWidget(
-                            title: signInSignupState.accountType ==
-                                    AccountType.ACADEMY
-                                ? AppStrings.aboutAcademyStr
-                                : AppStrings.aboutYouStr,
-                            hintText: AppStrings.descriptionExStr,
-                            controller: _descriptionController,
-                            validator: (val) => val.isValidDescription,
-                            maxLines: 4,
-                          ),
-                          gap24,
-                          signInSignupState.accountType == AccountType.TEACHER
-                              ? Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child:
-                                          _buildStagesMultiSelectDialogFromField(
-                                        homeData,
-                                      ),
-                                    ),
-                                    gapH8,
-                                    Expanded(
-                                      child: Consumer(
-                                        builder: (context, ref, child) {
-                                          final val = ref.watch(
-                                              subjectsIdsChangesProvider);
-                                          return MultiSelectDialogFormField(
-                                            title: AppStrings.subjectsStr,
-                                            confirm: (ids) {
-                                              final controller = ref.read(
-                                                  subjectsIdsChangesProvider
-                                                      .notifier);
-                                              controller.state = 0;
-                                              _subjectsIds.clear();
-                                              if (ids.isNotEmpty) {
-                                                _subjectsIds.addAll(ids);
-                                                controller.state = ids.length;
-                                              }
-                                            },
-                                            items: homeData.subjects,
-                                            btnText: val > 0
-                                                ? AppStrings.selectDoneStr
-                                                : AppStrings.selectSubjectsStr,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : _buildStagesMultiSelectDialogFromField(
-                                  homeData,
-                                ),
-                          gap24,
-                        ],
-
-                        if (signInSignupState.isTeacherSignup) ...[
-                          DropDownFormFieldWidget(
-                            title: AppStrings.teachingTypeStr,
-                            hintText: AppStrings.teachingTypeStr,
-                            onChange: (val) => _teachingType = val,
-                            items: TeacherModel.teacherTeachingTypesMap.keys
-                                .toList(),
-                          ),
-                          gap24,
-                        ],
-
-                        if (signInSignupState.isStudentAndSignup) ...[
-                          DropDownFormFieldWidget(
-                            title: AppStrings.stageStr,
-                            hintText: AppStrings.stageExStr,
-                            onChange: (stageId) => _stageId = stageId,
-                            items: homeData.stages,
-                          ),
-                          gap24,
-                        ],
-
-                        // to show these row if form type is signup
-                        controller.formType == FormType.signup
-                            ? _buildProvinceArea(homeData, signInSignupState)
-                            : const SizedBox.shrink(),
-
-                        if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.locationDescriptionStr,
-                            hintText: AppStrings.locationDescExStr,
-                            controller: _locationDescriptionController,
-                            validator: (val) => val.isValidDescription,
-                            maxLines: 3,
-                          ),
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.facebookPageUrlStr,
-                            hintText: AppStrings.urlExStr,
-                            controller: _facebookController,
-                            validator: (val) => val.isValidUrl,
-                            isRequired: false,
-                          ),
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.instagramUrlStr,
-                            hintText: AppStrings.urlExStr,
-                            controller: _instagramController,
-                            validator: (val) => val.isValidUrl,
-                            isRequired: false,
-                          ),
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.youtubeChannelUrlStr,
-                            hintText: AppStrings.urlExStr,
-                            controller: _youtubeController,
-                            validator: (val) => val.isValidUrl,
-                            isRequired: false,
-                          ),
-                          gap24,
-                          TitleFormFiledWidget(
-                            title: AppStrings.telegramChannelUrl,
-                            hintText: AppStrings.urlExStr,
-                            controller: _telegramController,
-                            validator: (val) => val.isValidUrl,
-                            isRequired: false,
-                          ),
-                          if (signInSignupState.isTeacherSignup) ...[
-                            gap4,
-                            OutstandingTeachingCheckbox(),
-                            TeachingOnStudentHomeCheckbox(),
-                          ]
-                        ],
-                      ],
-                    ),
-                  ),
+        data: (homeData) => Form(
+          key: formKey,
+          child: ListView(
+            padding: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 12),
+            children: [
+              AuthTitleDescWidget(
+                title: controller.topTitleText,
+                description: controller.topDescriptionText,
+              ),
+              gap24,
+              DropDownFormFieldWidget(
+                title: AppStrings.accountTypeStr,
+                hintText: AppStrings.selectRegistrationTypeStr,
+                selectedItem: _accountType,
+                onChange: (accountType) {
+                  _accountType = accountType;
+                  ref
+                      .read(signInSignupControllerProvider.notifier)
+                      .updateRegistrationType(accountType!);
+                },
+                items: AppStrings.accountTypes,
+              ),
+              if (signInSignupState.formType == FormType.signup) ...[
+                gap24,
+                TitleFormFiledWidget(
+                  title: ref.read(signInSignupControllerProvider).accountType ==
+                          AccountType.ACADEMY
+                      ? AppStrings.academyNameStr
+                      : AppStrings.nameStr,
+                  hintText: AppStrings.nameExStr,
+                  controller: _nameController,
+                  validator: (val) => val.isValidText,
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: PrimaryElevatedBtn(
-                press: _submitForm,
-                text: signInSignupState.isSignIn
-                    ? AppStrings.sendOnWhatsAppStr
-                    : AppStrings.nextStr,
-              ),
-            ),
-            gap16,
-            TitleTextBtnRowWidget(
-              title: controller.bottomTitleText,
-              btnText: controller.bottomButtonText,
-              press: () {
-                ref
-                    .read(signInSignupControllerProvider.notifier)
-                    .updateFormType();
-                _clearControllers();
-              },
-            ),
-            gap32,
-          ],
+              ],
+
+              if (signInSignupState.formType == FormType.signIn) ...[
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.phoneStr,
+                  hintText: '07xxxxxxxxx',
+                  controller: _phoneController,
+                  validator: (val) => val.isValidPhone,
+                  isPhone: true,
+                ),
+              ],
+              gap24,
+              // to show these widgets if account type not student
+              if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
+                TitleFormFiledWidget(
+                  title: signInSignupState.accountType == AccountType.ACADEMY
+                      ? AppStrings.aboutAcademyStr
+                      : AppStrings.aboutYouStr,
+                  hintText: AppStrings.descriptionExStr,
+                  controller: _descriptionController,
+                  validator: (val) => val.isValidDescription,
+                  maxLines: 4,
+                ),
+                gap24,
+                signInSignupState.accountType == AccountType.TEACHER
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _buildStagesMultiSelectDialogFromField(
+                              homeData,
+                            ),
+                          ),
+                          gapH8,
+                          Expanded(
+                            child: Consumer(
+                              builder: (context, ref, child) {
+                                final val =
+                                    ref.watch(subjectsIdsChangesProvider);
+                                return MultiSelectDialogFormField(
+                                  title: AppStrings.subjectsStr,
+                                  confirm: (ids) {
+                                    final controller = ref.read(
+                                        subjectsIdsChangesProvider.notifier);
+                                    controller.state = 0;
+                                    _subjectsIds.clear();
+                                    if (ids.isNotEmpty) {
+                                      _subjectsIds.addAll(ids);
+                                      controller.state = ids.length;
+                                    }
+                                  },
+                                  items: homeData.subjects,
+                                  btnText: val > 0
+                                      ? AppStrings.selectDoneStr
+                                      : AppStrings.selectSubjectsStr,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    : _buildStagesMultiSelectDialogFromField(
+                        homeData,
+                      ),
+                gap24,
+              ],
+
+              if (signInSignupState.isTeacherSignup) ...[
+                DropDownFormFieldWidget(
+                  title: AppStrings.teachingTypeStr,
+                  hintText: AppStrings.teachingTypeStr,
+                  selectedItem: _teachingType,
+                  onChange: (val) => _teachingType = val,
+                  items: TeacherModel.teacherTeachingTypesMap.keys.toList(),
+                ),
+                gap24,
+              ],
+
+              if (signInSignupState.isStudentAndSignup) ...[
+                DropDownFormFieldWidget(
+                  title: AppStrings.stageStr,
+                  hintText: AppStrings.stageExStr,
+                  selectedItem: _stageId,
+                  onChange: (stageId) => _stageId = stageId,
+                  items: homeData.stages,
+                ),
+                gap24,
+              ],
+
+              // to show these row if form type is signup
+              controller.formType == FormType.signup
+                  ? _buildProvinceArea(homeData, signInSignupState)
+                  : const SizedBox.shrink(),
+
+              if (signInSignupState.isTeacherOrAcademyAndSignup) ...[
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.locationDescriptionStr,
+                  hintText: AppStrings.locationDescExStr,
+                  controller: _locationDescriptionController,
+                  validator: (val) => val.isValidDescription,
+                  maxLines: 3,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.facebookPageUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _facebookController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.instagramUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _instagramController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.youtubeChannelUrlStr,
+                  hintText: AppStrings.urlExStr,
+                  controller: _youtubeController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                gap24,
+                TitleFormFiledWidget(
+                  title: AppStrings.telegramChannelUrl,
+                  hintText: AppStrings.urlExStr,
+                  controller: _telegramController,
+                  validator: (val) => val.isValidUrl,
+                  isRequired: false,
+                ),
+                if (signInSignupState.isTeacherSignup) ...[
+                  gap4,
+                  OutstandingTeachingCheckbox(),
+                  TeachingOnStudentHomeCheckbox(),
+                ]
+              ],
+
+              if (controller.formType == FormType.signIn) ...[
+                PrimaryElevatedBtn(
+                  press: _submitForm,
+                  text: signInSignupState.isSignIn
+                      ? AppStrings.sendOnWhatsAppStr
+                      : AppStrings.nextStr,
+                ),
+                gap8,
+                FormTypeSwitcher(
+                  title: controller.bottomTitleText,
+                  btnText: controller.bottomButtonText,
+                  press: () {
+                    ref
+                        .read(signInSignupControllerProvider.notifier)
+                        .updateFormType();
+                    _clearControllers();
+                  },
+                ),
+              ],
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: controller.formType == FormType.signup
+          ? Padding(
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PrimaryElevatedBtn(
+                    press: _submitForm,
+                    text: signInSignupState.isSignIn
+                        ? AppStrings.sendOnWhatsAppStr
+                        : AppStrings.nextStr,
+                  ),
+                  gap8,
+                  FormTypeSwitcher(
+                    title: controller.bottomTitleText,
+                    btnText: controller.bottomButtonText,
+                    press: () {
+                      ref
+                          .read(signInSignupControllerProvider.notifier)
+                          .updateFormType();
+                      _clearControllers();
+                    },
+                  ),
+                ],
+              ),
+            )
+          : SizedBox.shrink(),
     );
   }
 
@@ -383,6 +392,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
     final provinceWidget = DropDownFormFieldWidget(
       title: AppStrings.provinceStr,
       hintText: AppStrings.selectProvinceStr,
+      selectedItem: _provinceId,
       onChange: (id) {
         ref.read(provinceIdProvider.notifier).update((state) => id!);
         _provinceId = id;

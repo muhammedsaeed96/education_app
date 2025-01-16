@@ -47,6 +47,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
+              titleAlignment: ListTileTitleAlignment.top,
               minVerticalPadding: 0,
               visualDensity: VisualDensity(horizontal: 0, vertical: 0),
               contentPadding: EdgeInsets.symmetric(horizontal: 16),
@@ -73,7 +74,7 @@ class TeacherAcademyMainCard extends StatelessWidget {
                 style: AppTextStyles.textSemiBoldStyle12,
               ),
               subtitle: Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 6),
                 child: Text(
                   description,
                   style: AppTextStyles.textRegularStyle12.copyWith(

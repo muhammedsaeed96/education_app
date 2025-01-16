@@ -1,4 +1,3 @@
-import 'package:education_app/src/common_widgets/custom_inkwell.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/constants/assets.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../core/constants/app_text_styles.dart';
 import '../core/utils/async_init.dart';
 import '../presentation/authentication/sign_in_signup_screen.dart';
@@ -98,9 +98,9 @@ class SocialButtonWidget extends ConsumerWidget {
     return SizedBox(
       height: getProportionateScreenHeight(40),
       width: getProportionateScreenHeight(40),
-      child: CustomInkwell(
-        radius: getProportionateScreenHeight(40) / 2,
-        tap: () => _launchSocialLink(
+      child: ZoomTapAnimation(
+        end: 0.94,
+        onTap: () => _launchSocialLink(
           context: context,
           ref: ref,
           url: url,

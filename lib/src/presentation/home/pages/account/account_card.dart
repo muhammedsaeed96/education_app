@@ -1,12 +1,9 @@
 import 'package:education_app/src/core/app_theme.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-import '../../../../common_widgets/custom_inkwell.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class AccountCard extends StatelessWidget {
