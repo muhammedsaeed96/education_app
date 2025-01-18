@@ -25,8 +25,9 @@ class OtpScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) =>
-          _stopAuthProcess(context: context, didPop: didPop),
+      onPopInvokedWithResult: (didPop,_) {
+        _stopAuthProcess(context: context, didPop: didPop);
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
@@ -51,7 +52,7 @@ class OtpScreen extends ConsumerWidget {
               ),
               const Spacer(),
               const OtpTextField(),
-              gap32,
+              gap24,
               Consumer(
                 builder: (_, ref, child) {
                   ref.watch(otpValueProvider);
@@ -70,45 +71,45 @@ class OtpScreen extends ConsumerWidget {
                   );
                 },
               ),
-              gap32,
-              const Spacer(),
+              gap8,
+              Consumer(
+                builder: (_, ref, child) {
+                  final canReqOtp = ref.watch(requestOtpAvailableProvider);
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 48,
+                      top: 8,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(visible: !canReqOtp, child: OtpCountDownTimer()),
+                        gapH6,
+                        IgnorePointer(
+                          ignoring: !canReqOtp,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: () => _resendOtp(ref),
+                            child: Text(
+                              AppStrings.resendOtpStr,
+                              style: AppTextStyles.textMediumStyle16.copyWith(
+                                color: canReqOtp
+                                    ? AppColors.primaryColor400
+                                    : AppColors.gray400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              Spacer(),
             ],
           ),
-        ),
-        bottomNavigationBar: Consumer(
-          builder: (_, ref, child) {
-            final canReqOtp = ref.watch(requestOtpAvailableProvider);
-            return Padding(
-              padding: const EdgeInsets.only(
-                bottom: 48,
-                top: 8,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(visible: !canReqOtp, child: OtpCountDownTimer()),
-                  gapH6,
-                  IgnorePointer(
-                    ignoring: !canReqOtp,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () => _resendOtp(ref),
-                      child: Text(
-                        AppStrings.resendOtpStr,
-                        style: AppTextStyles.textMediumStyle16.copyWith(
-                          color: canReqOtp
-                              ? AppColors.primaryColor400
-                              : AppColors.gray400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
         ),
       ),
     );
@@ -128,7 +129,7 @@ class OtpScreen extends ConsumerWidget {
       return;
     }
 
-    if(verifyType != null){
+    if (verifyType != null) {
       ref.read(isAuthenticationProvider.notifier).state = true;
     }
 

@@ -66,7 +66,7 @@ class _EnterPhoneScreenState extends ConsumerState<EnterPhoneScreen> {
                 title: AppStrings.enterPhoneNumber,
                 description: AppStrings.enterPhoneDescNumber,
               ),
-              gap32,
+              gap24,
               Form(
                 key: _formKey,
                 child: TitleFormFiledWidget(
@@ -77,7 +77,7 @@ class _EnterPhoneScreenState extends ConsumerState<EnterPhoneScreen> {
                   isPhone: true,
                 ),
               ),
-              gap40,
+              gap24,
               PrimaryElevatedBtn(
                 press: _submitForm,
                 text: AppStrings.sendOnWhatsAppStr,
