@@ -50,7 +50,7 @@ class AppTheme {
       titleTextStyle: AppTextStyles.textSemiBoldStyle18,
       centerTitle: true,
       // to disable changing app bar color when scrolling a list
-      scrolledUnderElevation: 0.0,
+      scrolledUnderElevation: 0.5,
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: AppTextStyles.textMediumStyle12.copyWith(
