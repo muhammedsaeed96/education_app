@@ -49,15 +49,15 @@ class MultiSelectDialogFormField extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.gray300),
-            color: Colors.white
-          ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppColors.gray300),
+              color: Colors.white),
           child: MultiSelectDialogField(
             backgroundColor: Colors.white,
             title: const SizedBox.shrink(),
             initialValue: initialValue,
-            items: items.map((val) => MultiSelectItem(val.id, val.name)).toList(),
+            items:
+                items.map((val) => MultiSelectItem(val.id, val.name)).toList(),
             listType: MultiSelectListType.LIST,
             chipDisplay: MultiSelectChipDisplay.none(),
 /*            chipDisplay: MultiSelectChipDisplay(
@@ -70,9 +70,7 @@ class MultiSelectDialogFormField extends StatelessWidget {
                 color: items.isEmpty ? AppColors.gray400 : Colors.black,
               ),
             ),
-            dialogHeight: items.length > 3
-                ? AppSizes.screenHeight * 0.5
-                : AppSizes.length200,
+            dialogHeight: _getDialogHeight(),
             buttonIcon: Icon(
               Icons.keyboard_arrow_down,
               size: AppSizes.length20,
@@ -98,5 +96,12 @@ class MultiSelectDialogFormField extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  double _getDialogHeight() {
+    if (items.length > 3) {
+      return AppSizes.screenHeight * 0.6;
+    }
+    return AppSizes.length200;
   }
 }
