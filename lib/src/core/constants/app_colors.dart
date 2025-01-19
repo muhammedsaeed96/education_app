@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 
 class AppColors {
 
+  const AppColors._();
+
   // static const Color primaryColor100 = Color(0xFF5fd1d1);
   // static const Color primaryColor200 = Color(0xFF4bcbcb);
   // static const Color primaryColor300 = Color(0xFF39c4c4);
@@ -17,6 +19,7 @@ class AppColors {
 
   // new gray
   static const bg = Color(0xFFF1F1F1);
+  static const card = Color(0xFFF7F7F7);
   static const gray50 = Color(0xFFFAFAFA);
   static const gray100 = Color(0xFFF5F5F5);
   static const gray200 = Color(0xFFEEEEEE);

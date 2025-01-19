@@ -3,7 +3,7 @@ import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/model/advertisement_model.dart';
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../../../common_widgets/zoom_tap_animation.dart';
 import '../../../../common_widgets/custom_network_image.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/assets.dart';
@@ -26,7 +26,6 @@ class AdvertisementsSlider extends StatelessWidget {
           builder: (BuildContext context) {
             final url = advertisement.imageUrl.getFullUrl;
             return ZoomTapAnimation(
-              end: 0.97,
               onTap: () {
                 Navigator.of(context).pushNamed(
                   TeacherDetailsScreen.routeName,

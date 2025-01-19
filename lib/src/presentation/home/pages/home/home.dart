@@ -1,11 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:education_app/src/common_widgets/async_widget.dart';
-import 'package:education_app/src/common_widgets/custom_network_image.dart';
 import 'package:education_app/src/common_widgets/title_btn_widget.dart';
 import 'package:education_app/src/common_widgets/title_widget.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
-import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/presentation/academies_screen.dart';
 import 'package:education_app/src/presentation/home/pages/home/academies_horizontal_list.dart';
 import 'package:education_app/src/presentation/home/pages/home/highlights_grid.dart';
@@ -14,7 +11,6 @@ import 'package:education_app/src/presentation/home/pages/home/teachers_horizont
 import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../../../data/home_repository.dart';
 import '../../../controllers/filter_controller.dart';
 import '../../../controllers/simple_state_controller.dart';

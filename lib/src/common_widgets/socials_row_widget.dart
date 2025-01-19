@@ -7,12 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../core/constants/app_text_styles.dart';
 import '../core/utils/async_init.dart';
 import '../presentation/authentication/sign_in_signup_screen.dart';
 import '../presentation/controllers/simple_state_controller.dart';
 import 'alert_dialogs.dart';
+import 'zoom_tap_animation.dart';
 
 class SocialsRowWidget extends StatelessWidget {
   const SocialsRowWidget({
@@ -99,7 +99,6 @@ class SocialButtonWidget extends ConsumerWidget {
       height: getProportionateScreenHeight(40),
       width: getProportionateScreenHeight(40),
       child: ZoomTapAnimation(
-        end: 0.94,
         onTap: () => _launchSocialLink(
           context: context,
           ref: ref,

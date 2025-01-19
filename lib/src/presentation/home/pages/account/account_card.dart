@@ -3,7 +3,7 @@ import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../../../common_widgets/zoom_tap_animation.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class AccountCard extends StatelessWidget {
@@ -25,7 +25,6 @@ class AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
-      end: 0.97,
       onTap: press,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

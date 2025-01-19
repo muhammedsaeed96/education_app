@@ -7,7 +7,7 @@ import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../../../common_widgets/zoom_tap_animation.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/app_theme.dart';
 
@@ -30,13 +30,12 @@ class HighlightsGrid extends ConsumerWidget {
         final (title, iconPath, type) = AppStrings.highlights[i];
 
         return ZoomTapAnimation(
-          end: 0.97,
           onTap: () {
             ref.read(selectedHighlight.notifier).state = type;
             ref
                 .read(filtersControllerProvider.notifier)
                 .updateByHighlightType(type);
-            return Navigator.pushNamed(
+            Navigator.pushNamed(
               context,
               TeachersScreen.routeName,
               arguments: type,

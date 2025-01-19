@@ -3,10 +3,10 @@ import 'package:education_app/src/core/constants/app_colors.dart';
 import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
 import 'adderss_widget.dart';
+import 'zoom_tap_animation.dart';
 import 'custom_network_image.dart';
 
 class TeacherAcademySmallCard extends StatelessWidget {
@@ -32,7 +32,6 @@ class TeacherAcademySmallCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
-      end: 0.97,
       onTap: press,
       child: Container(
         decoration: AppTheme.customDecoration(),

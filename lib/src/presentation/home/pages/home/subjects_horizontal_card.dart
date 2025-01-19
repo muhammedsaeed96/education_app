@@ -7,7 +7,7 @@ import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../../../common_widgets/zoom_tap_animation.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_text_styles.dart';
@@ -44,7 +44,6 @@ class SubjectCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ZoomTapAnimation(
-      end: 0.97,
       onTap: () {
         ref.read(filtersControllerProvider.notifier).clearFilters();
         ref

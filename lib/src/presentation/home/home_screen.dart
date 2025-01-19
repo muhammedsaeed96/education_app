@@ -12,7 +12,7 @@ import 'package:education_app/src/presentation/home/pages/student_communications
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import '../../common_widgets/zoom_tap_animation.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
@@ -121,10 +121,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Consumer(builder: (context, ref, child) {
       ref.watch(isAuthenticationProvider);
       return Container(
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: AppColors.gray200)),
-            color: Colors.white),
-        height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, -1),
+              blurRadius: 15,
+            ),
+          ],
+          color: AppColors.card,
+        ),
+        height: getProportionateScreenHeight(Platform.isAndroid ? 74 : 60),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -151,20 +158,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  Widget _navBarItem({
-    required int index,
-    required String text,
-  }) {
+  Widget _navBarItem({required int index, required String text}) {
     return ZoomTapAnimation(
-      end: 0.94,
       onTap: () => _changeNavBarIndex(index: index),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 1),
-        color: Colors.white,
-        height: getProportionateScreenHeight(Platform.isAndroid ? 76 : 56),
+        // color: Colors.white,
         width: (_isAuth
-            ? MediaQuery.of(context).size.width / 4
-            : MediaQuery.of(context).size.width / 3)  - 2,
+                ? MediaQuery.of(context).size.width / 4
+                : MediaQuery.of(context).size.width / 3) -
+            2,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -177,7 +180,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 height: AppSizes.length22,
               ),
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
             Text(
               text,
               style: AppTextStyles.textSemiBoldStyle12.copyWith(
