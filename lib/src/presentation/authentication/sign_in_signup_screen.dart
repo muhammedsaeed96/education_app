@@ -316,7 +316,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                       ? AppStrings.sendOnWhatsAppStr
                       : AppStrings.nextStr,
                 ),
-                gap8,
+                gap6,
                 FormTypeSwitcher(
                   title: controller.bottomTitleText,
                   btnText: controller.bottomButtonText,
@@ -334,7 +334,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       ),
       bottomNavigationBar: controller.formType == FormType.signup
           ? Padding(
-              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 32),
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -344,7 +344,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
                         ? AppStrings.sendOnWhatsAppStr
                         : AppStrings.nextStr,
                   ),
-                  gap8,
+                  gap6,
                   FormTypeSwitcher(
                     title: controller.bottomTitleText,
                     btnText: controller.bottomButtonText,

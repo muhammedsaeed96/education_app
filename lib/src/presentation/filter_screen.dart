@@ -144,7 +144,7 @@ class FilterScreen extends ConsumerWidget {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        padding: EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

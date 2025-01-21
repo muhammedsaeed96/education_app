@@ -42,7 +42,7 @@ class DropDownMenuWidget extends StatelessWidget {
       width: width,
       hintText: hintText,
       textStyle: AppTextStyles.textMediumStyle14,
-      // menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.8 : null,
+      menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.6 : null,
       selectedTrailingIcon: Icon(
         Icons.keyboard_arrow_down,
         size: AppSizes.length20,

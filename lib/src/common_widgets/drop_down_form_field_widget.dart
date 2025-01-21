@@ -1,6 +1,5 @@
 import 'package:education_app/src/core/utils/form_validators.dart';
 import 'package:flutter/material.dart';
-
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_sizes.dart';
 import '../core/constants/app_text_styles.dart';
@@ -47,7 +46,7 @@ class DropDownFormFieldWidget extends StatelessWidget {
         gap6,
         DropdownButtonFormField(
           elevation: 4,
-          menuMaxHeight: items.length >= 15 ? AppSizes.screenHeight * 0.9 :null,
+          menuMaxHeight: items.length >= 15 ? AppSizes.screenHeight * 0.75 :null,
           hint: Text(
             hintText,
             style: AppTextStyles.textRegularStyle14.copyWith(

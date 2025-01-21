@@ -124,12 +124,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: Colors.black.withAlpha(40),
               offset: Offset(0, -1),
-              blurRadius: 15,
+              blurRadius: 14,
             ),
           ],
-          color: AppColors.card,
+          color: Colors.white,
         ),
         height: getProportionateScreenHeight(Platform.isAndroid ? 74 : 60),
         child: Row(
