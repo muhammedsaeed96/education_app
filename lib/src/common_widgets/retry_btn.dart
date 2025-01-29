@@ -15,7 +15,7 @@ class RetryBtn extends StatelessWidget {
       onPressed: press,
       icon: Icon(
         Icons.refresh_rounded,
-        size: getProportionateScreenHeight(20),
+        size: 20,
         color: AppColors.primaryColor400,
       ),
       label: Text(

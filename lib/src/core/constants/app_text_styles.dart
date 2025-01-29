@@ -128,9 +128,9 @@ abstract class AppTextStyles {
       fontSize = textSize + 4 ;
     }*/
 
-  if(textSize <= 14){
-    textSize += 1.25;
-  }
+/*    if (textSize <= 14) {
+      textSize += 1.25;
+    }*/
 
     return textSize;
   }

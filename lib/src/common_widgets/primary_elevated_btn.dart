@@ -1,7 +1,5 @@
 import 'package:education_app/src/core/constants/app_colors.dart';
-import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
-
 import '../core/constants/app_text_styles.dart';
 
 class PrimaryElevatedBtn extends StatelessWidget {
@@ -29,7 +27,7 @@ class PrimaryElevatedBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? getProportionateScreenHeight(50),
+      height: height ?? 50,
       width: width,
       child: ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(

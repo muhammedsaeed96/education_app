@@ -193,7 +193,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     });
 
     return PopScope(
-      onPopInvokedWithResult: (canPop,_) {
+      onPopInvokedWithResult: (canPop, _) {
         // if user updated i will fetch account data again to update previous screen
         if (_isFormDataUpdated) {
           ref.invalidate(getAccountDataProvider);
@@ -424,10 +424,7 @@ class _PersonalProfileScreenState extends ConsumerState<PersonalProfileScreen> {
     if (_userInfo.accountType != AccountType.STUDENT) {
       return Row(
         children: [
-          SizedBox(
-            width: getProportionateScreenWidth(132),
-            child: provinceWidget,
-          ),
+          SizedBox(width: 132, child: provinceWidget),
           gapH8,
           areaWidget
         ],

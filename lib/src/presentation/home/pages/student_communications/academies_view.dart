@@ -3,7 +3,6 @@ import 'package:education_app/src/common_widgets/error_message_widget.dart';
 import 'package:education_app/src/common_widgets/loading.dart';
 import 'package:education_app/src/common_widgets/retry_btn.dart';
 import 'package:education_app/src/common_widgets/search_field.dart';
-import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
 import 'package:education_app/src/model/academy_model.dart';
@@ -97,7 +96,7 @@ class AcademiesView extends ConsumerWidget {
               ]
             : academies.isEmpty
                 ? [
-                     SliverToBoxAdapter(
+                    SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(top: 48),
                         child: EmptyWidget(
@@ -110,9 +109,7 @@ class AcademiesView extends ConsumerWidget {
                   ]
                 : [
                     SliverPadding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenHeight(32),
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: 32),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {

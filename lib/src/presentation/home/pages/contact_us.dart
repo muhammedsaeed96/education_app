@@ -38,7 +38,7 @@ class _ContactUsState extends ConsumerState<ContactUs>
             AppStrings.phoneStr,
             style: AppTextStyles.textSemiBoldStyle18,
           ),
-          SizedBox(height: getProportionateScreenHeight(8)),
+          gap8,
           Text(
             data.phone,
             style: AppTextStyles.textMediumStyle16.copyWith(
@@ -46,23 +46,23 @@ class _ContactUsState extends ConsumerState<ContactUs>
             ),
             textDirection: TextDirection.ltr,
           ),
-          SizedBox(height: getProportionateScreenHeight(8)),
+          gap8,
           PrimaryElevatedBtn(
             text: AppStrings.callUsStr,
-            width: getProportionateScreenWidth(160),
-            height: getProportionateScreenHeight(40),
+            width: 160,
+            height: 40,
             radius: 24,
             press: () => UrlLauncherHelper.launchUrlByType(
               data.phone,
               LinkType.phone,
             ),
           ),
-          SizedBox(height: getProportionateScreenHeight(40)),
+          gap40,
           Text(
             AppStrings.socialsStr,
             style: AppTextStyles.textSemiBoldStyle18,
           ),
-          SizedBox(height: getProportionateScreenHeight(12)),
+          gap12,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -88,7 +88,6 @@ class SocialButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return GestureDetector(
       onTap: () {
         type == LinkType.whatsapp
@@ -97,8 +96,8 @@ class SocialButton extends ConsumerWidget {
       },
       child: SvgPicture.asset(
         type == LinkType.whatsapp ? Assets.icWhatsappIcon : Assets.icFacebook,
-        width: getProportionateScreenHeight(40),
-        height:  getProportionateScreenHeight(40),
+        width: 40,
+        height: 40,
         colorFilter: type == LinkType.whatsapp
             ? ColorFilter.mode(AppColors.primaryColor400, BlendMode.srcIn)
             : null,

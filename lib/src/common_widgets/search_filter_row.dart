@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../core/constants/app_colors.dart';
-import '../core/constants/app_sizes.dart';
 import '../core/constants/assets.dart';
 
 class SearchFilterRow extends ConsumerWidget {
@@ -22,6 +21,7 @@ class SearchFilterRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
+      spacing: 10,
       children: [
         Expanded(
           child: SearchField(
@@ -29,7 +29,6 @@ class SearchFilterRow extends ConsumerWidget {
             type: type,
           ),
         ),
-        gapH10,
         ElevatedButton(
           onPressed: () {
             Navigator.of(context).pushNamed(

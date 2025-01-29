@@ -24,7 +24,7 @@ class HighlightsGrid extends ConsumerWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
-        mainAxisExtent: AppSizes.length60,
+        mainAxisExtent: AppSizes.length56,
       ),
       itemBuilder: (_, i) {
         final (title, iconPath, type) = AppStrings.highlights[i];

@@ -16,8 +16,9 @@ Future<bool?> showAlertDialog<T>({
   String defaultActionText = AppStrings.okStr,
   Color defaultActionBg = AppColors.primaryColor400,
 }) async {
-  final btnWidth =
-      (AppSizes.screenWidth / 2) - AppSizes.w26 - AppSizes.w20 - 24;
+  final screenWidth = MediaQuery.sizeOf(context).width;
+
+  final btnWidth = (screenWidth / 2) - 26 - 20 - 24;
 
   return showDialog(
     context: context,
@@ -26,7 +27,7 @@ Future<bool?> showAlertDialog<T>({
     builder: (context) => AlertDialog(
       backgroundColor: Colors.white,
       elevation: 1,
-      insetPadding: EdgeInsets.all(AppSizes.w26),
+      insetPadding: EdgeInsets.all(20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -53,9 +54,8 @@ Future<bool?> showAlertDialog<T>({
             ? Center(
                 child: PrimaryElevatedBtn(
                   background: defaultActionBg,
-                  width: AppSizes.screenWidth > 800
-                      ? AppSizes.screenWidth / 2
-                      : AppSizes.screenWidth * 0.72,
+                  width:
+                      screenWidth > 800 ? screenWidth / 2 : screenWidth * 0.72,
                   text: defaultActionText,
                   press: () => Navigator.pop(context, true),
                 ),
@@ -92,11 +92,7 @@ Future<void> showSuccessAlertDialog({required BuildContext context}) {
   return showAlertDialog(
     context: context,
     title: AppStrings.successStr,
-    content: SvgPicture.asset(
-      Assets.icSuccess,
-      width: getProportionateScreenHeight(56),
-      height: getProportionateScreenHeight(56),
-    ),
+    content: SvgPicture.asset(Assets.icSuccess, width: 56, height: 56),
   );
 }
 
@@ -122,7 +118,7 @@ Future<bool?> loginAlertDialog<T>({
     builder: (context) => AlertDialog(
       backgroundColor: Colors.white,
       elevation: 1,
-      insetPadding: EdgeInsets.all(AppSizes.w26),
+      insetPadding: EdgeInsets.all(26),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),

@@ -1,5 +1,4 @@
 import 'package:education_app/src/core/constants/app_colors.dart';
-import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/assets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +9,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       backgroundColor: AppColors.primaryColor400,
       body: FutureBuilder(
@@ -26,8 +27,8 @@ class SplashScreen extends StatelessWidget {
           return Center(
             child: Image.asset(
               Assets.icLogo,
-              width: AppSizes.screenHeight * 0.32,
-              height: AppSizes.screenHeight * 0.32,
+              width: size.height * 0.32,
+              height: size.height * 0.32,
             ),
           );
         },

@@ -12,7 +12,6 @@ import '../common_widgets/loading.dart';
 import '../common_widgets/retry_btn.dart';
 import '../common_widgets/teacher_academy_small_card.dart';
 import '../common_widgets/search_filter_row.dart';
-import '../core/constants/app_sizes.dart';
 import '../data/visitor_repository.dart';
 import 'controllers/simple_state_controller.dart';
 
@@ -112,7 +111,7 @@ class AcademiesScreen extends ConsumerWidget {
                 : [
                     SliverPadding(
                       padding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenHeight(32),
+                        vertical: 32,
                       ),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(

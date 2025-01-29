@@ -10,6 +10,9 @@ bsTakePicture({
   required VoidCallback galleryPress,
   required VoidCallback cameraPress,
 }) {
+
+  final screenWidth = MediaQuery.sizeOf(context).width;
+
   return showModalBottomSheet<void>(
     context: context,
     builder: (_) => Container(
@@ -42,7 +45,7 @@ bsTakePicture({
                 ),
                 // backgroundColor: AppColors.primaryColor100,
                 side: const BorderSide(color: AppColors.primaryColor400),
-                fixedSize: Size(AppSizes.screenWidth, 48),
+                fixedSize: Size(screenWidth, 48),
               ),
               child: Text(
                 AppStrings.cameraStr,

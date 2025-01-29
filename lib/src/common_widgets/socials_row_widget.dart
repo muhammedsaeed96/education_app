@@ -43,7 +43,7 @@ class SocialsRowWidget extends StatelessWidget {
               ),
               gap12,
               SizedBox(
-                height: getProportionateScreenHeight(40),
+                height: 40,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
@@ -96,8 +96,8 @@ class SocialButtonWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      height: getProportionateScreenHeight(40),
-      width: getProportionateScreenHeight(40),
+      height: 40,
+      width: 40,
       child: ZoomTapAnimation(
         onTap: () => _launchSocialLink(
           context: context,
@@ -107,8 +107,8 @@ class SocialButtonWidget extends ConsumerWidget {
         child: Center(
           child: SvgPicture.asset(
             iconPath,
-            width: getProportionateScreenHeight(36),
-            height: getProportionateScreenHeight(36),
+            width: 36,
+            height:36,
           ),
         ),
       ),

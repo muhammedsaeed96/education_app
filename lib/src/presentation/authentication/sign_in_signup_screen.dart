@@ -426,10 +426,7 @@ class _LoginScreenState extends ConsumerState<SignInSignupScreen> {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: getProportionateScreenWidth(132),
-            child: provinceWidget,
-          ),
+          SizedBox(width: 132, child: provinceWidget),
           gapH8,
           areaWidget
         ],

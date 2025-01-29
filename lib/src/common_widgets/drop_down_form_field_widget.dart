@@ -24,6 +24,10 @@ class DropDownFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenHeight = MediaQuery.sizeOf(context).height;
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,7 +50,7 @@ class DropDownFormFieldWidget extends StatelessWidget {
         gap6,
         DropdownButtonFormField(
           elevation: 4,
-          menuMaxHeight: items.length >= 15 ? AppSizes.screenHeight * 0.75 :null,
+          menuMaxHeight: items.length >= 15 ? screenHeight * 0.75 :null,
           hint: Text(
             hintText,
             style: AppTextStyles.textRegularStyle14.copyWith(

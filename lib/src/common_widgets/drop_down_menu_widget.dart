@@ -21,6 +21,8 @@ class DropDownMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.sizeOf(context).height;
+
     final entry = items.map<DropdownMenuEntry>(
       (value) {
         return DropdownMenuEntry<String>(
@@ -42,7 +44,7 @@ class DropDownMenuWidget extends StatelessWidget {
       width: width,
       hintText: hintText,
       textStyle: AppTextStyles.textMediumStyle14,
-      menuHeight: items.length >= 15 ? AppSizes.screenHeight * 0.6 : null,
+      menuHeight: items.length >= 15 ? screenHeight * 0.6 : null,
       selectedTrailingIcon: Icon(
         Icons.keyboard_arrow_down,
         size: AppSizes.length20,

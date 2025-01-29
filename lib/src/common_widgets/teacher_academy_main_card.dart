@@ -32,12 +32,16 @@ class TeacherAcademyMainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.sizeOf(context).width;
+
+
     return ZoomTapAnimation(
       onTap: press,
       child: Container(
         alignment: Alignment.bottomCenter,
         constraints: BoxConstraints(
-          maxWidth: AppSizes.screenWidth * 0.62,
+          maxWidth: screenWidth * 0.62,
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: AppTheme.customDecoration(),

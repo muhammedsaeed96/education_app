@@ -70,7 +70,7 @@ class MultiSelectDialogFormField extends StatelessWidget {
                 color: items.isEmpty ? AppColors.gray400 : Colors.black,
               ),
             ),
-            dialogHeight: _getDialogHeight(),
+            dialogHeight: _getDialogHeight(context),
             buttonIcon: Icon(
               Icons.keyboard_arrow_down,
               size: AppSizes.length20,
@@ -98,9 +98,11 @@ class MultiSelectDialogFormField extends StatelessWidget {
     );
   }
 
-  double _getDialogHeight() {
+  double _getDialogHeight(BuildContext context) {
+    final screenHeight = MediaQuery.sizeOf(context).height;
+
     if (items.length > 3) {
-      return AppSizes.screenHeight * 0.6;
+      return screenHeight * 0.6;
     }
     return AppSizes.length200;
   }

@@ -54,7 +54,7 @@ class _HomeState extends ConsumerState<Home>
               HighlightsGrid(),
               gap24,
               Padding(
-                padding: paddingH24,
+                padding: EdgeInsets.only(left: 12,right: 24),
                 child: TitleBtnWidget(
                   title: AppStrings.teachersStr,
                   onPress: () {
@@ -69,7 +69,7 @@ class _HomeState extends ConsumerState<Home>
               TeachersHorizontalList(teachers: data.teachers),
               gap16,
               Padding(
-                padding: paddingH24,
+                padding: EdgeInsets.only(left: 12,right: 24),
                 child: TitleBtnWidget(
                   title: AppStrings.academiesStr,
                   onPress: () {

@@ -131,7 +131,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ],
           color: Colors.white,
         ),
-        height: getProportionateScreenHeight(Platform.isAndroid ? 74 : 60),
+        height: Platform.isAndroid ? 74 : 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

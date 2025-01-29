@@ -29,7 +29,7 @@ Future appUpdaterDialog({
           children: [
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: AppSizes.w20,
+                horizontal: 20,
                 vertical: AppSizes.length16,
               ),
               height: AppSizes.length132,
@@ -66,7 +66,7 @@ Future appUpdaterDialog({
                 ),
                 trailing: PrimaryElevatedBtn(
                   height: AppSizes.length44,
-                  width: AppSizes.w98,
+                  width: 98,
                   radius: 32,
                   text: AppStrings.editStr,
                   press: () => UrlLauncherHelper.launchUrlByType(

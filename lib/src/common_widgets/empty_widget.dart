@@ -1,8 +1,6 @@
-import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../core/constants/app_text_styles.dart';
 import '../core/constants/assets.dart';
 
@@ -29,8 +27,8 @@ class EmptyWidget extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   Assets.icNoSearchResults,
-                  width: AppSizes.screenHeight * 0.16,
-                  height: AppSizes.screenHeight * 0.16,
+                  width: 160,
+                  height: 160,
                 ),
                 // gap16,
                 Text(

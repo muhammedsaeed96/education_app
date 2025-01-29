@@ -2,7 +2,6 @@ import 'package:education_app/src/common_widgets/empty_widget.dart';
 import 'package:education_app/src/common_widgets/error_message_widget.dart';
 import 'package:education_app/src/common_widgets/loading.dart';
 import 'package:education_app/src/common_widgets/retry_btn.dart';
-import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
 import 'package:education_app/src/core/utils/app_extension.dart';
 import 'package:education_app/src/data/visitor_repository.dart';
@@ -113,9 +112,7 @@ class TeachersScreen extends ConsumerWidget {
                   ]
                 : [
                     SliverPadding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: getProportionateScreenHeight(32),
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: 32),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {

@@ -70,7 +70,7 @@ class SelectProfilePictureScreen extends ConsumerWidget {
                   ref: ref,
                 ),
               ),
-              width: getProportionateScreenWidth(140),
+              width: 140,
               radius: 20,
               height: 40,
             ),

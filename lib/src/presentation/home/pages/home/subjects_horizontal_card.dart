@@ -22,7 +22,7 @@ class SubjectsHorizontalList extends StatelessWidget {
     return subjects.isEmpty
         ? EmptyWidget(showTextOnly: true)
         : SizedBox(
-            height: AppSizes.length48,
+            height: AppSizes.length50,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,

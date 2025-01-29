@@ -22,7 +22,9 @@ class FilterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final width = (AppSizes.screenWidth / 2) - 4 - 24;
+    final size = MediaQuery.sizeOf(context);
+
+    final width = (size.width / 2) - 4 - 24;
     final data = ref.read(getHomeDataProvider).value!;
     final highlight = ref.read(selectedHighlight);
     final type = ModalRoute.of(context)?.settings.arguments as SearchType;
@@ -121,7 +123,7 @@ class FilterScreen extends ConsumerWidget {
                   title: AppStrings.stageStr,
                   widget: DropDownMenuWidget(
                     currentVal: ref.read(filtersControllerProvider).stageId,
-                    width: AppSizes.screenWidth - 24 - 24,
+                    width: size.width - 24 - 24,
                     items: data.stages,
                     onItemSelected: (val) {
                       ref
@@ -130,7 +132,9 @@ class FilterScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-          if (highlight != HighlightType.online && highlight != HighlightType.onsite && type.isSearchOnTeacher) ...[
+          if (highlight != HighlightType.online &&
+              highlight != HighlightType.onsite &&
+              type.isSearchOnTeacher) ...[
             gap20,
             SelectTeachingType(),
             gap20,

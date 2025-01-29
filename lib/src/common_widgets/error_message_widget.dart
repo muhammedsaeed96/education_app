@@ -32,8 +32,8 @@ class ErrorMessageWidget extends StatelessWidget {
         children: [
           SvgPicture.asset(
             Assets.icError,
-            width: AppSizes.screenHeight * 0.16,
-            height: AppSizes.screenHeight * 0.16,
+            width: 160,
+            height: 160,
           ),
           Text(
             errorMessage,
@@ -43,9 +43,9 @@ class ErrorMessageWidget extends StatelessWidget {
           gap16,
           Center(
             child: PrimaryElevatedBtn(
-              height: getProportionateScreenHeight(40),
+              height: 40,
               text: AppStrings.retryStr,
-              width: getProportionateScreenWidth(200),
+              width: 200,
               press: retry,
             ),
           ),

@@ -21,7 +21,7 @@ class AcademiesHorizontalList extends StatelessWidget {
     return academies.isEmpty
         ? EmptyWidget(showTextOnly: true)
         : SizedBox(
-            height: AppSizes.calTeacherAcademyMainCardHeight(),
+            height: 180,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,
