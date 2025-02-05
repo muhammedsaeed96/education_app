@@ -28,7 +28,7 @@ class AsyncWidget<T> extends StatelessWidget {
       loading: () => Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12),
-          child: Lottie.asset(Assets.loading, width: 132, height: 132),
+          child: Lottie.asset(Assets.loading, width: 124, height: 124),
         ),
       ),
     );
@@ -50,7 +50,7 @@ class AsyncSliverWidget<T> extends StatelessWidget {
       ),
       loading: () => SliverToBoxAdapter(
         child: Center(
-          child: Lottie.asset(Assets.loading, width: 132, height: 132),
+          child: Lottie.asset(Assets.loading, width: 124, height: 124),
         ),
       ),
     );

@@ -97,7 +97,7 @@ class TeachersScreen extends ConsumerWidget {
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.only(top: 48),
-                    child: Loading(),
+                    child: Loading(size : 124),
                   ),
                 )
               ]
@@ -155,7 +155,7 @@ class TeachersScreen extends ConsumerWidget {
                     if (loadingMore)
                       const SliverPadding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        sliver: SliverToBoxAdapter(child: Loading(size: 32)),
+                        sliver: SliverToBoxAdapter(child: Loading(size: 64)),
                       ),
                     if (loadingMoreError)
                       SliverPadding(

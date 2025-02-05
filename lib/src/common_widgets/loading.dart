@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/constants/app_colors.dart';
+import 'package:lottie/lottie.dart';
+import '../core/constants/assets.dart';
 
 class Loading extends StatelessWidget {
   const Loading({Key? key, this.size = 40}) : super(key: key);
@@ -8,12 +9,9 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
-      width: size,
-      child: const Center(
-        child: CircularProgressIndicator(color: AppColors.primaryColor400),
-      ),
+    return Center(
+      // child: CircularProgressIndicator(color: AppColors.primaryColor400),
+      child: Lottie.asset(Assets.loading, width: size, height: size),
     );
   }
 }
