@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initEasyLoading();
   SystemChrome.setSystemUIOverlayStyle(
@@ -20,7 +20,8 @@ void main() {
   );
 
   final providerContainer = ProviderContainer();
-  providerContainer.read(asyncInitProvider);
+  await providerContainer.read(asyncInitProvider).init();
+
   runApp(
     UncontrolledProviderScope(
       container: providerContainer,
@@ -35,26 +36,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'تدريس',
-        theme: AppTheme.themeData,
-        builder: EasyLoading.init(
-          builder: (context, child) {
-            final mediaQuery = MediaQuery.of(context);
-            return MediaQuery(
-              //To make app font size independent from device settings
-              data:
-                  mediaQuery.copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: child!,
-              ),
-            );
-          },
-        ),
-        initialRoute: SplashScreen.routeName,
-        routes: routes,
-      );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'تدريس',
+      theme: AppTheme.themeData,
+      builder: EasyLoading.init(
+        builder: (context, child) {
+          final mediaQuery = MediaQuery.of(context);
+          return MediaQuery(
+            //To make app font size independent from device settings
+            data: mediaQuery.copyWith(textScaler: const TextScaler.linear(1.0)),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: child!,
+            ),
+          );
+        },
+      ),
+      initialRoute: SplashScreen.routeName,
+      routes: routes,
+    );
   }
 }

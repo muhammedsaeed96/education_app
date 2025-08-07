@@ -187,6 +187,15 @@ class AppStrings {
   static const discounts = 'خصومات';
   static const discount = 'تخفيض';
 
+  static const pending = 'قيد المراجعة';
+  static const approved = 'مفعل';
+  static const rejected = 'مرفوض';
+  static const pendingDesc = 'حسابك قيد المراجعة يرجى التواصل مع الادارة للتفعيل';
+  static const approvedDesc = 'حسابك مفعل يمكنك الان التواصل مع الطلاب';
+  static const rejectedDesc = 'تم رفض تسجيل الحساب يرجى التواصل مع الادارة لمعرفة السبب';
+
+  static const phone = '+9647858727566';
+
 
   static final List<(String title, String iconPath, HighlightType type)>
       highlights = [

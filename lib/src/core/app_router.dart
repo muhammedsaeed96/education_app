@@ -10,6 +10,7 @@ import 'package:education_app/src/presentation/splash_screen.dart';
 import 'package:education_app/src/presentation/teachers_screen.dart';
 
 import '../presentation/about_us_screen.dart';
+import '../presentation/account_status_screen.dart';
 import '../presentation/filter_screen.dart';
 import '../presentation/teacher_details_screen.dart';
 
@@ -27,4 +28,5 @@ final routes = {
   SelectProfilePictureScreen.routeName: (context) => const SelectProfilePictureScreen(),
   AboutUsScreen.routeName: (context) => const AboutUsScreen(),
   FilterScreen.routeName: (context) => const FilterScreen(),
+  AccountStatusScreen.routeName: (context) => const AccountStatusScreen(),
 };

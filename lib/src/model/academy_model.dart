@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:education_app/src/core/enum.dart';
 import 'package:education_app/src/model/area_model.dart';
 import 'package:education_app/src/model/custom_file_converter.dart';
 import 'package:education_app/src/model/province_model.dart';
@@ -37,6 +38,7 @@ class AcademyModel {
   final String? youtubeUrl;
   final String? instagramUrl;
   final String? telegramUrl;
+  final String? status;
 
   AcademyModel({
     required this.id,
@@ -59,6 +61,7 @@ class AcademyModel {
     this.youtubeUrl,
     this.instagramUrl,
     this.telegramUrl,
+    this.status,
   });
 
   @override

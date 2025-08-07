@@ -48,6 +48,7 @@ class TeacherModel {
   final bool teachingOnStudentHome;
   final double discount;
   final DateTime? discountEndDate;
+  final String? status;
 
   TeacherModel({
     required this.id,
@@ -78,6 +79,7 @@ class TeacherModel {
     this.teachingOnStudentHome = false,
     this.discount = 0.0,
     this.discountEndDate,
+    this.status,
   });
 
   @override

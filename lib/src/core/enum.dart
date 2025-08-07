@@ -24,3 +24,5 @@ enum TeachingPlace { all, studentHome, teacherLocation }
 enum CurriculumType { all, outstanding, ordinary }
 
 enum HighlightType { all, discount, online, onsite, outstanding }
+
+enum AccountStatus { pending, approved, rejected }

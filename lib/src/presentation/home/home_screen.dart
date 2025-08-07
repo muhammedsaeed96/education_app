@@ -17,6 +17,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/constants/assets.dart';
 import '../../core/utils/app_updater.dart';
+import '../account_status_screen.dart';
 import 'visitors_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -61,21 +62,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(getHomeDataProvider.select((value) => value),
-        (previous, next) async {
-      final updateInfo = next.value?.updateInfo;
-      if (updateInfo == null) {
+    ref.listen(getHomeDataProvider.select((value) => value), (
+      previous,
+      next,
+    ) async {
+      // Handle account status
+      if (!next.isLoading &&
+          !next.hasError &&
+          next.value?.userStatus != null &&
+          next.value?.userStatus != 'approved') {
+        Navigator.pushReplacementNamed(context, AccountStatusScreen.routeName);
         return;
       }
-      final showUpdaterDialog = await _appUpdater.showUpdateDialog(updateInfo);
-      if (showUpdaterDialog && context.mounted) {
-        appUpdaterDialog(
-          context: context,
-          updateUrl: Platform.isAndroid
-              ? updateInfo.playStoreUrl
-              : updateInfo.appStoreUrl,
+
+      // Handle app update if available
+      final updateInfo = next.value?.updateInfo;
+      if (updateInfo != null) {
+        final showUpdaterDialog = await _appUpdater.showUpdateDialog(
+          updateInfo,
         );
+        if (showUpdaterDialog && context.mounted) {
+          appUpdaterDialog(
+            context: context,
+            updateUrl:
+                Platform.isAndroid
+                    ? updateInfo.playStoreUrl
+                    : updateInfo.appStoreUrl,
+          );
+        }
       }
+
     });
 
     ref.listen(isAuthenticationProvider, (_, next) {
@@ -92,9 +108,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
 
       _changeNavBarIndex(
-        index: !next
-            ? 0
-            : _isAuth
+        index:
+            !next
+                ? 0
+                : _isAuth
                 ? 3
                 : 2,
         // ref: ref,
@@ -118,44 +135,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _bottomNavBar() {
     final isAuth = ref.read(asyncInitProvider).localStorage.isAuth;
 
-    return Consumer(builder: (context, ref, child) {
-      ref.watch(isAuthenticationProvider);
-      return Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(40),
-              offset: Offset(0, -1),
-              blurRadius: 14,
-            ),
-          ],
-          color: Colors.white,
-        ),
-        height: Platform.isAndroid ? 74 : 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _navBarItem(index: 0, text: AppStrings.homeStr),
-            isAuth
-                ? _navBarItem(
+    return Consumer(
+      builder: (context, ref, child) {
+        ref.watch(isAuthenticationProvider);
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(40),
+                offset: Offset(0, -1),
+                blurRadius: 14,
+              ),
+            ],
+            color: Colors.white,
+          ),
+          height: Platform.isAndroid ? 74 : 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _navBarItem(index: 0, text: AppStrings.homeStr),
+              isAuth
+                  ? _navBarItem(
                     index: 1,
-                    text: _isNotStudent
-                        ? AppStrings.visitStr
-                        : AppStrings.communicationStr,
+                    text:
+                        _isNotStudent
+                            ? AppStrings.visitStr
+                            : AppStrings.communicationStr,
                   )
-                : const SizedBox.shrink(),
-            _navBarItem(
-              index: isAuth ? 2 : 1,
-              text: AppStrings.callUsStr,
-            ),
-            _navBarItem(
-              index: isAuth ? 3 : 2,
-              text: AppStrings.accountStr,
-            ),
-          ],
-        ),
-      );
-    });
+                  : const SizedBox.shrink(),
+              _navBarItem(index: isAuth ? 2 : 1, text: AppStrings.callUsStr),
+              _navBarItem(index: isAuth ? 3 : 2, text: AppStrings.accountStr),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _navBarItem({required int index, required String text}) {
@@ -164,7 +178,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 1),
         // color: Colors.white,
-        width: (_isAuth
+        width:
+            (_isAuth
                 ? MediaQuery.of(context).size.width / 4
                 : MediaQuery.of(context).size.width / 3) -
             2,
@@ -184,9 +199,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Text(
               text,
               style: AppTextStyles.textSemiBoldStyle12.copyWith(
-                color: index == currentNavBarIndex
-                    ? AppColors.primaryColor400
-                    : AppColors.gray500,
+                color:
+                    index == currentNavBarIndex
+                        ? AppColors.primaryColor400
+                        : AppColors.gray500,
               ),
             ),
           ],
@@ -202,9 +218,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         icon = Assets.icHome;
         break;
       case 1:
-        icon = !_isAuth
-            ? Assets.icPhone
-            : _isNotStudent
+        icon =
+            !_isAuth
+                ? Assets.icPhone
+                : _isNotStudent
                 ? Assets.icEye
                 : Assets.icUsers;
         break;

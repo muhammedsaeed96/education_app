@@ -5,13 +5,13 @@ import 'app_colors.dart';
 abstract class AppTextStyles {
   static TextStyle textBoldStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(16),
+    fontSize: (16),
     fontWeight: FontWeight.w700,
   );
 
   static TextStyle textBoldStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(18),
+    fontSize: (18),
     fontWeight: FontWeight.w700,
   );
 
@@ -19,31 +19,31 @@ abstract class AppTextStyles {
 
   static TextStyle textSemiBoldStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(10),
+    fontSize: (10),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(12),
+    fontSize: (12),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(14),
+    fontSize: (14),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(16),
+    fontSize: (16),
     fontWeight: FontWeight.w600,
   );
 
   static TextStyle textSemiBoldStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(18),
+    fontSize: (18),
     fontWeight: FontWeight.w600,
   );
 
@@ -51,37 +51,37 @@ abstract class AppTextStyles {
 
   static TextStyle textMediumStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(10),
+    fontSize: (10),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(12),
+    fontSize: (12),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(14),
+    fontSize: (14),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(16),
+    fontSize: (16),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(18),
+    fontSize: (18),
     fontWeight: FontWeight.w500,
   );
 
   static TextStyle textMediumStyle20 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(20),
+    fontSize: (20),
     fontWeight: FontWeight.w500,
   );
 
@@ -89,49 +89,31 @@ abstract class AppTextStyles {
 
   static TextStyle textRegularStyle10 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(10),
+    fontSize: (10),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle12 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(12),
+    fontSize: (12),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle14 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(14),
+    fontSize: (14),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle16 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(16),
+    fontSize: (16),
     fontWeight: FontWeight.w400,
   );
 
   static TextStyle textRegularStyle18 = TextStyle(
     color: AppColors.black87,
-    fontSize: _getFontSize(18),
+    fontSize: 18,
     fontWeight: FontWeight.w400,
   );
-
-  static double _getFontSize(double textSize) {
-/*    final width = AppSizes.screenWidth;
-    var fontSize = textSize;
-    if (width <= 480) {
-      fontSize = textSize;
-    } else if (width > 600 && width <= 960) {
-      fontSize = textSize + 3;
-    } else {
-      fontSize = textSize + 4 ;
-    }*/
-
-/*    if (textSize <= 14) {
-      textSize += 1.25;
-    }*/
-
-    return textSize;
-  }
 }

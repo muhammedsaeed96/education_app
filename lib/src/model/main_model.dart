@@ -24,6 +24,7 @@ class MainModel {
   final List<StageModel> stages;
   final UpdateInfoModel updateInfo;
   final List<AdvertisementModel> advertisements;
+  final String? userStatus;
 
   MainModel({
     this.subjects = const [],
@@ -34,6 +35,7 @@ class MainModel {
     this.stages = const [],
     required this.updateInfo,
     this.advertisements = const [],
+    this.userStatus,
   });
 
   factory MainModel.fromJson(Map<String, dynamic> data) =>

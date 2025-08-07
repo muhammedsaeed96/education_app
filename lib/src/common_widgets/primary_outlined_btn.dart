@@ -28,7 +28,7 @@ class PrimaryOutlinedBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height ?? 50,
       width: width ?? double.infinity,
       child: OutlinedButton(
         onPressed: press,

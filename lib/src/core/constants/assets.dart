@@ -57,8 +57,6 @@ class Assets {
 
   static const String icSuccess = "assets/icons/ic_success.svg";
 
-  // static const String icEmpty = "assets/icons/ic_empty.svg";
-
   static const String icLogo = "assets/icons/logo.png";
 
   static const String icLogin = "assets/icons/ic_login.svg";
@@ -75,9 +73,14 @@ class Assets {
 
   static const String loading = "assets/lotties/loading.json";
 
-  static const String icNoSearchResults = "assets/icons/ic_no_search_result.svg";
+  static const String icNoSearchResults =
+      "assets/icons/ic_no_search_result.svg";
 
   static const String icError = "assets/icons/ic_error.svg";
 
   static const String icImageNotFound = "assets/icons/ic_image_not_found.svg";
+
+  static const String icCloseCircle = "assets/icons/ic_close_circle.svg";
+
+  static const String icClockCircle = "assets/icons/ic_clock_circle.svg";
 }

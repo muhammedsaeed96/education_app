@@ -163,7 +163,7 @@ final accountControllerProvider =
   () => AccountController(),
 );
 
-final getAccountDataProvider = FutureProvider.autoDispose.family<dynamic, bool>(
+final getAccountDataProvider = FutureProvider.family<dynamic, bool>(
   (ref, isPersonalAccount) {
     final info = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
     return ref.read(accountControllerProvider.notifier).getAccount(

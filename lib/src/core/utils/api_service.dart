@@ -6,16 +6,13 @@ import 'local_storage.dart';
 
 class ApiService {
   static const _authorizationKey = 'Authorization';
-
+  final Ref _ref;
+  final LocalStorage _localStorage;
   static late final Dio _dio;
 
-  static LocalStorage? localStorage;
-
-  final Ref _ref;
-
-  ApiService({required Ref ref}) : _ref = ref;
-
-  void initializeDio() {
+  ApiService({required Ref ref, required LocalStorage localStorage})
+    : _ref = ref,
+      _localStorage = localStorage {
     _dio = _init();
   }
 
@@ -35,7 +32,7 @@ class ApiService {
           RequestInterceptorHandler handler,
         ) async {
           await Future.delayed(const Duration(milliseconds: 250));
-          final user = localStorage!.getUserInfo();
+          final user = _localStorage!.getUserInfo();
 
           // debugPrint(user?.token);
 
@@ -54,7 +51,7 @@ class ApiService {
         onError: (DioException e, ErrorInterceptorHandler handler) async {
           // to clear user auth info and logout when his token not valid
           if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
-            await localStorage?.removeUserInfo();
+            await _localStorage?.removeUserInfo();
             _ref.read(isAuthenticationProvider.notifier).state = false;
           }
           handler.next(e);
@@ -108,10 +105,7 @@ class ApiService {
     required url,
     Map<String, String>? queryParameters,
   }) async {
-    final response = await _dio.delete(
-      url,
-      queryParameters: queryParameters,
-    );
+    final response = await _dio.delete(url, queryParameters: queryParameters);
     return response;
   }
 }

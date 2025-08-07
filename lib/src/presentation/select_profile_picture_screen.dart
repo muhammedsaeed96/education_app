@@ -21,18 +21,6 @@ class SelectProfilePictureScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    /* ref.listen(accountControllerProvider, (_, next) {
-      if (next.isLoading) {
-        EasyLoading.show();
-      } else if (next.hasError) {
-        EasyLoading.dismiss();
-        next.showErrorDialog(context);
-      } else {
-        Navigator.pop(context);
-        EasyLoading.dismiss();
-      }
-    });*/
-
     ref.watch(profileImageProvider);
 
     final selectedImage = ref.read(profileImageProvider);

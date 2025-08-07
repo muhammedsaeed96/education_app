@@ -6,27 +6,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'local_storage.dart';
 
 class AsyncInit {
-  final Ref ref;
+  final Ref _ref;
 
-  late final SharedPreferences _sharedPreferences;
   late final LocalStorage localStorage;
   late final OtpHelper otpHelper;
   late final ApiService apiService;
 
-  AsyncInit(this.ref) {
-    _init();
-  }
+  AsyncInit(this._ref);
 
-  Future<void> _init() async {
-    apiService = ApiService(ref: ref);
-    apiService.initializeDio();
-    _sharedPreferences = await SharedPreferences.getInstance();
-    localStorage = LocalStorage(_sharedPreferences);
-    if(localStorage.getUserInfo() != null) {
-      ref.read(isAuthenticationProvider.notifier).state = true;
-    }
+  Future<void> init() async {
+    localStorage = LocalStorage(await SharedPreferences.getInstance());
+    apiService = ApiService(ref: _ref, localStorage: localStorage);
     otpHelper = OtpHelper(localStorage);
-    ApiService.localStorage = localStorage;
+    if (localStorage.getUserInfo() != null) {
+      _ref.read(isAuthenticationProvider.notifier).state = true;
+    }
   }
 }
 
