@@ -14,6 +14,7 @@ import '../../common_widgets/auth_title_desc_widget.dart';
 import '../../common_widgets/primary_elevated_btn.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/enum.dart';
+import '../../data/home_repository.dart';
 import '../controllers/simple_state_controller.dart';
 
 class OtpScreen extends ConsumerWidget {
@@ -147,14 +148,15 @@ class OtpScreen extends ConsumerWidget {
         ..pop()
         ..pop();
     } else if (verifyType == FormType.signup) {
-      // if user complete signup process successfully i will navigate him to select profile picture screen
+      // if user complete signup process successfully I will navigate him to select profile picture screen
       Navigator.pushNamedAndRemoveUntil(
         context,
         SelectProfilePictureScreen.routeName,
         (route) => route.settings.name == '/',
       );
     } else if (verifyType == FormType.signIn) {
-      // if user complete signIn process successfully i will navigate him to home screen
+      // if user complete signIn process successfully I will navigate him to home screen
+      ref.invalidate(getHomeDataProvider);
       Navigator.popUntil(context, (route) => route.settings.name == '/');
     }
   }

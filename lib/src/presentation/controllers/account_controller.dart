@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:education_app/src/core/utils/async_init.dart';
 import 'package:education_app/src/core/utils/async_value_ui.dart';
 import 'package:education_app/src/data/account_repository.dart';
+import 'package:education_app/src/data/home_repository.dart';
 import 'package:education_app/src/presentation/controllers/simple_state_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -125,6 +126,7 @@ class AccountController extends AutoDisposeNotifier<AsyncValue<void>> {
       result.showErrorDialog(context);
     } else {
       ref.invalidate(getAccountDataProvider);
+      ref.invalidate(getHomeDataProvider);
       Navigator.popUntil(context, (route) => route.settings.name == '/');
     }
   }
@@ -163,7 +165,7 @@ final accountControllerProvider =
   () => AccountController(),
 );
 
-final getAccountDataProvider = FutureProvider.family<dynamic, bool>(
+final getAccountDataProvider = FutureProvider.autoDispose.family<dynamic, bool>(
   (ref, isPersonalAccount) {
     final info = ref.read(asyncInitProvider).localStorage.getUserInfo()!;
     return ref.read(accountControllerProvider.notifier).getAccount(

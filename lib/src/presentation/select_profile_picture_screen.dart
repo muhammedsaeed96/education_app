@@ -12,6 +12,7 @@ import '../common_widgets/bs_take_picture.dart';
 import '../common_widgets/primary_elevated_btn.dart';
 import '../common_widgets/profile_image.dart';
 import '../core/constants/app_sizes.dart';
+import '../data/home_repository.dart';
 import 'controllers/simple_state_controller.dart';
 
 class SelectProfilePictureScreen extends ConsumerWidget {
@@ -68,7 +69,10 @@ class SelectProfilePictureScreen extends ConsumerWidget {
                 Expanded(
                   child: PrimaryElevatedBtn(
                     text: AppStrings.skipStr,
-                    press: () => Navigator.pop(context),
+                    press: () {
+                      ref.invalidate(getHomeDataProvider);
+                      Navigator.pop(context);
+                    },
                     width: AppSizes.length180,
                     background: Colors.white,
                     textColor: AppColors.gray600,

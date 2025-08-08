@@ -20,68 +20,96 @@ class AccountStatusScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(getAccountDataProvider(true).select((val) => val), (_, next) {
+      if (next.hasValue && next.value?.status == 'approved') {
+        Navigator.pushReplacementNamed(context, '/');
+        return;
+      }
+    });
+
     final value = ref.watch(getAccountDataProvider(true));
 
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: AsyncWidget(
-          value: value,
-          data: (data) {
-            final (title, desc) = gteTitleDesc(data.status);
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(Assets.icClockCircle),
-                Gap(20),
-                Text(title, style: AppTextStyles.textSemiBoldStyle18),
-                Gap(4),
-                Text(
-                  desc,
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.textRegularStyle16,
-                ),
-                Gap(20),
-                PrimaryElevatedBtn(
-                  text: AppStrings.contactByWhatsappStr,
-                  radius: 25,
-                  press:
-                      () => UrlLauncherHelper.launchUrlByType(
-                        AppStrings.phone,
-                        LinkType.whatsapp,
-                      ),
-                ),
-                Gap(12),
-                PrimaryOutlinedBtn(
-                  text: AppStrings.updateStr,
-                  radius: 25,
-                  bg: AppColors.primaryColor50,
-                  borderColor: AppColors.primaryColor500,
-                  press: () {
-                    ref.refresh(getAccountDataProvider(true)).whenData((data) {
-                      if (data.status == AccountStatus.approved.name) {
-                        Navigator.pushReplacementNamed(context, '/');
-                      }
-                    });
-                  },
-                ),
-              ],
-            );
-          },
-          retry: () => ref.invalidate(getAccountDataProvider(true)),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: AsyncWidget(
+            value: value,
+            data: (data) {
+              final (title, desc, color, icon) = gteTitleDescColorIcon(
+                data.status,
+              );
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(icon),
+                  Gap(20),
+                  Text(
+                    title,
+                    style: AppTextStyles.textSemiBoldStyle18.copyWith(
+                      color: color,
+                    ),
+                  ),
+                  Gap(4),
+                  Text(
+                    desc,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.textRegularStyle16,
+                  ),
+                  Gap(20),
+                  PrimaryElevatedBtn(
+                    text: AppStrings.contactByWhatsappStr,
+                    radius: 25,
+                    press:
+                        () => UrlLauncherHelper.launchUrlByType(
+                          AppStrings.phone,
+                          LinkType.whatsapp,
+                        ),
+                  ),
+                  Gap(12),
+                  PrimaryOutlinedBtn(
+                    text: AppStrings.updateStr,
+                    radius: 25,
+                    bg: AppColors.primaryColor50,
+                    borderColor: AppColors.primaryColor500,
+                    press: () => ref.invalidate(getAccountDataProvider(true)),
+                  ),
+                ],
+              );
+            },
+            retry: () => ref.invalidate(getAccountDataProvider(true)),
+          ),
         ),
       ),
     );
   }
 
-  (String title, String desc) gteTitleDesc(String status) {
+  (String title, String desc, Color color, String icon) gteTitleDescColorIcon(
+    String status,
+  ) {
     switch (status) {
       case 'approved':
-        return (AppStrings.approved, AppStrings.approvedDesc);
+        return (
+          AppStrings.approved,
+          AppStrings.approvedDesc,
+          AppColors.primaryColor400,
+          '',
+        );
       case 'pending':
-        return (AppStrings.pending, AppStrings.pendingDesc);
+        return (
+          AppStrings.pending,
+          AppStrings.pendingDesc,
+          Colors.orangeAccent,
+          Assets.icClockCircle,
+        );
       default:
-        return (AppStrings.rejected, AppStrings.rejectedDesc);
+        return (
+          AppStrings.rejected,
+          AppStrings.rejectedDesc,
+          AppColors.red400,
+          Assets.icCloseCircle,
+        );
     }
   }
 }

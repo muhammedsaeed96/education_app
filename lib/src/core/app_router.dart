@@ -15,7 +15,7 @@ import '../presentation/filter_screen.dart';
 import '../presentation/teacher_details_screen.dart';
 
 final routes = {
-  SplashScreen.routeName: (context) => const SplashScreen(),
+  // SplashScreen.routeName: (context) => const SplashScreen(),
   '/': (context) => const HomeScreen(),
   TeacherDetailsScreen.routeName: (context) => const TeacherDetailsScreen(),
   AcademyDetailsScreen.routeName: (context) => const AcademyDetailsScreen(),

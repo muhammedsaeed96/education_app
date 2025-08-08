@@ -62,10 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(getHomeDataProvider.select((value) => value), (
-      previous,
-      next,
-    ) async {
+    ref.listen(getHomeDataProvider.select((value) => value), (_, next) async {
       // Handle account status
       if (!next.isLoading &&
           !next.hasError &&
@@ -91,7 +88,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           );
         }
       }
-
     });
 
     ref.listen(isAuthenticationProvider, (_, next) {
@@ -106,19 +102,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (!next && _pageViewPages.length == 4) {
         _pageViewPages.removeAt(1);
       }
-
-      _changeNavBarIndex(
-        index:
-            !next
-                ? 0
-                : _isAuth
-                ? 3
-                : 2,
-        // ref: ref,
-      );
+      // _changeNavBarIndex( index:  !next  ? 0 : _isAuth  ? 3 : 2);
+      _changeNavBarIndex(index: 0);
     });
 
     return SafeArea(
+      bottom: false,
       child: Scaffold(
         body: PageView.builder(
           onPageChanged: (_) => setState(() {}),
@@ -144,12 +133,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               BoxShadow(
                 color: Colors.black.withAlpha(40),
                 offset: Offset(0, -1),
-                blurRadius: 14,
+                blurRadius: 12,
               ),
             ],
             color: Colors.white,
           ),
-          height: Platform.isAndroid ? 74 : 60,
+          height: 85,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

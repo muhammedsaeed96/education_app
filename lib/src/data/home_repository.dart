@@ -38,6 +38,6 @@ final homeRepositoryProvider = Provider(
 
 
 // to get home screen data from remote
-final getHomeDataProvider = FutureProvider<MainModel>(
+final getHomeDataProvider = FutureProvider.autoDispose<MainModel>(
       (ref) => ref.read(homeRepositoryProvider).getHomeData(),
 );
