@@ -2,9 +2,7 @@ import 'package:education_app/src/core/constants/app_strings.dart';
 
 extension FormValidators on String? {
   String? get isValidPhone {
-    if (this != null &&
-        this!.isNotEmpty &&
-        (this!.length == 11 || this!.length == 10)) {
+    if (this != null && this!.isNotEmpty && this!.length == 11) {
       return null;
     } else {
       return AppStrings.phoneNotValidStr;
@@ -31,7 +29,9 @@ extension FormValidators on String? {
     if (this == null || this!.isEmpty) {
       return null;
     } else {
-      return Uri.tryParse(this!)!.hasAbsolutePath ? null : AppStrings.notValidUrlStr;
+      return Uri.tryParse(this!)!.hasAbsolutePath
+          ? null
+          : AppStrings.notValidUrlStr;
     }
   }
 }
