@@ -28,3 +28,5 @@ final isTeacherTeachingOutstanding = StateProvider<bool>((ref) => false);
 final isTeacherTeachingOnStudentHome = StateProvider<bool>((ref) => false);
 
 final selectedHighlight = StateProvider<HighlightType?>((ref) => null);
+
+final currentNavBarIndexProvider = StateProvider<int>((ref) => 0);

@@ -20,6 +20,7 @@ import '../../core/utils/app_updater.dart';
 import '../account_status_screen.dart';
 import 'visitors_screen.dart';
 
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,7 +32,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late final AppUpdater _appUpdater;
 
   late final PageController _pageController;
-  int currentNavBarIndex = 0;
+
+  // int currentNavBarIndex = 0;
 
   final List<Widget> _pageViewPages = [
     const Home(key: PageStorageKey('page1')),
@@ -90,85 +92,194 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     });
 
-    ref.listen(isAuthenticationProvider, (_, next) {
-      if (_isAuth && _pageViewPages.length < 4) {
-        _pageViewPages.insert(
-          1,
-          _isNotStudent
-              ? const VisitorsScreen(key: PageStorageKey('page4'))
-              : const CommunicationsPage(key: PageStorageKey('page4')),
-        );
-      }
-      if (!next && _pageViewPages.length == 4) {
-        _pageViewPages.removeAt(1);
-      }
-      // _changeNavBarIndex( index:  !next  ? 0 : _isAuth  ? 3 : 2);
-      _changeNavBarIndex(index: 0);
-    });
+    ref.listen(
+      isAuthenticationProvider,
+      (_, next) => _updateBottomNavBarItems(next),
+    );
 
-    return SafeArea(
-      bottom: false,
-      child: Scaffold(
-        body: PageView.builder(
-          onPageChanged: (_) => setState(() {}),
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          itemBuilder: (_, i) => _pageViewPages[i],
-          itemCount: _pageViewPages.length,
-        ),
-        bottomNavigationBar: _bottomNavBar(),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: SafeArea(
+              bottom: false,
+              child: PageView.builder(
+                onPageChanged: (_) => setState(() {}),
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                itemBuilder: (_, i) => _pageViewPages[i],
+                itemCount: _pageViewPages.length,
+              ),
+            ),
+          ),
+          BottomNavBar(pageController: _pageController),
+        ],
       ),
     );
   }
 
-  Widget _bottomNavBar() {
+  void _updateBottomNavBarItems(bool next) {
+    if (_isAuth && _pageViewPages.length < 4) {
+      _pageViewPages.insert(
+        1,
+        _isNotStudent
+            ? const VisitorsScreen(key: PageStorageKey('page4'))
+            : const CommunicationsPage(key: PageStorageKey('page4')),
+      );
+    }
+    if (!next && _pageViewPages.length == 4) {
+      _pageViewPages.removeAt(1);
+    }
+    _changeNavBarIndex(index: 0);
+  }
+
+  void _changeNavBarIndex({required int index}) {
+    setState(() {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+      );
+      ref.read(currentNavBarIndexProvider.notifier).state = index;
+    });
+  }
+
+  bool get _isAuth => ref.read(asyncInitProvider).localStorage.isAuth;
+
+  bool get _isNotStudent {
+    return ref.read(asyncInitProvider).localStorage.isNotStudent();
+  }
+}
+
+class BottomNavBar extends ConsumerWidget {
+  const BottomNavBar({super.key, required this.pageController});
+
+  final PageController pageController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final isAuth = ref.read(asyncInitProvider).localStorage.isAuth;
+    final isNotStudent =
+        ref.read(asyncInitProvider).localStorage.isNotStudent();
 
     return Consumer(
-      builder: (context, ref, child) {
+      builder: (_, ref, _) {
         ref.watch(isAuthenticationProvider);
+        ref.watch(currentNavBarIndexProvider);
         return Container(
+          padding: EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(40),
+                color: Colors.black.withAlpha(24),
                 offset: Offset(0, -1),
                 blurRadius: 12,
               ),
             ],
             color: Colors.white,
           ),
-          height: 85,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _navBarItem(index: 0, text: AppStrings.homeStr),
-              isAuth
-                  ? _navBarItem(
+          child: SafeArea(
+            top: false,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                NavBarItem(
+                  index: 0,
+                  currentIndex: ref.read(currentNavBarIndexProvider),
+                  text: AppStrings.homeStr,
+                  isAuth: isAuth,
+                  isNotStudent: isNotStudent,
+                  onTapped: () {
+                    _changeNavBarIndex(index: 0, ref: ref);
+                  },
+                ),
+                if (isAuth)
+                  NavBarItem(
                     index: 1,
+                    currentIndex: ref.read(currentNavBarIndexProvider),
                     text:
-                        _isNotStudent
+                        isNotStudent
                             ? AppStrings.visitStr
                             : AppStrings.communicationStr,
-                  )
-                  : const SizedBox.shrink(),
-              _navBarItem(index: isAuth ? 2 : 1, text: AppStrings.callUsStr),
-              _navBarItem(index: isAuth ? 3 : 2, text: AppStrings.accountStr),
-            ],
+                    isAuth: isAuth,
+                    isNotStudent: isNotStudent,
+                    onTapped: () {
+                      _changeNavBarIndex(index: 1, ref: ref);
+                    },
+                  ),
+                NavBarItem(
+                  index: isAuth ? 2 : 1,
+                  currentIndex: ref.read(currentNavBarIndexProvider),
+                  text: AppStrings.callUsStr,
+                  isAuth: isAuth,
+                  isNotStudent: isNotStudent,
+                  onTapped: () {
+                    _changeNavBarIndex(index: isAuth ? 2 : 1, ref: ref);
+                  },
+                ),
+                NavBarItem(
+                  index: isAuth ? 3 : 2,
+                  currentIndex: ref.read(currentNavBarIndexProvider),
+                  text: AppStrings.accountStr,
+                  isAuth: isAuth,
+                  isNotStudent: isNotStudent,
+                  onTapped: () {
+                    _changeNavBarIndex(index: isAuth ? 3 : 2, ref: ref);
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _navBarItem({required int index, required String text}) {
+  void _changeNavBarIndex({required int index, required WidgetRef ref}) {
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
+    ref.read(currentNavBarIndexProvider.notifier).state = index;
+  }
+}
+
+class NavBarItem extends StatelessWidget {
+  const NavBarItem({
+    super.key,
+    required this.index,
+    required this.currentIndex,
+    required this.text,
+    required this.isAuth,
+    required this.isNotStudent,
+    required this.onTapped,
+  });
+
+  final int index;
+  final int currentIndex;
+  final String text;
+  final bool isAuth;
+  final bool isNotStudent;
+  final VoidCallback onTapped;
+
+  @override
+  Widget build(BuildContext context) {
+    final imageUrl = _getImageUrlByIndex(
+      index: index,
+      currentIndex: currentIndex,
+      isAuth: isAuth,
+      isNotStudent: isNotStudent,
+    );
+
     return ZoomTapAnimation(
-      onTap: () => _changeNavBarIndex(index: index),
+      onTap:onTapped,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 1),
         // color: Colors.white,
         width:
-            (_isAuth
+            (isAuth
                 ? MediaQuery.of(context).size.width / 4
                 : MediaQuery.of(context).size.width / 3) -
             2,
@@ -178,10 +289,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 150),
               child: SvgPicture.asset(
-                key: ValueKey(_getImageUrlByIndex(index)),
-                _getImageUrlByIndex(index),
-                width: AppSizes.length22,
-                height: AppSizes.length22,
+                key: ValueKey(imageUrl),
+                imageUrl,
+                width: AppSizes.length20,
+                height: AppSizes.length20,
               ),
             ),
             const SizedBox(height: 4),
@@ -189,7 +300,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               text,
               style: AppTextStyles.textSemiBoldStyle12.copyWith(
                 color:
-                    index == currentNavBarIndex
+                    index == currentIndex
                         ? AppColors.primaryColor400
                         : AppColors.gray500,
               ),
@@ -200,7 +311,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  String _getImageUrlByIndex(int index) {
+  String _getImageUrlByIndex({
+    required int index,
+    required int currentIndex,
+    required bool isAuth,
+    required bool isNotStudent,
+  }) {
     String icon;
     switch (index) {
       case 0:
@@ -208,39 +324,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         break;
       case 1:
         icon =
-            !_isAuth
+            !isAuth
                 ? Assets.icPhone
-                : _isNotStudent
+                : isNotStudent
                 ? Assets.icEye
                 : Assets.icUsers;
         break;
       case 2:
-        icon = !_isAuth ? Assets.icUser : Assets.icPhone;
+        icon = !isAuth ? Assets.icUser : Assets.icPhone;
         break;
       default:
         icon = Assets.icUser;
     }
-    return index == currentNavBarIndex
-        ? icon.split('.')[0] + '_fill.svg'
-        : icon;
-  }
-
-  void _changeNavBarIndex({required int index}) {
-    setState(() {
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
-      );
-      currentNavBarIndex = index;
-    });
-  }
-
-  bool get _isAuth {
-    return ref.read(asyncInitProvider).localStorage.isAuth;
-  }
-
-  bool get _isNotStudent {
-    return ref.read(asyncInitProvider).localStorage.isNotStudent();
+    return index == currentIndex ? icon.split('.')[0] + '_fill.svg' : icon;
   }
 }

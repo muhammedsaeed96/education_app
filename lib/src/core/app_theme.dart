@@ -1,5 +1,6 @@
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'constants/app_colors.dart';
 import 'constants/app_text_styles.dart';
@@ -51,6 +52,19 @@ class AppTheme {
       centerTitle: true,
       // to disable changing app bar color when scrolling a list
       scrolledUnderElevation: 0.5,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        // status bar
+        statusBarColor: Colors.transparent,
+        systemStatusBarContrastEnforced: false,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+
+        // navigation bar
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarContrastEnforced: false,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: AppTextStyles.textMediumStyle12.copyWith(
