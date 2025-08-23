@@ -10,6 +10,7 @@ import 'package:education_app/src/presentation/home/pages/contact_us.dart';
 import 'package:education_app/src/presentation/home/pages/home/home.dart';
 import 'package:education_app/src/presentation/home/pages/student_communications/communications_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../common_widgets/zoom_tap_animation.dart';
@@ -53,6 +54,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             : const CommunicationsPage(key: PageStorageKey('page4')),
       );
     }
+
+   const SystemUiOverlayStyle(
+      // status bar
+      statusBarColor: Colors.transparent,
+      systemStatusBarContrastEnforced: false,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+
+      // navigation bar
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarContrastEnforced: false,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    );
+
     super.initState();
   }
 
