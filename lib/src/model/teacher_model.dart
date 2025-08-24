@@ -84,19 +84,19 @@ class TeacherModel {
 
   @override
   int get hashCode => Object.hash(
-        name.hashCode,
-        provinceId.hashCode,
-        areaId.hashCode,
-        description.hashCode,
-        locationDescription.hashCode,
-        facebookUrl.hashCode,
-        youtubeUrl.hashCode,
-        instagramUrl.hashCode,
-        telegramUrl.hashCode,
-        teachingType.hashCode,
-        outstandingTeaching.hashCode,
-        teachingOnStudentHome.hashCode,
-      );
+    name.hashCode,
+    provinceId.hashCode,
+    areaId.hashCode,
+    description.hashCode,
+    locationDescription.hashCode,
+    facebookUrl.hashCode,
+    youtubeUrl.hashCode,
+    instagramUrl.hashCode,
+    telegramUrl.hashCode,
+    teachingType.hashCode,
+    outstandingTeaching.hashCode,
+    teachingOnStudentHome.hashCode,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -145,17 +145,44 @@ class TeacherModel {
   };
 
   static String getTeacherTeachingTypeKey(String val) {
-    return teacherTeachingTypesMap.keys.firstWhere(
-      (k) {
-        print(k);
-        return teacherTeachingTypesMap[k]?.name == val;
-      },
-      orElse: () => '',
-    );
+    return teacherTeachingTypesMap.keys.firstWhere((k) {
+      print(k);
+      return teacherTeachingTypesMap[k]?.name == val;
+    }, orElse: () => '');
   }
 
   static String getTeacherTeachingTypeVal(String key) {
     return teacherTeachingTypesMap[key]?.name ??
         TeacherTeachingType.ONSITE.name;
   }
+
+  static final dummyTeachers = [
+    TeacherModel(
+      id: '1',
+      name: 'Muhammed kays',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'test description',
+      visitorsNumber: 44,
+      teachingType: '',
+    ),
+    TeacherModel(
+      id: '2',
+      name: 'Muhammed kays',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'test description',
+      visitorsNumber: 100,
+      teachingType: '',
+    ),
+    TeacherModel(
+      id: '3',
+      name: 'Muhammed kays',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'test description',
+      visitorsNumber: 22,
+      teachingType: '',
+    ),
+  ];
 }

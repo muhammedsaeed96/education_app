@@ -30,18 +30,14 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor400,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 0.5,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.gray500,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 1.0,
       ),
     ),
@@ -52,19 +48,6 @@ class AppTheme {
       centerTitle: true,
       // to disable changing app bar color when scrolling a list
       scrolledUnderElevation: 0.5,
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        // status bar
-        statusBarColor: Colors.transparent,
-        systemStatusBarContrastEnforced: false,
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark,
-
-        // navigation bar
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarContrastEnforced: false,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: AppTextStyles.textMediumStyle12.copyWith(
@@ -84,7 +67,7 @@ class AppTheme {
       contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       errorBorder: _outlineInputBorder,
       focusedErrorBorder: _outlineInputBorder,
-/*    errorStyle: AppTextStyles.textMediumStyle12.copyWith(
+      /*    errorStyle: AppTextStyles.textMediumStyle12.copyWith(
       color: AppColors.red500,
     ),*/
     ),

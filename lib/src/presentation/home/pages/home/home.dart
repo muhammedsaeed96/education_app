@@ -3,17 +3,21 @@ import 'package:education_app/src/common_widgets/title_btn_widget.dart';
 import 'package:education_app/src/common_widgets/title_widget.dart';
 import 'package:education_app/src/core/constants/app_sizes.dart';
 import 'package:education_app/src/core/constants/app_strings.dart';
-import 'package:education_app/src/presentation/academies_screen.dart';
+import 'package:education_app/src/model/academy_model.dart';
+import 'package:education_app/src/model/subject_model.dart';
 import 'package:education_app/src/presentation/home/pages/home/academies_horizontal_list.dart';
 import 'package:education_app/src/presentation/home/pages/home/highlights_grid.dart';
 import 'package:education_app/src/presentation/home/pages/home/subjects_horizontal_card.dart';
 import 'package:education_app/src/presentation/home/pages/home/teachers_horizontal_list.dart';
-import 'package:education_app/src/presentation/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../data/home_repository.dart';
+import '../../../../model/teacher_model.dart';
+import '../../../academies_screen.dart';
 import '../../../controllers/filter_controller.dart';
 import '../../../controllers/simple_state_controller.dart';
+import '../../../teachers_screen.dart';
 import 'advertisements_slider.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -36,6 +40,7 @@ class _HomeState extends ConsumerState<Home>
       child: AsyncWidget(
         value: value,
         retry: () => ref.invalidate(getHomeDataProvider),
+        loading: AdvanceLoading(),
         data: (data) {
           return ListView(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -54,7 +59,7 @@ class _HomeState extends ConsumerState<Home>
               HighlightsGrid(),
               gap24,
               Padding(
-                padding: EdgeInsets.only(left: 12,right: 24),
+                padding: EdgeInsets.only(left: 12, right: 24),
                 child: TitleBtnWidget(
                   title: AppStrings.teachersStr,
                   onPress: () {
@@ -69,7 +74,7 @@ class _HomeState extends ConsumerState<Home>
               TeachersHorizontalList(teachers: data.teachers),
               gap16,
               Padding(
-                padding: EdgeInsets.only(left: 12,right: 24),
+                padding: EdgeInsets.only(left: 12, right: 24),
                 child: TitleBtnWidget(
                   title: AppStrings.academiesStr,
                   onPress: () {
@@ -81,7 +86,7 @@ class _HomeState extends ConsumerState<Home>
                 ),
               ),
               gap4,
-              AcademiesHorizontalList(academies: data.academies)
+              AcademiesHorizontalList(academies: data.academies),
             ],
           );
         },
@@ -91,4 +96,59 @@ class _HomeState extends ConsumerState<Home>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class AdvanceLoading extends StatelessWidget {
+  const AdvanceLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      children: [
+        Skeletonizer(
+          child: const Padding(
+            padding: paddingH24,
+            child: TitleWidget(title: AppStrings.subjectsStr),
+          ),
+        ),
+        gap12,
+        Skeletonizer(
+          child: SubjectsHorizontalList(subjects: SubjectModel.dummySubjects),
+        ),
+        gap24,
+        Skeletonizer(child: HighlightsGrid()),
+        gap24,
+        Skeletonizer(
+          child: Padding(
+            padding: EdgeInsets.only(left: 12, right: 24),
+            child: TitleBtnWidget(
+              title: AppStrings.teachersStr,
+              onPress: () {},
+            ),
+          ),
+        ),
+        gap4,
+        Skeletonizer(
+          child: TeachersHorizontalList(teachers: TeacherModel.dummyTeachers),
+        ),
+        gap16,
+        Skeletonizer(
+          child: Padding(
+            padding: EdgeInsets.only(left: 12, right: 24),
+            child: TitleBtnWidget(
+              title: AppStrings.academiesStr,
+              onPress: () {},
+            ),
+          ),
+        ),
+        gap4,
+        Skeletonizer(
+          child: AcademiesHorizontalList(
+            academies: AcademyModel.dummyAcademies,
+          ),
+        ),
+      ],
+    );
+  }
 }

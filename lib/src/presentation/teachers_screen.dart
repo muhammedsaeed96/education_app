@@ -10,7 +10,9 @@ import 'package:education_app/src/presentation/controllers/teacher_controller.da
 import 'package:education_app/src/presentation/teacher_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../common_widgets/search_filter_row.dart';
+import '../common_widgets/small_cards_loading.dart';
 import '../common_widgets/teacher_academy_small_card.dart';
 import '../core/enum.dart';
 import '../core/utils/async_init.dart';
@@ -46,8 +48,9 @@ class TeachersScreen extends ConsumerWidget {
                               AxisDirection.down &&
                           scrollInfo.metrics.pixels >=
                               scrollInfo.metrics.maxScrollExtent) {
-                        final controller =
-                            ref.read(teacherControllerProvider.notifier);
+                        final controller = ref.read(
+                          teacherControllerProvider.notifier,
+                        );
                         if (controller.canLoadMore()) {
                           controller.loadNextPage();
                         }
@@ -82,90 +85,76 @@ class TeachersScreen extends ConsumerWidget {
     // final searchText = ref.read(searchValProvider);
     return initialError
         ? [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 48),
-                child: ErrorMessageWidget(
-                  errorMessage: state.error.toString(),
-                  retry: () => controller.applyFiltersAndSearch(),
-                ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 48),
+              child: ErrorMessageWidget(
+                errorMessage: state.error.toString(),
+                retry: () => controller.applyFiltersAndSearch(),
               ),
             ),
-          ]
+          ),
+        ]
         : initialLoading
-            ? [
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 48),
-                    child: Loading(size : 124),
-                  ),
-                )
-              ]
-            : teachers.isEmpty
-                ? [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 48),
-                        child: EmptyWidget(text: AppStrings.noResultStr),
-                      ),
-                    ),
-                  ]
-                : [
-                    SliverPadding(
-                      padding: EdgeInsets.symmetric(vertical: 32),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final teacher = teachers[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: TeacherAcademySmallCard(
-                                title: teacher.name,
-                                imageUrl: teacher.imageUrl,
-                                city: teacher.province!.name,
-                                region: teacher.area!.name,
-                                discount: teacher.discount,
-                                discountEndDate: teacher.discountEndDate,
-                                press: () {
-                                  final storage =
-                                      ref.read(asyncInitProvider).localStorage;
-                                  if (storage.getUserInfo()?.userId !=
-                                      teacher.id) {
-                                    ref
-                                        .read(visitorRepositoryProvider)
-                                        .createVisitors(
-                                          id: teacher.id,
-                                          type: TeachingType.teacher,
-                                          increaseVisitorsNumber: true,
-                                        );
-                                  }
-                                  Navigator.pushNamed(
-                                    context,
-                                    TeacherDetailsScreen.routeName,
-                                    arguments: teacher.id,
-                                  );
-                                },
-                              ),
+        ? [SmallCardsLoading()]
+        : teachers.isEmpty
+        ? [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(top: 48),
+              child: EmptyWidget(text: AppStrings.noResultStr),
+            ),
+          ),
+        ]
+        : [
+          SliverPadding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final teacher = teachers[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: TeacherAcademySmallCard(
+                    title: teacher.name,
+                    imageUrl: teacher.imageUrl,
+                    city: teacher.province!.name,
+                    region: teacher.area!.name,
+                    discount: teacher.discount,
+                    discountEndDate: teacher.discountEndDate,
+                    press: () {
+                      final storage = ref.read(asyncInitProvider).localStorage;
+                      if (storage.getUserInfo()?.userId != teacher.id) {
+                        ref
+                            .read(visitorRepositoryProvider)
+                            .createVisitors(
+                              id: teacher.id,
+                              type: TeachingType.teacher,
+                              increaseVisitorsNumber: true,
                             );
-                          },
-                          childCount: teachers.length,
-                        ),
-                      ),
-                    ),
-                    if (loadingMore)
-                      const SliverPadding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        sliver: SliverToBoxAdapter(child: Loading(size: 64)),
-                      ),
-                    if (loadingMoreError)
-                      SliverPadding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 16),
-                        sliver: SliverToBoxAdapter(
-                          child: RetryBtn(
-                            press: () => controller.loadNextPage(),
-                          ),
-                        ),
-                      ),
-                  ];
+                      }
+                      Navigator.pushNamed(
+                        context,
+                        TeacherDetailsScreen.routeName,
+                        arguments: teacher.id,
+                      );
+                    },
+                  ),
+                );
+              }, childCount: teachers.length),
+            ),
+          ),
+          if (loadingMore)
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              sliver: SliverToBoxAdapter(child: Loading(size: 64)),
+            ),
+          if (loadingMoreError)
+            SliverPadding(
+              padding: const EdgeInsets.only(top: 8, bottom: 16),
+              sliver: SliverToBoxAdapter(
+                child: RetryBtn(press: () => controller.loadNextPage()),
+              ),
+            ),
+        ];
   }
 }

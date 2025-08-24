@@ -11,26 +11,32 @@ class AsyncWidget<T> extends StatelessWidget {
     required this.value,
     required this.data,
     required this.retry,
+    this.loading,
   });
 
   final AsyncValue<T> value;
   final Widget Function(T) data;
   final VoidCallback retry;
+  final Widget? loading;
 
   @override
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      error: (err, _) => ErrorMessageWidget(
-        errorMessage: err is String ? err : '',
-        retry: retry,
-      ),
-      loading: () => Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          child: Lottie.asset(Assets.loading, width: 124, height: 124),
-        ),
-      ),
+      error:
+          (err, _) => ErrorMessageWidget(
+            errorMessage: err is String ? err : '',
+            retry: retry,
+          ),
+      loading: () {
+        return loading ??
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Lottie.asset(Assets.loading, width: 124, height: 124),
+              ),
+            );
+      },
     );
   }
 }
@@ -45,14 +51,13 @@ class AsyncSliverWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      error: (err, _) => SliverToBoxAdapter(
-        child: Text(err as String),
-      ),
-      loading: () => SliverToBoxAdapter(
-        child: Center(
-          child: Lottie.asset(Assets.loading, width: 124, height: 124),
-        ),
-      ),
+      error: (err, _) => SliverToBoxAdapter(child: Text(err as String)),
+      loading:
+          () => SliverToBoxAdapter(
+            child: Center(
+              child: Lottie.asset(Assets.loading, width: 124, height: 124),
+            ),
+          ),
     );
   }
 }

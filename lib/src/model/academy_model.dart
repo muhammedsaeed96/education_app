@@ -49,7 +49,7 @@ class AcademyModel {
     this.description,
     this.province,
     this.area,
-     this.locationDescription,
+    this.locationDescription,
     this.stages = const [],
     this.visitorsNumber = 0,
     this.stagesIds = const [],
@@ -66,16 +66,16 @@ class AcademyModel {
 
   @override
   int get hashCode => Object.hash(
-        title.hashCode,
-        provinceId.hashCode,
-        areaId.hashCode,
-        description.hashCode,
-        locationDescription.hashCode,
-        facebookUrl.hashCode,
-        youtubeUrl.hashCode,
-        instagramUrl.hashCode,
-        telegramUrl.hashCode,
-      );
+    title.hashCode,
+    provinceId.hashCode,
+    areaId.hashCode,
+    description.hashCode,
+    locationDescription.hashCode,
+    facebookUrl.hashCode,
+    youtubeUrl.hashCode,
+    instagramUrl.hashCode,
+    telegramUrl.hashCode,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -113,4 +113,34 @@ class AcademyModel {
       _$AcademyModelFromJson(data);
 
   Map<String, dynamic> toJson() => _$AcademyModelToJson(this);
+
+  static final dummyAcademies = [
+    AcademyModel(
+      id: '1',
+      imageUrl: '',
+      title: 'academy',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'test description',
+      visitorsNumber: 600,
+    ),
+    AcademyModel(
+      id: '2',
+      imageUrl: '',
+      title: 'academy',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'est description',
+      visitorsNumber: 32,
+    ),
+    AcademyModel(
+      id: '3',
+      imageUrl: '',
+      title: 'academy',
+      province: ProvinceModel(id: '1', name: 'baghdad'),
+      area: AreaModel(id: '1', name: 'test'),
+      description: 'est description',
+      visitorsNumber: 100,
+    ),
+  ];
 }

@@ -1,8 +1,8 @@
 class ApiUrls {
   ApiUrls._();
 
-  static const baseUrl = 'http://localhost';
-  // static const baseUrl = 'https://tadrees.xyz:3000';
+  // static const baseUrl = 'http://localhost';
+  static const baseUrl = 'https://tadrees.xyz:3000';
   static const getHomeUrl = '$baseUrl/home';
   static const teacherUrl = '$baseUrl/teacher';
   static const getTeacherPersonalAccountUrl =
